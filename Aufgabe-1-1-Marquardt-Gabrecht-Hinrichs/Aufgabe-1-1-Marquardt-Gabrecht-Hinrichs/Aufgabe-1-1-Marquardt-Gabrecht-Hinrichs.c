@@ -12,18 +12,23 @@
 //#define SIMULATOR 
 
 
-#define BLINKPORT PORTB
-#define BLINKDDR DDRB
+#define BLINKPORTEINS PORTB 
+#define BLINKPORTZWEI PORTA
+#define BLINKDDRA DDRA
+#define BLINKDDRB DDRB
 #define BLINKBIT 0
 #define EINGABEPIN PIND
+#define EINGABEPORT DDRD
 #define UP 6
 #define DOWN 7
-
+#define STEP 100
+#define INITTIMERCOMPARE 977
+#define WAIT 250
 
 /************************************************************************/
 /* Initialisieren von Timer1.                                           */
 /************************************************************************/
-void timer1Init (uint8_t direction) {
+void timer1Init () {
 	// Taktquelle ist per Default der Systemtakt, Asynchrones Verhalten
 	// wird in separatem ASSR ? Asynchronous Status Register konfiguriert
 
@@ -38,11 +43,12 @@ void timer1Init (uint8_t direction) {
 	// Konfigurieren der "Output Compare Units"
 	// (Vergleich des Zählerwertes auf Schwellwert --> Interrupt)
 	OCR1BH = 0x00;		// 0,2*1.000.000 / 1024 = 195 für 0,2s
-	OCR1BL = 0xC3;		// 194 -> 0x00C3
-	OCR1A = 977;		// 1.000.000 / 1024 = 977 für eine Sekunde
+	//OCR1BL = 0xC3;		// 194 -> 0x00C3
+	OCR1A= INITTIMERCOMPARE;
+	// 1.000.000 / 1024 = 977 für eine Sekunde
 	// Nun die relevanten Interrupts aktivieren: Timer Interrupt Mask
 	TIMSK1 = (1<<1);	// Bit 1 ? OCIE1A: Timer/Counter1, Output Compare A Match Interrupt Enable
-	TIMSK1 |= (1<<2);	// Bit 2 ? OCIE1B: Timer/Counter1, Output Compare B Match Interrupt Enable
+	//TIMSK1 |= (1<<2);	// Bit 2 ? OCIE1B: Timer/Counter1, Output Compare B Match Interrupt Enable
 	
 	TCNT1 = 0x00;		// Zählregister des Timers noch auf Null stellen
 }
@@ -56,27 +62,47 @@ void timer1Init (uint8_t direction) {
 /* schaltet die LED ein													*/
 /************************************************************************/
 ISR (TIMER1_COMPA_vect) {
-	BLINKPORT |= (1<<BLINKBIT);
+	BLINKPORTZWEI ^= 0x01;
+	BLINKPORTEINS ^= 0x01;
 }
+//TODO Dioku interrupts nicht rechenn kurzer zugriff auf OCR1A nicht mit dem register rechen
+void timer_1_update(int8_t direction){
+	
+	if((OCR1A<=UINT16_MAX-STEP) && (direction>0)){
+		OCR1A += STEP;	
+	}
+	else if((OCR1A>=0+STEP) && (direction<0){
+		OCR1A -= STEP; 
+	}
+	TCNT1 = 0x00;		// Zählregister des Timers noch auf Null stellen
+	
+	
+	
+}
+
 
 /* Compare Interrupt b													*/
 /* schaltet die (wieder) aus											*/
 /************************************************************************/
-ISR (TIMER1_COMPB_vect) {
-	BLINKPORT &= ~(1<<BLINKBIT);
-}
+//ISR (TIMER1_COMPB_vect) {
+//	BLINKPORTEINS &= ~(1<<BLINKBIT);
+//	BLINKPORTZWEI |= (1<<BLINKBIT);
+//}
 
 
 int main(void)
 {
 	// init
-   	BLINKDDR  = 0x0F;		// set lower nibble of PORTA to output
-    BLINKPORT = 0x00;		// all LEDs off
+   	BLINKDDRB  = 0x01;		// set lower nibble of PORTA to output
+	BLINKDDRA = 0x01;
+    BLINKPORTEINS = 0x01;		// all LEDs off
+	BLINKPORTZWEI = 0x00;
+	EINGABEPORT |= UP|DOWN;
 	unsigned char abort=0; 
 	volatile unsigned char i=0x2A;
 	int state=0;
 	cli();
-	timer1Init(0);
+	timer1Init();
 	sei();
 	
 		
@@ -93,15 +119,27 @@ int main(void)
 		{
 			
 			for (int i = 0; i < WAIT; i++);
+			//Warten auf Taster 
 			do {
-			} while (EINGABEPIN != (1<<UP));
+				
+			} while (EINGABEPIN == (1<<UP));
+			
 			cli();
-			timer1Init(1);
+			timer_1_update(1);
+			sei();
+		}
+		if(EINGABEPIN == (1<<DOWN)){
+			for (int i = 0; i < WAIT; i++);
+			do {
+			} while (EINGABEPIN == (1<<DOWN));
+			cli();
+			timer_1_update(-1);
 			sei();
 		}
 		abort=(PINA & 0x10);	// check for Button "ENTER"
 	} while (!abort);
-		BLINKPORT = 0x00;  			// all LEDs off
+		BLINKPORTEINS = 0x00;  			// all LEDs off
+		BLINKPORTZWEI = 0x00;  			// all LEDs off
 	// Put a BREAKPOINT at the line below this comment
 	return 0; 
 }
