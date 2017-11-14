@@ -68,7 +68,7 @@ void timer1Init () {
 }
 
 //Speichert den momentanen State des Spieles
-uint8_t game_state =0;
+uint8_t game_state = IDLE;
 uint8_t nextButton = 0;
 uint8_t nextButtonPressed = 0;
 
@@ -112,7 +112,7 @@ ISR (TIMER1_COMPB_vect){
 }
 //External Interrupt ausgeloest
 ISR (PCINT0_vect){
-	uint8_t button = PINA;
+	volatile uint8_t button = PINA;
 	button &= ~(1<<LED_LEFT);
 	if(button == (1<<CANCEL)){
 		//reset();
@@ -125,7 +125,7 @@ ISR (PCINT0_vect){
 	}else if(game_state==GAME_MODE){
 		nextButtonPressed = 1;
 		if (nextButton != button){
-			game_state==END_SCREEN;
+			game_state = END_SCREEN;
 		}
 	}
 }
@@ -162,7 +162,8 @@ int main(void)
 		OUTPORT2 |= ((1<<LED_UP)|(1<<LED_DOWN));
 		while (game_state == IDLE)
 		{
-			// nix
+			// Nur für den Simulator
+			OUTPORT2 &= ~(1<<LED_UP);
 		}
 		while (game_state == GAME_MODE){
 			OUTPORT1 &= ~(1<<LED_LEFT);
@@ -171,12 +172,13 @@ int main(void)
 			//Random adden
 			// Alle anzeigen
 			// Daten durchgehen{
-			nextButtonPressed == 0;
+			nextButtonPressed = 0;
 			// nextButton = Datenstruktur[i]
 			// if (!game_state == GAME_MODE)
 			//}
 			while (nextButtonPressed == 0){
-				
+				// Nur für den Simulator
+				OUTPORT2 &= ~(1<<LED_UP);
 			}
 		}
 		OUTPORT1 &= ~(1<<LED_LEFT);
