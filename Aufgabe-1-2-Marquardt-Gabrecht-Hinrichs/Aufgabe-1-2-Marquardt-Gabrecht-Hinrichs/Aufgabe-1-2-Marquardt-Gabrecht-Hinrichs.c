@@ -35,7 +35,7 @@
 #define OUTDDR3 DDRC
 #define GAME_MODE 1
 #define IDLE 0
-#define WIN_SCREEN 2
+#define END_SCREEN 2
 
 
 
@@ -69,6 +69,8 @@ void timer1Init () {
 
 //Speichert den momentanen State des Spieles
 uint8_t game_state =0;
+uint8_t nextButton = 0;
+uint8_t nextButtonPressed = 0;
 
 //Schaltet die gegebene LED an und alle anderen LED aus
 // led_number: Nummer der LED
@@ -92,19 +94,12 @@ void start_game();
 /* schaltet die LED ein													*/
 /************************************************************************/
 ISR (TIMER1_COMPA_vect) {
-	//BLINKPORTZWEI ^= 0x01;
-	//BLINKPORTEINS ^= 0x01;
+	
 }
-//TODO Dioku interrupts nicht rechenn kurzer zugriff auf OCR1A nicht mit dem register rechen
+
 void timer_1_update(int8_t direction){
 	
-	if((OCR1A<=UINT16_MAX) && (direction>0)){
-		//OCR1A += ;	
-	}
-	//else if((OCR1A>=) && (direction<0)){
-		//OCR1A -= ; 
-	//}
-	TCNT1 = 0x00;		// Zählregister des Timers noch auf Null stellen
+	
 	
 	
 	
@@ -120,13 +115,17 @@ ISR (PCINT0_vect){
 	uint8_t button = PINA;
 	if(button == (1<<CANCEL)){
 		//reset();
+		game_state = IDLE;
 	}
-	if(game_state==0){
+	if(game_state==IDLE){
 		if(button == (1<<ENTER)){
-					
+			game_state = GAME_MODE;		
 		}
-	}else if(game_state==1){
-		
+	}else if(game_state==GAME_MODE){
+		nextButtonPressed = 1;
+		if (nextButton != button){
+			game_state==END_SCREEN;
+		}
 	}
 }
 
@@ -152,7 +151,43 @@ int main(void)
 	
 	cli();
 	timer1Init();
+	external_interrupt_init();
 	sei();
+	while (1)
+	{
+		OUTPORT3 |= (1<<LED_RIGHT);
+		OUTPORT1 |= (1<<LED_LEFT);
+		OUTPORT2 |= ((1<<LED_UP)|(1<<LED_DOWN));
+		while (game_state == IDLE)
+		{
+			// nix
+		}
+		while (game_state == GAME_MODE){
+			OUTPORT1 &= ~(1<<LED_LEFT);
+			OUTPORT2 &= ~((1<<LED_UP)|(LED_DOWN));
+			OUTPORT3 &= ~(1<<LED_RIGHT);
+			//Random adden
+			// Alle anzeigen
+			// Daten durchgehen{
+			nextButtonPressed == 0;
+			// nextButton = Datenstruktur[i]
+			// if (!game_state == GAME_MODE)
+			//}
+			while (nextButtonPressed == 0){
+				
+			}
+		}
+		OUTPORT1 &= ~(1<<LED_LEFT);
+		OUTPORT2 &= ~((1<<LED_UP)|(LED_DOWN));
+		OUTPORT3 &= ~(1<<LED_RIGHT);
+		while (game_state == END_SCREEN){
+			OUTPORT2 |= ((1<<LED_UP)|(1<<LED_DOWN));
+		}
+		
+	}
+	
+	
+	
 	return 0; 
 }
 
