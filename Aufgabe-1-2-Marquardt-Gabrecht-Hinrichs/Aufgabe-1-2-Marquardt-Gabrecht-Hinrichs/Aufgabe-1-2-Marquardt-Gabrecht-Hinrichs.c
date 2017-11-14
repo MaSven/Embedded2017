@@ -113,6 +113,7 @@ ISR (TIMER1_COMPB_vect){
 //External Interrupt ausgeloest
 ISR (PCINT0_vect){
 	uint8_t button = PINA;
+	button &= ~(1<<LED_LEFT);
 	if(button == (1<<CANCEL)){
 		//reset();
 		game_state = IDLE;
@@ -132,6 +133,7 @@ ISR (PCINT0_vect){
 void external_interrupt_init(){
 	PCMSK0 |= ((1<<UP)|(1<<DOWN)|(1<<LEFT)|(1<<RIGHT)|(1<<ENTER)|(1<<CANCEL));
 	EICRA |= ((1<<ISC01)|(1<<ISC00));
+	PCICR |= (1<<PCIE0);
 }
 
 

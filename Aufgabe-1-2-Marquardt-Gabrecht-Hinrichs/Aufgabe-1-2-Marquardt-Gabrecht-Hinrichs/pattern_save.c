@@ -49,25 +49,25 @@ uint8_t pattern_save_has_next(pattern_save_t *pattern_save) {
 }
 
 uint8_t pattern_save_get_next(pattern_save_t *pattern_save){
-	uint8_t buffer = pattern_save_get_next_with_index(pattern_save,pattern_save.index);
+	uint8_t buffer = pattern_save_get_next_with_index(pattern_save,pattern_save->index);
 	pattern_save->index+=2;
 	return buffer;
 }
 
 uint8_t pattern_save_save_new_patter(pattern_save_t *pattern_save,uint8_t pattern){
-	uint8_t index_in_pattern = pattern_save.index%SIZE_PER_PATTERN_SLICE;
-	uint8_t index_without_offset = pattern_save.index/SIZE_PER_PATTERN_SLICE;
+	uint8_t index_in_pattern = pattern_save->index%SIZE_PER_PATTERN_SLICE;
+	uint8_t index_without_offset = pattern_save->index/SIZE_PER_PATTERN_SLICE;
 	uint8_t old_pattern_value = pattern_save->patterns[index_in_pattern];
 	if(index_in_pattern!=0){
 		old_pattern_value = ((old_pattern_value >> index_in_pattern) | pattern)| ((old_pattern_value >> index_in_pattern+1)| pattern);
 	}
 	pattern_save->patterns[index_without_offset]=old_pattern_value;
-	pattern_save.index+=2;
-	pattern_save.size++;
+	pattern_save->index+=2;
+	pattern_save->size++;
 	return 1;
 }
 uint8_t pattern_save_set_iterator_begin(pattern_save_t *pattern_save){
-	pattern_save.index=0;
+	pattern_save->index=0;
 	return 1;
 }
 
