@@ -92,18 +92,18 @@ void start_game();
 /* schaltet die LED ein													*/
 /************************************************************************/
 ISR (TIMER1_COMPA_vect) {
-	BLINKPORTZWEI ^= 0x01;
-	BLINKPORTEINS ^= 0x01;
+	//BLINKPORTZWEI ^= 0x01;
+	//BLINKPORTEINS ^= 0x01;
 }
 //TODO Dioku interrupts nicht rechenn kurzer zugriff auf OCR1A nicht mit dem register rechen
 void timer_1_update(int8_t direction){
 	
-	if((OCR1A<=UINT16_MAX-STEP) && (direction>0)){
-		OCR1A += STEP;	
+	if((OCR1A<=UINT16_MAX) && (direction>0)){
+		//OCR1A += ;	
 	}
-	else if((OCR1A>=0+STEP) && (direction<0){
-		OCR1A -= STEP; 
-	}
+	//else if((OCR1A>=) && (direction<0)){
+		//OCR1A -= ; 
+	//}
 	TCNT1 = 0x00;		// Zählregister des Timers noch auf Null stellen
 	
 	
@@ -119,7 +119,7 @@ ISR (TIMER1_COMPB_vect){
 ISR (PCINT0_vect){
 	uint8_t button = PINA;
 	if(button == (1<<CANCEL)){
-		reset();
+		//reset();
 	}
 	if(game_state==0){
 		if(button == (1<<ENTER)){
