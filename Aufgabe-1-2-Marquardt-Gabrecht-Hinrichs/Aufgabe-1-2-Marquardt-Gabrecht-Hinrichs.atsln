@@ -2,6 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Atmel Studio Solution File, Format Version 11.00
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Aufgabe-1-2-Marquardt-Gabrecht-Hinrichs", "Aufgabe-1-2-Marquardt-Gabrecht-Hinrichs\Aufgabe-1-2-Marquardt-Gabrecht-Hinrichs.cproj", "{8EAFEDAD-4A06-4DE8-9694-CD0A3E504305}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B685A5DA-B469-4DC7-B9C8-A7F387C31398} = {B685A5DA-B469-4DC7-B9C8-A7F387C31398}
+	EndProjectSection
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Pattern-Saver-Lib", "Pattern-Saver\Pattern-Saver-Lib.cproj", "{B685A5DA-B469-4DC7-B9C8-A7F387C31398}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +18,10 @@ Global
 		{8EAFEDAD-4A06-4DE8-9694-CD0A3E504305}.Debug|AVR.Build.0 = Debug|AVR
 		{8EAFEDAD-4A06-4DE8-9694-CD0A3E504305}.Release|AVR.ActiveCfg = Release|AVR
 		{8EAFEDAD-4A06-4DE8-9694-CD0A3E504305}.Release|AVR.Build.0 = Release|AVR
+		{B685A5DA-B469-4DC7-B9C8-A7F387C31398}.Debug|AVR.ActiveCfg = Debug|AVR
+		{B685A5DA-B469-4DC7-B9C8-A7F387C31398}.Debug|AVR.Build.0 = Debug|AVR
+		{B685A5DA-B469-4DC7-B9C8-A7F387C31398}.Release|AVR.ActiveCfg = Release|AVR
+		{B685A5DA-B469-4DC7-B9C8-A7F387C31398}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

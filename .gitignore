@@ -327,3 +327,6 @@ __pycache__/
 *.atsuo
 
 # End of https://www.gitignore.io/api/atmelstudio
+/Aufgabe-1-2-Marquardt-Gabrecht-Hinrichs/Pattern-Saver/builddir
+/Aufgabe-1-2-Marquardt-Gabrecht-Hinrichs/Pattern-Saver/Debug
+\.vscode/

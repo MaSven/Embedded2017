@@ -5,7 +5,7 @@
  *  Author: Sven Marquardt
  */
 #include "pattern_save.h"
-
+#include <stdlib.h>
 //Die groesse die patterns einnehmen pro uint8_t
 #define SIZE_PER_PATTERN_SLICE 4
 
@@ -18,12 +18,10 @@ typedef struct pattern_save {
 	uint16_t size;
 };
 
-pattern_save_t * patteern_save_create_new() {
+pattern_save_t * pattern_save_create_new(){
 
-	pattern_save_t pattern_save;
-	pattern_save.index = 0;
-	pattern_save.size=1;
-	return &pattern_save;
+	pattern_save_t* pattern_save = calloc(1,sizeof(pattern_save_t));
+	return pattern_save;
 
 }
 //Hole den wert mit index
