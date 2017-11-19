@@ -1,1 +1,1 @@
-install_headers('pattern_save.h')
+install_headers('pattern_save.h','bit_operations.h')
