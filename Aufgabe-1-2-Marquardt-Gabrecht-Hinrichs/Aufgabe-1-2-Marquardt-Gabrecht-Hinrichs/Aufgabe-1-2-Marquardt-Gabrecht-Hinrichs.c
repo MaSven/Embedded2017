@@ -38,6 +38,10 @@
 #define IDLE 0
 #define END_SCREEN 2
 
+enum BUTTON_DIRECTION{
+	UP_PATTERN,DOWN_PATTERN,LEFT_PATTERN,RIGHT_PATTERN
+	};
+
 
 
 /************************************************************************/
@@ -68,10 +72,25 @@ void timer1Init () {
 	TCNT1 = 0x00;		// Zählregister des Timers noch auf Null stellen
 }
 
+void timer0Init() {
+	TCCR0A |= (1<<WGM01); // Normal Mode
+	TCCR0B |= ((1<<CS02)|(1<<CS00)); // Prescaler 1024
+	
+	OCR0A = 0xC3; // 0,2*1.000.000/1024 = 195 für 0,2s
+	OCR0B = 0x00;
+	
+	TIMSK0 |= (1<<OCIE0A);
+	TCNT0 = 0x00;
+}
+
 //Speichert den momentanen State des Spieles
 uint8_t game_state = IDLE;
 uint8_t nextButton = 0;
 uint8_t nextButtonPressed = 0;
+
+uint8_t volatile IOInterruptEnabled = 1;
+
+uint8_t volatile LightOn=0;
 
 //Schaltet die gegebene LED an und alle anderen LED aus
 // led_number: Nummer der LED
@@ -98,37 +117,34 @@ ISR (TIMER1_COMPA_vect) {
 	
 }
 
-void timer_1_update(int8_t direction){
-	
-	
-	
-	
-	
+ISR (TIMER0_COMPA_vect) {
+	IOInterruptEnabled = 1;
+	LightOn = 0;
 }
 
-//Timer Interrupt fuer Cancel
-//Soll nach 5 sekunden ausloesen
-ISR (TIMER1_COMPB_vect){
-	
-}
 //External Interrupt ausgeloest
 ISR (PCINT0_vect){
-	volatile uint8_t button = PINA;
-	button &= ~(1<<LED_LEFT);
-	if(button == (1<<CANCEL)){
-		//reset();
-		game_state = IDLE;
-	}
-	if(game_state==IDLE){
-		if(button == (1<<ENTER)){
-			game_state = GAME_MODE;		
-		}
-	}else if(game_state==GAME_MODE){
+	if(IOInterruptEnabled) {
+		IOInterruptEnabled = 0;
 		nextButtonPressed = 1;
-		if (nextButton != button){
-			game_state = END_SCREEN;
+		volatile uint8_t button = PINA;
+		button &= ~(1<<LED_LEFT);
+		if(button == (1<<CANCEL)){
+			//reset();
+			game_state = IDLE;
 		}
-	}
+		if(game_state==IDLE){
+			if(button == (1<<ENTER)){
+				game_state = GAME_MODE;
+			}
+			}else if(game_state==GAME_MODE){
+			
+			
+			if (nextButton != button){
+				game_state = END_SCREEN;
+			}
+		}
+	}	
 }
 
 void external_interrupt_init(){
@@ -149,28 +165,57 @@ int main(void)
 	OUTDDR2 |= ((1<<LED_UP)|(1<<LED_DOWN));
 	OUTDDR3 |= (1<<LED_RIGHT);
 	OUTPORT1 &= ~(1<<LED_LEFT);
-	OUTPORT2 &= ~((1<<LED_UP)|(LED_DOWN));
+	OUTPORT2 &= ~((1<<LED_UP)|(1<<LED_DOWN));
 	OUTPORT3 &= ~(1<<LED_RIGHT);
-	
+	pattern_save_t *pattern_save_ptr= pattern_save_create_new();
 	cli();
 	timer1Init();
+	timer0Init();
 	external_interrupt_init();
 	sei();
 	while (1)
 	{
-		OUTPORT3 |= (1<<LED_RIGHT);
-		OUTPORT1 |= (1<<LED_LEFT);
-		OUTPORT2 |= ((1<<LED_UP)|(1<<LED_DOWN));
 		while (game_state == IDLE)
 		{
-			// Nur für den Simulator
-			OUTPORT2 &= ~(1<<LED_UP);
+			OUTPORT1 |= (1<<LED_LEFT);
+			OUTPORT2 &= ~((1<<LED_UP)|(1<<LED_DOWN));
+			OUTPORT3 |= (1<<LED_RIGHT);
 		}
 		while (game_state == GAME_MODE){
 			OUTPORT1 &= ~(1<<LED_LEFT);
-			OUTPORT2 &= ~((1<<LED_UP)|(LED_DOWN));
+			OUTPORT2 &= ~((1<<LED_UP)|(1<<LED_DOWN));
 			OUTPORT3 &= ~(1<<LED_RIGHT);
 			//Random adden
+			uint8_t random = TCNT1%4;
+			pattern_save_save_new_pattern(pattern_save_ptr,random);
+			while(pattern_save_has_next(pattern_save_ptr)){
+				uint8_t pattern = pattern_save_get_next(pattern_save_ptr);
+				cli();
+				TCNT0=0x00;
+				sei();
+				LightOn=1;
+				while(LightOn){
+					switch(pattern){
+						case UP_PATTERN:
+						OUTPORT2 |= (1<<LED_UP);
+						break;
+						case DOWN_PATTERN:
+						OUTPORT2 |= (1<<LED_DOWN);
+						break;
+						case LEFT_PATTERN:
+						OUTPORT1 |= (1<<LED_LEFT);
+						break;
+						case RIGHT_PATTERN:
+						OUTPORT3 |= (1<<LED_RIGHT);
+						break;
+					}
+				}
+			}
+			pattern_save_set_iterator_begin(pattern_save_ptr);
+			while(pattern_save_has_next(pattern_save_ptr)){
+				nextButton = pattern_save_get_next(pattern_save_ptr);
+				
+			
 			// Alle anzeigen
 			// Daten durchgehen{
 			nextButtonPressed = 0;
@@ -179,7 +224,10 @@ int main(void)
 			//}
 			while (nextButtonPressed == 0){
 				// Nur für den Simulator
-				OUTPORT2 &= ~(1<<LED_UP);
+				OUTPORT1 &= ~(1<<LED_LEFT);
+				OUTPORT2 &= ~((1<<LED_UP)|(1<<LED_DOWN));
+				OUTPORT3 &= ~(1<<LED_RIGHT);
+			}
 			}
 		}
 		OUTPORT1 &= ~(1<<LED_LEFT);
