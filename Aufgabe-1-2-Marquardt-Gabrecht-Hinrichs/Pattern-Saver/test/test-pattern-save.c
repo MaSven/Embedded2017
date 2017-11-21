@@ -43,7 +43,7 @@ static void test_create_new_pattern(){
     set_index_beginning();
 }
 
-static void test_copy_n_bits(void){
+static void test_copy_n_bits(){
     uint8_t value = get_nth_bit(0b11000010,0);
     printf("%d value\n",value);
     assert_int_equal(value,2);
