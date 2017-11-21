@@ -66,8 +66,8 @@ uint8_t pattern_save_save_new_pattern(pattern_save_t *pattern_save, uint8_t patt
 	uint8_t index_without_offset = pattern_save->size / PATTERN_SLICES;
 	uint8_t old_pattern_value = pattern_save->patterns[index_without_offset];
 	//Zuerst die stelle nullen. Dadurch koennen alte werte sauber ueberschrieben werden
-	old_pattern_value &=   (1 << index_in_pattern);
-	old_pattern_value = old_pattern_value | (pattern << index_in_pattern);
+	old_pattern_value &=     ~(1 << index_in_pattern);
+	old_pattern_value |= (pattern << index_in_pattern);
 	pattern_save->patterns[index_without_offset] = old_pattern_value;
 	pattern_save->size += 2;
 	return 1;
@@ -78,7 +78,7 @@ uint8_t pattern_save_set_iterator_begin(pattern_save_t *pattern_save)
 	return 1;
 }
 
-void pattern_save_free(pattern_save_t * pattern_save_ptr){
+void pattern_save_free(pattern_save_t *pattern_save_ptr){
 	free(pattern_save_ptr);
 	pattern_save_ptr=NULL;
 }

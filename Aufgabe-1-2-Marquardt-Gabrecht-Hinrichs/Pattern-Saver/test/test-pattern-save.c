@@ -43,36 +43,37 @@ static void test_create_new_pattern(){
     get_pattern = pattern_save_get_next(pattern_save_ptr);
     printf("Alter wert %d\n",get_pattern);
     assert_int_equal(get_pattern,0);
+    pattern_save_save_new_pattern(pattern_save_ptr,0b0000001);
+    assert_true(pattern_save_has_next(pattern_save_ptr));
+    get_pattern = pattern_save_get_next(pattern_save_ptr);
+    printf("Alter wert %d\n",get_pattern);
+    assert_int_equal(get_pattern,1);
     set_index_beginning();
 }
 
 static void test_set_index_beginning(){
     printf("----------test_set_idex_beginning-----\n");
-    uint8_t new_pattern = 0b000011;
-    pattern_save_save_new_pattern(pattern_save_ptr,new_pattern);
+    set_index_beginning();
+    
     assert_true(pattern_save_has_next(pattern_save_ptr));
     uint8_t get_pattern = pattern_save_get_next(pattern_save_ptr);
     printf("Alter wert %d\n",get_pattern);
-    assert_int_equal(new_pattern,get_pattern);
-    pattern_save_save_new_pattern(pattern_save_ptr,0b00000000);
+    assert_int_equal(3,get_pattern);
     assert_true(pattern_save_has_next(pattern_save_ptr));
     get_pattern = pattern_save_get_next(pattern_save_ptr);
     printf("Alter wert %d\n",get_pattern);
     assert_int_equal(get_pattern,0);
-    pattern_save_save_new_pattern(pattern_save_ptr,0b00000011);
     assert_true(pattern_save_has_next(pattern_save_ptr));
     get_pattern = pattern_save_get_next(pattern_save_ptr);
     printf("Alter wert %d\n",get_pattern);
     assert_int_equal(get_pattern,3);
-    pattern_save_save_new_pattern(pattern_save_ptr,0b00000010);
     assert_true(pattern_save_has_next(pattern_save_ptr));
     get_pattern = pattern_save_get_next(pattern_save_ptr);
     printf("Alter wert %d\n",get_pattern);
-    assert_int_equal(get_pattern,2);
-    pattern_save_set_iterator_begin(pattern_save_ptr);
+    assert_int_equal(get_pattern,0);
     get_pattern = pattern_save_get_next(pattern_save_ptr);
     printf("Alter wert %d\n",get_pattern);
-    assert_int_equal(get_pattern,3);
+    assert_int_equal(get_pattern,1);
 
 
 }
@@ -86,8 +87,8 @@ static void test_copy_n_bits(){
     
 }
 
-static int test_free(){
-    patten_save_free(pattern_save_ptr);
+static int test_pattern_save_free(void **state){
+    pattern_save_free(pattern_save_ptr);
     assert_null(pattern_save_ptr);
     return 0;
 }
@@ -103,5 +104,6 @@ int main(void){
         cmocka_unit_test(test_create_new_pattern),
         cmocka_unit_test(test_set_index_beginning),
     };
-    return cmocka_run_group_tests(tests,NULL,test_free);
+
+    return cmocka_run_group_tests(tests,NULL,test_pattern_save_free);
 }
