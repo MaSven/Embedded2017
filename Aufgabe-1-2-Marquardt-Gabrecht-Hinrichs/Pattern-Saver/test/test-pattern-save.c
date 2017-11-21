@@ -52,6 +52,13 @@ static void test_copy_n_bits(){
     
 }
 
+static int test_free(){
+    patten_save_free(pattern_save_ptr);
+    assert_null(pattern_save_ptr);
+    return 0;
+}
+
+
 
 
 int main(void){
@@ -61,5 +68,5 @@ int main(void){
         cmocka_unit_test(test_create_pattern_save),
         cmocka_unit_test(test_create_new_pattern),
     };
-    return cmocka_run_group_tests(tests,NULL,NULL);
+    return cmocka_run_group_tests(tests,NULL,test_free);
 }

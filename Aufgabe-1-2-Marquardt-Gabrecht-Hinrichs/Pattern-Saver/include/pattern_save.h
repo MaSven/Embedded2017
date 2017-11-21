@@ -23,6 +23,8 @@ uint8_t pattern_save_save_new_pattern(pattern_save_t * pattern_save,uint8_t new_
 uint8_t pattern_save_has_next(pattern_save_t *pattern_save);
 //Setzt den Iterator auf den anfang des Speichers
 uint8_t pattern_save_set_iterator_begin(pattern_save_t *pattern_save);
+//Free das pattern save
+void pattern_save_free(pattern_save_t * pattern_save);
 
 
 

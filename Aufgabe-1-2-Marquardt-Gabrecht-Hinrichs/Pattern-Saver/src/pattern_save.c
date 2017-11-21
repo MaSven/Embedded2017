@@ -7,7 +7,6 @@
 #include "pattern_save.h"
 #include "bit_operations.h"
 #include <stdlib.h>
-#include <stdio.h>
 //Die groesse die patterns einnehmen pro uint8_t
 #define PATTERN_SLICES 4
 
@@ -77,4 +76,9 @@ uint8_t pattern_save_set_iterator_begin(pattern_save_t *pattern_save)
 {
 	pattern_save->index = 0;
 	return 1;
+}
+
+void pattern_save_free(pattern_save_t * pattern_save_ptr){
+	free(pattern_save_ptr);
+	pattern_save_ptr=NULL;
 }
