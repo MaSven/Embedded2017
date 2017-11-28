@@ -7,7 +7,7 @@
 #include "pattern_save.h"
 #include "bit_operations.h"
 #include <stdlib.h>
-//Die groesse die patterns einnehmen pro uint8_t
+//Die ganzahl an patterns pro uint8_t
 #define PATTERN_SLICES 4
 
 struct pattern_save
