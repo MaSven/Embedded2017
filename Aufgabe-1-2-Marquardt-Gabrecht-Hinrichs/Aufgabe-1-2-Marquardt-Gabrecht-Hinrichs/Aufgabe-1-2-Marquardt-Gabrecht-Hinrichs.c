@@ -28,12 +28,12 @@
 #define LED_UP PB5
 #define LED_DOWN PB7
 #define INPUT_PIN PINA
-#define OUTPORT1 PORTA
-#define OUTPORT2 PORTB
-#define OUTPORT3 PORTC
-#define OUTDDR1 DDRA
-#define OUTDDR2 DDRB
-#define OUTDDR3 DDRC
+#define OUTPORT_LEFT PORTA
+#define OUTPORT_UP_DOWN PORTB
+#define OUTPORT_RIGHT PORTC
+#define OUTDDR_LEFT DDRA
+#define OUTDDR_UP_DOWN DDRB
+#define OUTDDR_RIGHT DDRC
 #define GAME_MODE 1
 #define IDLE 0
 #define END_SCREEN 2
@@ -92,17 +92,20 @@ uint8_t volatile IOInterruptEnabled = 1;
 
 uint8_t volatile LightOn=0;
 
-//Schaltet die gegebene LED an und alle anderen LED aus
-// led_number: Nummer der LED
-// on: LED an oder aus
-void set_led(uint8_t led_number,uint8_t on);
-
+//Programm wird initialisiert
+void init();
 //Programm wird wieder in den IDLE zustand gestellt
 void reset();
 //Programm wird in der Sieger zustand gestellt
 void winner();
 //Starte das Spiel mit zwei spielern
 void start_game();
+//Schaltet nur die gegebene LED an
+void set_led(uint8_t led);
+//Schaltet nur die gegebene LED aus
+void clear_led(uint8_t led);
+//Schaltet alle LEDs aus
+void clear_all_led();
 
 
 
@@ -153,39 +156,88 @@ void external_interrupt_init(){
 	PCICR |= (1<<PCIE0);
 }
 
-
-
-
-
-
-int main(void)
-{
-	//INIT
-	OUTDDR1 |= (1<<LED_LEFT);
-	OUTDDR2 |= ((1<<LED_UP)|(1<<LED_DOWN));
-	OUTDDR3 |= (1<<LED_RIGHT);
-	OUTPORT1 &= ~(1<<LED_LEFT);
-	OUTPORT2 &= ~((1<<LED_UP)|(1<<LED_DOWN));
-	OUTPORT3 &= ~(1<<LED_RIGHT);
-	pattern_save_t *pattern_save_ptr= pattern_save_create_new();
+void init() {
+	//DDRs setzen
+	OUTDDR_LEFT |= (1<<LED_LEFT);
+	OUTDDR_UP_DOWN |= ((1<<LED_UP)|(1<<LED_DOWN));
+	OUTDDR_RIGHT |= (1<<LED_RIGHT);
+	//Alle LEDs abschalten
+	clear_led(LED_LEFT);
+	clear_led(LED_UP);
+	clear_led(LED_DOWN);
+	clear_led(LED_RIGHT);
+	//Interrupts einstellen und aktivieren
 	cli();
 	timer1Init();
 	timer0Init();
 	external_interrupt_init();
 	sei();
+}
+
+void set_led(uint8_t led) {
+	switch (led)
+	{
+	case 'L':
+		OUTPORT_LEFT |= (1<<LED_LEFT);
+		break;
+	case 'U':
+		OUTPORT_UP_DOWN |= (1<<LED_UP);
+		break;
+	case 'D':
+		OUTPORT_UP_DOWN |= (1<<LED_DOWN);
+		break;
+	case 'R':
+		OUTPORT_RIGHT |= (1<<LED_RIGHT);
+		break;
+	}
+}
+
+void clear_led(uint8_t led) {
+	switch (led)
+	{
+		case 'L':
+		OUTPORT_LEFT &= ~(1<<LED_LEFT);
+		break;
+		case 'U':
+		OUTPORT_UP_DOWN &= ~(1<<LED_UP);
+		break;
+		case 'D':
+		OUTPORT_UP_DOWN &= ~(1<<LED_DOWN);
+		break;
+		case 'R':
+		OUTPORT_RIGHT &= ~(1<<LED_RIGHT);
+		break;
+	}
+}
+
+void clear_all_led() {
+	clear_led(LED_LEFT);
+	clear_led(LED_UP);
+	clear_led(LED_DOWN);
+	clear_led(LED_RIGHT);
+}
+
+
+int main(void)
+{
+	init();
+	//Save Pattern erstellen
+	pattern_save_t *pattern_save_ptr= pattern_save_create_new();
+	
 	while (1)
 	{
 		while (game_state == IDLE)
 		{
-			OUTPORT1 |= (1<<LED_LEFT);
-			OUTPORT2 &= ~((1<<LED_UP)|(1<<LED_DOWN));
-			OUTPORT3 |= (1<<LED_RIGHT);
+			//Linke und rechte LED an, obere und untere LED aus
+			set_led(LED_LEFT);
+			set_led(LED_RIGHT);
+			clear_led(LED_UP);
+			clear_led(LED_DOWN);
 		}
 		while (game_state == GAME_MODE){
-			OUTPORT1 &= ~(1<<LED_LEFT);
-			OUTPORT2 &= ~((1<<LED_UP)|(1<<LED_DOWN));
-			OUTPORT3 &= ~(1<<LED_RIGHT);
-			//Random adden
+			//Alle LEDs aus
+			clear_all_led();
+			//Zufaellige neue LED zum Pattern zufuegen
 			uint8_t random = TCNT1%4;
 			pattern_save_save_new_pattern(pattern_save_ptr,random);
 			while(pattern_save_has_next(pattern_save_ptr)){
@@ -197,16 +249,20 @@ int main(void)
 				while(LightOn){
 					switch(pattern){
 						case UP_PATTERN:
-						OUTPORT2 |= (1<<LED_UP);
+						//OUTPORT_UP_DOWN |= (1<<LED_UP);
+						set_led(LED_UP);
 						break;
 						case DOWN_PATTERN:
-						OUTPORT2 |= (1<<LED_DOWN);
+						//OUTPORT_UP_DOWN |= (1<<LED_DOWN);
+						set_led(LED_DOWN);
 						break;
 						case LEFT_PATTERN:
-						OUTPORT1 |= (1<<LED_LEFT);
+						//OUTPORT_LEFT |= (1<<LED_LEFT);
+						set_led(LED_LEFT);
 						break;
 						case RIGHT_PATTERN:
-						OUTPORT3 |= (1<<LED_RIGHT);
+						//OUTPORT_RIGHT |= (1<<LED_RIGHT);
+						set_led(LED_RIGHT);
 						break;
 					}
 				}
@@ -214,35 +270,25 @@ int main(void)
 			pattern_save_set_iterator_begin(pattern_save_ptr);
 			while(pattern_save_has_next(pattern_save_ptr)){
 				nextButton = pattern_save_get_next(pattern_save_ptr);
-				
-			
-			// Alle anzeigen
-			// Daten durchgehen{
-			nextButtonPressed = 0;
-			// nextButton = Datenstruktur[i]
-			// if (!game_state == GAME_MODE)
-			//}
-			while (nextButtonPressed == 0){
-				// Nur für den Simulator
-				OUTPORT1 &= ~(1<<LED_LEFT);
-				OUTPORT2 &= ~((1<<LED_UP)|(1<<LED_DOWN));
-				OUTPORT3 &= ~(1<<LED_RIGHT);
-			}
+				// Alle anzeigen
+				// Daten durchgehen{
+				nextButtonPressed = 0;
+				// nextButton = Datenstruktur[i]
+				// if (!game_state == GAME_MODE)
+				//}
+				while (nextButtonPressed == 0){
+					// Nur für den Simulator
+					clear_all_led();
+				}
 			}
 		}
-		OUTPORT1 &= ~(1<<LED_LEFT);
-		OUTPORT2 &= ~((1<<LED_UP)|(LED_DOWN));
-		OUTPORT3 &= ~(1<<LED_RIGHT);
+		clear_all_led();
 		while (game_state == END_SCREEN){
-			OUTPORT2 |= ((1<<LED_UP)|(1<<LED_DOWN));
+			//Linke und rechte LED aus, obere und untere LED an
+			clear_all_led();
+			set_led(LED_UP);
+			set_led(LED_DOWN);
 		}
-		
 	}
-	
-	
-	
 	return 0; 
 }
-
-
-
