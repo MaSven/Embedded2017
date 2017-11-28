@@ -39,7 +39,7 @@
 #define END_SCREEN 2
 
 enum BUTTON_DIRECTION{
-	UP_PATTERN,DOWN_PATTERN,LEFT_PATTERN,RIGHT_PATTERN
+	UP_PATTERN=0x01,DOWN_PATTERN=0x08,LEFT_PATTERN=0x02,RIGHT_PATTERN=0x04
 	};
 
 
@@ -89,8 +89,9 @@ uint8_t nextButton = 0;
 uint8_t nextButtonPressed = 0;
 
 uint8_t volatile IOInterruptEnabled = 1;
-
+volatile uint8_t Lastbutton =0;
 uint8_t volatile LightOn=0;
+uint8_t lightCounter=0;
 
 //Programm wird initialisiert
 void init();
@@ -122,37 +123,43 @@ ISR (TIMER1_COMPA_vect) {
 
 ISR (TIMER0_COMPA_vect) {
 	IOInterruptEnabled = 1;
-	LightOn = 0;
+	if(lightCounter==5){
+		LightOn = 0;
+		lightCounter=0;
+	}
+	lightCounter++;
 }
 
 //External Interrupt ausgeloest
 ISR (PCINT0_vect){
-	if(IOInterruptEnabled) {
-		IOInterruptEnabled = 0;
-		nextButtonPressed = 1;
-		volatile uint8_t button = PINA;
-		button &= ~(1<<LED_LEFT);
-		if(button == (1<<CANCEL)){
-			//reset();
-			game_state = IDLE;
-		}
-		if(game_state==IDLE){
-			if(button == (1<<ENTER)){
-				game_state = GAME_MODE;
+	volatile uint8_t button = PINA & ((1<<UP)|(1<<DOWN)|(1<<LEFT)|(1<<RIGHT)|(1<<ENTER)|(1<<CANCEL));
+	if(!button){
+		if(IOInterruptEnabled) {
+			IOInterruptEnabled = 0;
+			nextButtonPressed = 1;
+			if(Lastbutton == (1<<CANCEL)){
+				//reset();
+				game_state = IDLE;
 			}
+			if(game_state==IDLE){
+				if(Lastbutton == (1<<ENTER)){
+					game_state = GAME_MODE;
+				}
 			}else if(game_state==GAME_MODE){
 			
 			
-			if (nextButton != button){
-				game_state = END_SCREEN;
-			}
-		}
-	}	
+				if (nextButton != Lastbutton){
+					game_state = END_SCREEN;
+				}
+			}	
+		}	
+	} else {
+		Lastbutton = button;
+	}
 }
 
 void external_interrupt_init(){
 	PCMSK0 |= ((1<<UP)|(1<<DOWN)|(1<<LEFT)|(1<<RIGHT)|(1<<ENTER)|(1<<CANCEL));
-	EICRA |= ((1<<ISC01)|(1<<ISC00));
 	PCICR |= (1<<PCIE0);
 }
 
@@ -162,10 +169,10 @@ void init() {
 	OUTDDR_UP_DOWN |= ((1<<LED_UP)|(1<<LED_DOWN));
 	OUTDDR_RIGHT |= (1<<LED_RIGHT);
 	//Alle LEDs abschalten
-	clear_led(LED_LEFT);
-	clear_led(LED_UP);
-	clear_led(LED_DOWN);
-	clear_led(LED_RIGHT);
+	clear_led('L');
+	clear_led('U');
+	clear_led('D');
+	clear_led('R');
 	//Interrupts einstellen und aktivieren
 	cli();
 	timer1Init();
@@ -211,10 +218,10 @@ void clear_led(uint8_t led) {
 }
 
 void clear_all_led() {
-	clear_led(LED_LEFT);
-	clear_led(LED_UP);
-	clear_led(LED_DOWN);
-	clear_led(LED_RIGHT);
+	clear_led('L');
+	clear_led('U');
+	clear_led('D');
+	clear_led('R');
 }
 
 
@@ -229,10 +236,10 @@ int main(void)
 		while (game_state == IDLE)
 		{
 			//Linke und rechte LED an, obere und untere LED aus
-			set_led(LED_LEFT);
-			set_led(LED_RIGHT);
-			clear_led(LED_UP);
-			clear_led(LED_DOWN);
+			set_led('L');
+			set_led('R');
+			clear_led('U');
+			clear_led('D');
 		}
 		while (game_state == GAME_MODE){
 			//Alle LEDs aus
@@ -240,6 +247,8 @@ int main(void)
 			//Zufaellige neue LED zum Pattern zufuegen
 			uint8_t random = TCNT1%4;
 			pattern_save_save_new_pattern(pattern_save_ptr,random);
+			pattern_save_set_iterator_begin(pattern_save_ptr);
+			//TODO: Löschen beim neustart
 			while(pattern_save_has_next(pattern_save_ptr)){
 				uint8_t pattern = pattern_save_get_next(pattern_save_ptr);
 				cli();
@@ -250,22 +259,23 @@ int main(void)
 					switch(pattern){
 						case UP_PATTERN:
 						//OUTPORT_UP_DOWN |= (1<<LED_UP);
-						set_led(LED_UP);
+						set_led('U');
 						break;
 						case DOWN_PATTERN:
 						//OUTPORT_UP_DOWN |= (1<<LED_DOWN);
-						set_led(LED_DOWN);
+						set_led('D');
 						break;
 						case LEFT_PATTERN:
 						//OUTPORT_LEFT |= (1<<LED_LEFT);
-						set_led(LED_LEFT);
+						set_led('L');
 						break;
 						case RIGHT_PATTERN:
 						//OUTPORT_RIGHT |= (1<<LED_RIGHT);
-						set_led(LED_RIGHT);
+						set_led('R');
 						break;
 					}
 				}
+				clear_all_led();
 			}
 			pattern_save_set_iterator_begin(pattern_save_ptr);
 			while(pattern_save_has_next(pattern_save_ptr)){
@@ -286,8 +296,8 @@ int main(void)
 		while (game_state == END_SCREEN){
 			//Linke und rechte LED aus, obere und untere LED an
 			clear_all_led();
-			set_led(LED_UP);
-			set_led(LED_DOWN);
+			set_led('U');
+			set_led('D');
 		}
 	}
 	return 0; 
