@@ -22,20 +22,28 @@ void timer1Init (void);
 void clearLeds (void);
 uint8_t readKeypad (void);
 void showButtonValue (uint8_t);
-
+// Globals
+uint8_t reset = 0;
 
 int main(void)
 {
+	init();
+	timer1Init();
+	sei();
     while(1)
     {
         //Auslesen welche Buttons gedrueckt sind den Wert in Variable addieren und der Anzeigefunktion uebergeben
 		uint8_t sum = readKeypad();
 		if (sum != 0)
 		{
+			showButtonValue(sum);
+		}
+		else
+		{
 			cli();
 			TCNT1 = 0x00;
 			sei();
-			showButtonValue(sum);
+			reset = 1;
 		}
     }
 }
@@ -71,13 +79,17 @@ void timer1Init() {
 /************************************************************************/
 ISR (TIMER1_COMPA_vect) {
 	//0,5s nach Loslassen der (letzten) Taste die Anzeige loeschen
-	clearLeds();
+	if (reset)
+	{
+		clearLeds();
+		reset = 0;
+	}
 }
 
 /************************************************************************/
 /* Clear LEDs                                                           */
 /************************************************************************/
-clearLeds() {
+void clearLeds() {
 	OUTPORT = 0x00;
 }
 
@@ -194,6 +206,6 @@ uint8_t readKeypad() {
 /************************************************************************/
 /* Anzeigen der Summe                                                   */
 /************************************************************************/
-showButtonValue(uint8_t sum) {
+void showButtonValue(uint8_t sum) {
 	OUTPORT = sum;
 }
