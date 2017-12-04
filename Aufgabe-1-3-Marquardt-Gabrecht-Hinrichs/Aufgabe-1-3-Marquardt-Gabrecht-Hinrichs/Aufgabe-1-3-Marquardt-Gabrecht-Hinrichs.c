@@ -28,7 +28,6 @@ uint8_t reset = 0;
 int main(void)
 {
 	init();
-	timer1Init();
 	sei();
     while(1)
     {
@@ -54,13 +53,12 @@ int main(void)
 void init() {
 	OUTDDR = 0xFF; //Kompletter Port als Output
 	PADDDR = 0xF0; // Pins 0-3 als Input, 4-7 als Output
-	
-	
+	timer1Init();	
 	clearLeds(); //Alle LEDs aus
 }
 
 /************************************************************************/
-/* Initialisieren von Timer0                                            */
+/* Initialisieren von Timer1                                            */
 /************************************************************************/
 void timer1Init() {
 	TCCR1A = 0x00;
