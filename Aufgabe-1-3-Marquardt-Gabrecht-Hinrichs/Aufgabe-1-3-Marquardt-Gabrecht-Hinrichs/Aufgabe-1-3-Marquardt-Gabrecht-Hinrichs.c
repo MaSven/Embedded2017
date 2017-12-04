@@ -11,8 +11,8 @@
 #include <inttypes.h>
 
 // Defines
-#define OUTDDR DDRA
-#define OUTPORT PORTA
+#define OUTDDR DDRD
+#define OUTPORT PORTD
 #define PADDDR DDRC
 #define PADPORT PORTC
 #define PADPIN PINC
@@ -23,25 +23,24 @@ void clearLeds (void);
 uint8_t readKeypad (void);
 void showButtonValue (uint8_t);
 // Globals
-uint8_t reset = 0;
+uint8_t volatile reset = 0;
 
 int main(void)
 {
+	
 	init();
-	sei();
+	
     while(1)
     {
         //Auslesen welche Buttons gedrueckt sind den Wert in Variable addieren und der Anzeigefunktion uebergeben
-		uint8_t sum = readKeypad();
+		uint8_t volatile sum = readKeypad();
 		if (sum != 0)
 		{
 			showButtonValue(sum);
+			TCNT1=0x00;
 		}
 		else
 		{
-			cli();
-			TCNT1 = 0x00;
-			sei();
 			reset = 1;
 		}
     }
@@ -53,7 +52,9 @@ int main(void)
 void init() {
 	OUTDDR = 0xFF; //Kompletter Port als Output
 	PADDDR = 0xF0; // Pins 0-3 als Input, 4-7 als Output
-	timer1Init();	
+	cli();
+	timer1Init();
+	sei();	
 	clearLeds(); //Alle LEDs aus
 }
 
@@ -95,15 +96,13 @@ void clearLeds() {
 /* Keypad auslesen                                                      */
 /************************************************************************/
 uint8_t readKeypad() {
-	uint8_t sum = 0;
-	uint8_t buttons;
+	uint8_t volatile sum = 0;
 	//PC7-4 nacheinander auf 1 schalten
 	//PC3-0 auf 1 pruefen
 	//bei 1 Taste gedrueckt, bei 0 Taste nicht gedrueckt
 	
-	PADPORT |= (1<<PC4); // Unterstes Bit im oberen Nibble setzen
-	buttons = (PADPIN & ~(0xF0)); // Einlesen des unteren Nibbles
-	
+	PADPORT |= (1<<PC4); // Unterstes Bit im oberen Nibble setzen 
+	uint8_t volatile buttons = (PADPIN& ~(0xF0)); // Einlesen des unteren Nibbles
 	if ((buttons & (1<<PC0)) == 1)
 	{
 		//Button 1 gedrueckt
@@ -126,78 +125,78 @@ uint8_t readKeypad() {
 	}
 	
 	PADPORT &= ~(1<<PC4);
-	PADPORT |= (1<<PC5);
+	//PADPORT |= (1<<PC5);
+	//
+	//if ((buttons & (1<<PC0)) == 1)
+	//{
+		////Button 4 gedrueckt
+		//sum += 4;
+	//}
+	//if ((buttons & (1<<PC1)) == 1)
+	//{
+		////Button 5 gedrueckt
+		//sum += 5;
+	//}
+	//if ((buttons & (1<<PC2)) == 1)
+	//{
+		////Button 6 gedrueckt
+		//sum += 6;
+	//}
+	//if ((buttons & (1<<PC3)) == 1)
+	//{
+		////Button B gedrueckt
+		//sum += 0x0B;
+	//}
+	//
+	//PADPORT &= ~(1<<PC5);
+	//PADPORT |= (1<<PC6);
+	//
+	//if ((buttons & (1<<PC0)) == 1)
+	//{
+		////Button 7 gedrueckt
+		//sum += 7;
+	//}
+	//if ((buttons & (1<<PC1)) == 1)
+	//{
+		////Button 8 gedrueckt
+		//sum += 8;
+	//}
+	//if ((buttons & (1<<PC2)) == 1)
+	//{
+		////Button 9 gedrueckt
+		//sum += 9;
+	//}
+	//if ((buttons & (1<<PC3)) == 1)
+	//{
+		////Button C gedrueckt
+		//sum += 0x0C;
+	//}
+	//
+	//PADPORT &= ~(1<<PC6);
+	//PADPORT |= (1<<PC7);
+	//
+	//if ((buttons & (1<<PC0)) == 1)
+	//{
+		////Button E gedrueckt
+		//sum += 0x0E;
+	//}
+	//if ((buttons & (1<<PC1)) == 1)
+	//{
+		////Button 10 gedrueckt
+		//sum += 10;
+	//}
+	//if ((buttons & (1<<PC2)) == 1)
+	//{
+		////Button F gedrueckt
+		//sum += 0x0F;
+	//}
+	//if ((buttons & (1<<PC3)) == 1)
+	//{
+		////Button D gedrueckt
+		//sum += 0x0D;
+	//}
 	
-	if ((buttons & (1<<PC0)) == 1)
-	{
-		//Button 4 gedrueckt
-		sum += 4;
-	}
-	if ((buttons & (1<<PC1)) == 1)
-	{
-		//Button 5 gedrueckt
-		sum += 5;
-	}
-	if ((buttons & (1<<PC2)) == 1)
-	{
-		//Button 6 gedrueckt
-		sum += 6;
-	}
-	if ((buttons & (1<<PC3)) == 1)
-	{
-		//Button B gedrueckt
-		sum += 0x0B;
-	}
-	
-	PADPORT &= ~(1<<PC5);
-	PADPORT |= (1<<PC6);
-	
-	if ((buttons & (1<<PC0)) == 1)
-	{
-		//Button 7 gedrueckt
-		sum += 7;
-	}
-	if ((buttons & (1<<PC1)) == 1)
-	{
-		//Button 8 gedrueckt
-		sum += 8;
-	}
-	if ((buttons & (1<<PC2)) == 1)
-	{
-		//Button 9 gedrueckt
-		sum += 9;
-	}
-	if ((buttons & (1<<PC3)) == 1)
-	{
-		//Button C gedrueckt
-		sum += 0x0C;
-	}
-	
-	PADPORT &= ~(1<<PC6);
-	PADPORT |= (1<<PC7);
-	
-	if ((buttons & (1<<PC0)) == 1)
-	{
-		//Button E gedrueckt
-		sum += 0x0E;
-	}
-	if ((buttons & (1<<PC1)) == 1)
-	{
-		//Button 10 gedrueckt
-		sum += 10;
-	}
-	if ((buttons & (1<<PC2)) == 1)
-	{
-		//Button F gedrueckt
-		sum += 0x0F;
-	}
-	if ((buttons & (1<<PC3)) == 1)
-	{
-		//Button D gedrueckt
-		sum += 0x0D;
-	}
-	
-	PADPORT &= ~(1<<PC7); // Oberstes Bit loeschen
+	//PADPORT &= ~(1<<PC7); // Oberstes Bit loeschen
 	return sum;
 }
 
