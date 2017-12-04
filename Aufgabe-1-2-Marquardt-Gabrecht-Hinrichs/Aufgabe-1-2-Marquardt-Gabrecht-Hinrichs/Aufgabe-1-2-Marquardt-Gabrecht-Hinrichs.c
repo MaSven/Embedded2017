@@ -1,16 +1,16 @@
 /*
- * Simpleblink
- * Demo1-1.c 
- *
- * Created: 01.04.2011 22:05:04
- *  Author: Ole
- */ 
+* Simpleblink
+* Demo1-1.c
+*
+* Created: 01.04.2011 22:05:04
+*  Author: Ole
+*/
 
 #include <avr/io.h>
 #include <avr/interrupt.h>		// interrupts
 #include <inttypes.h>			// Datentypen mit Bitbreiten
 #include "pattern_save.h"
-//#define SIMULATOR 
+//#define SIMULATOR
 
 
 
@@ -40,7 +40,7 @@
 
 enum BUTTON_DIRECTION{
 	UP_PATTERN=0x01,DOWN_PATTERN=0x08,LEFT_PATTERN=0x02,RIGHT_PATTERN=0x04
-	};
+};
 
 
 
@@ -93,6 +93,8 @@ volatile uint8_t Lastbutton =0;
 uint8_t volatile LightOn=0;
 uint8_t lightCounter=0;
 
+uint8_t volatile game_lost=0;
+
 //Programm wird initialisiert
 void init();
 //Programm wird wieder in den IDLE zustand gestellt
@@ -118,7 +120,10 @@ void clear_all_led();
 /* schaltet die LED ein													*/
 /************************************************************************/
 ISR (TIMER1_COMPA_vect) {
-	
+	if(GAME_MODE==game_state){
+		game_state=IDLE;
+		game_lost=1;
+	}
 }
 
 ISR (TIMER0_COMPA_vect) {
@@ -145,15 +150,15 @@ ISR (PCINT0_vect){
 				if(Lastbutton == (1<<ENTER)){
 					game_state = GAME_MODE;
 				}
-			}else if(game_state==GAME_MODE){
-			
-			
+				}else if(game_state==GAME_MODE){
+				
+				
 				if (nextButton != Lastbutton){
 					game_state = END_SCREEN;
 				}
-			}	
-		}	
-	} else {
+			}
+		}
+		} else {
 		Lastbutton = button;
 	}
 }
@@ -184,16 +189,16 @@ void init() {
 void set_led(uint8_t led) {
 	switch (led)
 	{
-	case 'L':
+		case 'L':
 		OUTPORT_LEFT |= (1<<LED_LEFT);
 		break;
-	case 'U':
+		case 'U':
 		OUTPORT_UP_DOWN |= (1<<LED_UP);
 		break;
-	case 'D':
+		case 'D':
 		OUTPORT_UP_DOWN |= (1<<LED_DOWN);
 		break;
-	case 'R':
+		case 'R':
 		OUTPORT_RIGHT |= (1<<LED_RIGHT);
 		break;
 	}
@@ -224,6 +229,10 @@ void clear_all_led() {
 	clear_led('R');
 }
 
+uint8_t is_game_lost(){
+	return game_lost;
+}
+
 
 int main(void)
 {
@@ -233,6 +242,9 @@ int main(void)
 	
 	while (1)
 	{
+		//Zurücksetzen der werte
+		pattern_save_clean(pattern_save_ptr);
+		game_lost=0;
 		while (game_state == IDLE)
 		{
 			//Linke und rechte LED an, obere und untere LED aus
@@ -253,9 +265,11 @@ int main(void)
 				uint8_t pattern = pattern_save_get_next(pattern_save_ptr);
 				cli();
 				TCNT0=0x00;
+				TCNT1=0x00;
 				sei();
 				LightOn=1;
 				while(LightOn){
+					clear_all_led();
 					switch(pattern){
 						case UP_PATTERN:
 						//OUTPORT_UP_DOWN |= (1<<LED_UP);
@@ -278,7 +292,8 @@ int main(void)
 				clear_all_led();
 			}
 			pattern_save_set_iterator_begin(pattern_save_ptr);
-			while(pattern_save_has_next(pattern_save_ptr)){
+			while(pattern_save_has_next(pattern_save_ptr)&& !game_lost){
+				TCNT1=0x00;
 				nextButton = pattern_save_get_next(pattern_save_ptr);
 				// Alle anzeigen
 				// Daten durchgehen{
@@ -286,19 +301,31 @@ int main(void)
 				// nextButton = Datenstruktur[i]
 				// if (!game_state == GAME_MODE)
 				//}
-				while (nextButtonPressed == 0){
+				while (nextButtonPressed == 0 && !game_lost){
 					// Nur für den Simulator
 					clear_all_led();
 				}
 			}
+			for(int i=0;i<2;i++){
+				LightOn=1;
+				while(LightOn&&!game_lost){
+					//Linke und rechte LED aus, obere und untere LED an
+					clear_all_led();
+					set_led('U');
+					set_led('D');
+				}
+			}
 		}
 		clear_all_led();
+		
 		while (game_state == END_SCREEN){
 			//Linke und rechte LED aus, obere und untere LED an
 			clear_all_led();
 			set_led('U');
 			set_led('D');
 		}
+		
 	}
-	return 0; 
+	return 0;
 }
+
