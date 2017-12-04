@@ -16,6 +16,10 @@
 #define PADDDR DDRC
 #define PADPORT PORTC
 #define PADPIN PINC
+#define COL0 0b00000001
+#define COL1 0b00000010
+#define COL2 0b00000100
+#define COL3 0b00001000
 // Prototypes
 void init (void);
 void timer1Init (void);
@@ -37,10 +41,12 @@ int main(void)
 		if (sum != 0)
 		{
 			showButtonValue(sum);
-			TCNT1=0x00;
 		}
 		else
 		{
+			cli();
+			TCNT1 = 0x00;
+			sei();
 			reset = 1;
 		}
     }
@@ -102,101 +108,104 @@ uint8_t readKeypad() {
 	//bei 1 Taste gedrueckt, bei 0 Taste nicht gedrueckt
 	
 	PADPORT |= (1<<PC4); // Unterstes Bit im oberen Nibble setzen 
-	uint8_t volatile buttons = (PADPIN& ~(0xF0)); // Einlesen des unteren Nibbles
-	if ((buttons & (1<<PC0)) == 1)
+	uint8_t volatile buttons = PADPIN; // Einlesen der gedrueckten Buttons
+	if ((buttons & (1<<PC0)) == COL0)
 	{
 		//Button 1 gedrueckt
 		sum += 1;
 	}
-	if ((buttons & (1<<PC1)) == 1)
+	if ((buttons & (1<<PC1)) == COL1)
 	{
 		//Button 2 gedrueckt
 		sum += 2;
 	}
-	if ((buttons & (1<<PC2)) == 1)
+	if ((buttons & (1<<PC2)) == COL2)
 	{
 		//Button 3 gedrueckt
 		sum += 3;
 	}
-	if ((buttons & (1<<PC3)) == 1)
+	if ((buttons & (1<<PC3)) == COL3)
 	{
 		//Button A gedrueckt
 		sum += 0x0A;
 	}
 	
 	PADPORT &= ~(1<<PC4);
-	//PADPORT |= (1<<PC5);
-	//
-	//if ((buttons & (1<<PC0)) == 1)
-	//{
-		////Button 4 gedrueckt
-		//sum += 4;
-	//}
-	//if ((buttons & (1<<PC1)) == 1)
-	//{
-		////Button 5 gedrueckt
-		//sum += 5;
-	//}
-	//if ((buttons & (1<<PC2)) == 1)
-	//{
-		////Button 6 gedrueckt
-		//sum += 6;
-	//}
-	//if ((buttons & (1<<PC3)) == 1)
-	//{
-		////Button B gedrueckt
-		//sum += 0x0B;
-	//}
-	//
-	//PADPORT &= ~(1<<PC5);
-	//PADPORT |= (1<<PC6);
-	//
-	//if ((buttons & (1<<PC0)) == 1)
-	//{
-		////Button 7 gedrueckt
-		//sum += 7;
-	//}
-	//if ((buttons & (1<<PC1)) == 1)
-	//{
-		////Button 8 gedrueckt
-		//sum += 8;
-	//}
-	//if ((buttons & (1<<PC2)) == 1)
-	//{
-		////Button 9 gedrueckt
-		//sum += 9;
-	//}
-	//if ((buttons & (1<<PC3)) == 1)
-	//{
-		////Button C gedrueckt
-		//sum += 0x0C;
-	//}
-	//
-	//PADPORT &= ~(1<<PC6);
-	//PADPORT |= (1<<PC7);
-	//
-	//if ((buttons & (1<<PC0)) == 1)
-	//{
-		////Button E gedrueckt
-		//sum += 0x0E;
-	//}
-	//if ((buttons & (1<<PC1)) == 1)
-	//{
-		////Button 10 gedrueckt
-		//sum += 10;
-	//}
-	//if ((buttons & (1<<PC2)) == 1)
-	//{
-		////Button F gedrueckt
-		//sum += 0x0F;
-	//}
-	//if ((buttons & (1<<PC3)) == 1)
-	//{
-		////Button D gedrueckt
-		//sum += 0x0D;
-	//}
+	PADPORT |= (1<<PC5);
+	buttons = PADPIN;
 	
-	//PADPORT &= ~(1<<PC7); // Oberstes Bit loeschen
+	if ((buttons & (1<<PC0)) == COL0)
+	{
+		//Button 4 gedrueckt
+		sum += 4;
+	}
+	if ((buttons & (1<<PC1)) == COL1)
+	{
+		//Button 5 gedrueckt
+		sum += 5;
+	}
+	if ((buttons & (1<<PC2)) == COL2)
+	{
+		//Button 6 gedrueckt
+		sum += 6;
+	}
+	if ((buttons & (1<<PC3)) == COL3)
+	{
+		//Button B gedrueckt
+		sum += 0x0B;
+	}
+	
+	PADPORT &= ~(1<<PC5);
+	PADPORT |= (1<<PC6);
+	buttons = PADPIN;
+	
+	if ((buttons & (1<<PC0)) == COL0)
+	{
+		//Button 7 gedrueckt
+		sum += 7;
+	}
+	if ((buttons & (1<<PC1)) == COL1)
+	{
+		//Button 8 gedrueckt
+		sum += 8;
+	}
+	if ((buttons & (1<<PC2)) == COL2)
+	{
+		//Button 9 gedrueckt
+		sum += 9;
+	}
+	if ((buttons & (1<<PC3)) == COL3)
+	{
+		//Button C gedrueckt
+		sum += 0x0C;
+	}
+	
+	PADPORT &= ~(1<<PC6);
+	PADPORT |= (1<<PC7);
+	buttons = PADPIN;
+	
+	if ((buttons & (1<<PC0)) == COL0)
+	{
+		//Button E gedrueckt
+		sum += 0x0E;
+	}
+	if ((buttons & (1<<PC1)) == COL1)
+	{
+		//Button 10 gedrueckt
+		sum += 10;
+	}
+	if ((buttons & (1<<PC2)) == COL2)
+	{
+		//Button F gedrueckt
+		sum += 0x0F;
+	}
+	if ((buttons & (1<<PC3)) == COL3)
+	{
+		//Button D gedrueckt
+		sum += 0x0D;
+	}
+	
+	PADPORT &= ~(1<<PC7); // Oberstes Bit loeschen
 	return sum;
 }
 
