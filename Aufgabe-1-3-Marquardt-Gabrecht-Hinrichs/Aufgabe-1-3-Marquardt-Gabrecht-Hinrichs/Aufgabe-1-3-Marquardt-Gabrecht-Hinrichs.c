@@ -20,6 +20,10 @@
 #define COL1 0b00000010
 #define COL2 0b00000100
 #define COL3 0b00001000
+#define PADDDRROW0 COL0<<4
+#define PADDDRROW1 COL1<<4
+#define PADDDRROW2 COL2<<4
+#define PADDDRROW3 COL3<<4
 // Prototypes
 void init (void);
 void timer1Init (void);
@@ -47,7 +51,6 @@ int main(void)
 		}
 		else
 		{
-			
 			reset = 1;
 		}
     }
@@ -108,6 +111,7 @@ uint8_t readKeypad() {
 	//PC3-0 auf 1 pruefen
 	//bei 1 Taste gedrueckt, bei 0 Taste nicht gedrueckt
 	
+	PADDDR = PADDDRROW0;
 	PADPORT |= (1<<PC4); // Unterstes Bit im oberen Nibble setzen 
 	uint8_t volatile buttons = PADPIN; // Einlesen der gedrueckten Buttons
 	if ((buttons & (1<<PC0)) == COL0)
@@ -131,6 +135,7 @@ uint8_t readKeypad() {
 		sum += 0x0A;
 	}
 	
+	PADDDR = PADDDRROW1;
 	PADPORT &= ~(1<<PC4);
 	PADPORT |= (1<<PC5);
 	buttons = PADPIN;
@@ -156,6 +161,7 @@ uint8_t readKeypad() {
 		sum += 0x0B;
 	}
 	
+	PADDDR = PADDDRROW2;
 	PADPORT &= ~(1<<PC5);
 	PADPORT |= (1<<PC6);
 	buttons = PADPIN;
@@ -181,6 +187,7 @@ uint8_t readKeypad() {
 		sum += 0x0C;
 	}
 	
+	PADDDR = PADDDRROW3;
 	PADPORT &= ~(1<<PC6);
 	PADPORT |= (1<<PC7);
 	buttons = PADPIN;
