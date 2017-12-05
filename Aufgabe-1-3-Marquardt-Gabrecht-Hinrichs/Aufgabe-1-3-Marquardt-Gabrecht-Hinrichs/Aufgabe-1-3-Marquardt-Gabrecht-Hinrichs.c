@@ -40,13 +40,14 @@ int main(void)
 		uint8_t volatile sum = readKeypad();
 		if (sum != 0)
 		{
+			cli();
+			TCNT1 = 0x00;
+			sei();
 			showButtonValue(sum);
 		}
 		else
 		{
-			cli();
-			TCNT1 = 0x00;
-			sei();
+			
 			reset = 1;
 		}
     }
