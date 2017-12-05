@@ -27,8 +27,8 @@ uint8_t pattern_save_set_iterator_begin(pattern_save_t *pattern_save);
 void pattern_save_free(pattern_save_t * pattern_save);
 //Speicher wieder freigeben für neue werte
 void pattern_save_clean(pattern_save_t *pattern_save_ptr);
-
-
+//groesse
+uint8_t pattern_save_get_size(pattern_save_t * pattern_save_ptr);
 
 
 #endif /* PATTERN_SAVE_H_ */

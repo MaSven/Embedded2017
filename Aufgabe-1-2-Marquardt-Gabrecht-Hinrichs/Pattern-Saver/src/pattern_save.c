@@ -95,3 +95,7 @@ void pattern_save_clean(pattern_save_t *pattern_save_ptr){
 	pattern_save_ptr->size=0;
 	pattern_save_ptr->index=0;	
 }
+
+uint8_t pattern_save_get_size(pattern_save_t *pattern_save_ptr){
+	return pattern_save_ptr->size/2;
+}
