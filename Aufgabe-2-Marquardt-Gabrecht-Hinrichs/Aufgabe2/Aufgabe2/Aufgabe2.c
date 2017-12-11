@@ -1,8 +1,8 @@
 /*
  * Aufgabe2.c
  *
- * Created: 11.12.2017 15:24:28
- *  Author: 240747
+ * Created: 11.12.2017 22:06:28
+ *  Author: Matthias Hinrichs
  */ 
 
 

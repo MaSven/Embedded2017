@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>6.2</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8.C</ToolchainName>
-    <ProjectGuid>{fa6e6fe1-70ab-49de-a250-3a8cad269df6}</ProjectGuid>
+    <ProjectGuid>{31a1d0ca-15fd-4168-bacc-30ed88ea218f}</ProjectGuid>
     <avrdevice>ATmega644PA</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
     <OutputType>Executable</OutputType>
@@ -34,7 +34,7 @@
   <documentation help="" />
   <offline-documentation help="" />
   <dependencies>
-    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.29.0" />
+    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.21.0" />
   </dependencies>
 </framework-data>
     </AsfFrameworkConfig>
@@ -99,6 +99,34 @@
     <Compile Include="Aufgabe2.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="includes\adc\adc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="includes\lcd\lcd.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="includes\one_wire\one_wire.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\adc\adc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lcd\lcd.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\one_wire\one_wire.c">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="includes" />
+    <Folder Include="includes\adc" />
+    <Folder Include="includes\lcd" />
+    <Folder Include="includes\one_wire" />
+    <Folder Include="src" />
+    <Folder Include="src\adc" />
+    <Folder Include="src\lcd" />
+    <Folder Include="src\one_wire" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
