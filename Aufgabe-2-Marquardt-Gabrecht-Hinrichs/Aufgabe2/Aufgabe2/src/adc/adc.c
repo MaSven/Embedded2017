@@ -13,10 +13,10 @@ void adc_init(void)
 	ADMUX = ((1<<REFS0)|(1<<ADLAR));
 	// AD-Wandler einschalten
 	// ADC-Frequenz sollte laut mikrocontroller.net zwischen 50kHz und 200kHz liegen
-	// 1.000.000 /  50.000 = 20
-	// 1.000.000 / 200.000 =  5
-	// Prescaler: 8 => 125kHz ADC-Frequenz
-	ADCSRA = ((1<<ADEN)|(1<<ADPS1)|(1<<ADPS0));
+	// 1.000.000 /  50.000 = 160
+	// 1.000.000 / 200.000 =  40
+	// Prescaler: 64 => 125kHz ADC-Frequenz
+	ADCSRA = ((1<<ADEN)|(1<<ADPS2)|(1<<ADPS1));
 	// Einzelne Messung starten um moegliche Fehlerwerte auszuschliessen
 	ADCSRA |= (1<<ADSC);
 	// Auf Ende der Messung warten
