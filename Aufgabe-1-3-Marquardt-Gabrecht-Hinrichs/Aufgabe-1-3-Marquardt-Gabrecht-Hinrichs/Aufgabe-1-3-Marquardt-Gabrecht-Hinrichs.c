@@ -11,31 +11,47 @@
 #include <inttypes.h>
 
 // Defines
-#define OUTDDR DDRA
-#define OUTPORT PORTA
+#define OUTDDR DDRD
+#define OUTPORT PORTD
 #define PADDDR DDRC
 #define PADPORT PORTC
 #define PADPIN PINC
+#define COL0 0b00000001
+#define COL1 0b00000010
+#define COL2 0b00000100
+#define COL3 0b00001000
+#define PADDDRROW0 COL0<<4
+#define PADDDRROW1 COL1<<4
+#define PADDDRROW2 COL2<<4
+#define PADDDRROW3 COL3<<4
 // Prototypes
 void init (void);
 void timer1Init (void);
 void clearLeds (void);
 uint8_t readKeypad (void);
 void showButtonValue (uint8_t);
-
+// Globals
+uint8_t volatile reset = 0;
 
 int main(void)
 {
+	
+	init();
+	
     while(1)
     {
         //Auslesen welche Buttons gedrueckt sind den Wert in Variable addieren und der Anzeigefunktion uebergeben
-		uint8_t sum = readKeypad();
+		uint8_t volatile sum = readKeypad();
 		if (sum != 0)
 		{
 			cli();
 			TCNT1 = 0x00;
 			sei();
 			showButtonValue(sum);
+		}
+		else
+		{
+			reset = 1;
 		}
     }
 }
@@ -46,13 +62,14 @@ int main(void)
 void init() {
 	OUTDDR = 0xFF; //Kompletter Port als Output
 	PADDDR = 0xF0; // Pins 0-3 als Input, 4-7 als Output
-	
-	
+	cli();
+	timer1Init();
+	sei();	
 	clearLeds(); //Alle LEDs aus
 }
 
 /************************************************************************/
-/* Initialisieren von Timer0                                            */
+/* Initialisieren von Timer1                                            */
 /************************************************************************/
 void timer1Init() {
 	TCCR1A = 0x00;
@@ -71,13 +88,17 @@ void timer1Init() {
 /************************************************************************/
 ISR (TIMER1_COMPA_vect) {
 	//0,5s nach Loslassen der (letzten) Taste die Anzeige loeschen
-	clearLeds();
+	if (reset)
+	{
+		clearLeds();
+		reset = 0;
+	}
 }
 
 /************************************************************************/
 /* Clear LEDs                                                           */
 /************************************************************************/
-clearLeds() {
+void clearLeds() {
 	OUTPORT = 0x00;
 }
 
@@ -85,103 +106,108 @@ clearLeds() {
 /* Keypad auslesen                                                      */
 /************************************************************************/
 uint8_t readKeypad() {
-	uint8_t sum = 0;
-	uint8_t buttons;
+	uint8_t volatile sum = 0;
 	//PC7-4 nacheinander auf 1 schalten
 	//PC3-0 auf 1 pruefen
 	//bei 1 Taste gedrueckt, bei 0 Taste nicht gedrueckt
 	
-	PADPORT |= (1<<PC4); // Unterstes Bit im oberen Nibble setzen
-	buttons = (PADPIN & ~(0xF0)); // Einlesen des unteren Nibbles
-	
-	if ((buttons & (1<<PC0)) == 1)
+	PADDDR = PADDDRROW0;
+	PADPORT |= (1<<PC4); // Unterstes Bit im oberen Nibble setzen 
+	uint8_t volatile buttons = PADPIN; // Einlesen der gedrueckten Buttons
+	if ((buttons & (1<<PC0)) == COL0)
 	{
 		//Button 1 gedrueckt
 		sum += 1;
 	}
-	if ((buttons & (1<<PC1)) == 1)
+	if ((buttons & (1<<PC1)) == COL1)
 	{
 		//Button 2 gedrueckt
 		sum += 2;
 	}
-	if ((buttons & (1<<PC2)) == 1)
+	if ((buttons & (1<<PC2)) == COL2)
 	{
 		//Button 3 gedrueckt
 		sum += 3;
 	}
-	if ((buttons & (1<<PC3)) == 1)
+	if ((buttons & (1<<PC3)) == COL3)
 	{
 		//Button A gedrueckt
 		sum += 0x0A;
 	}
 	
+	PADDDR = PADDDRROW1;
 	PADPORT &= ~(1<<PC4);
 	PADPORT |= (1<<PC5);
+	buttons = PADPIN;
 	
-	if ((buttons & (1<<PC0)) == 1)
+	if ((buttons & (1<<PC0)) == COL0)
 	{
 		//Button 4 gedrueckt
 		sum += 4;
 	}
-	if ((buttons & (1<<PC1)) == 1)
+	if ((buttons & (1<<PC1)) == COL1)
 	{
 		//Button 5 gedrueckt
 		sum += 5;
 	}
-	if ((buttons & (1<<PC2)) == 1)
+	if ((buttons & (1<<PC2)) == COL2)
 	{
 		//Button 6 gedrueckt
 		sum += 6;
 	}
-	if ((buttons & (1<<PC3)) == 1)
+	if ((buttons & (1<<PC3)) == COL3)
 	{
 		//Button B gedrueckt
 		sum += 0x0B;
 	}
 	
+	PADDDR = PADDDRROW2;
 	PADPORT &= ~(1<<PC5);
 	PADPORT |= (1<<PC6);
+	buttons = PADPIN;
 	
-	if ((buttons & (1<<PC0)) == 1)
+	if ((buttons & (1<<PC0)) == COL0)
 	{
 		//Button 7 gedrueckt
 		sum += 7;
 	}
-	if ((buttons & (1<<PC1)) == 1)
+	if ((buttons & (1<<PC1)) == COL1)
 	{
 		//Button 8 gedrueckt
 		sum += 8;
 	}
-	if ((buttons & (1<<PC2)) == 1)
+	if ((buttons & (1<<PC2)) == COL2)
 	{
 		//Button 9 gedrueckt
 		sum += 9;
 	}
-	if ((buttons & (1<<PC3)) == 1)
+	if ((buttons & (1<<PC3)) == COL3)
 	{
 		//Button C gedrueckt
 		sum += 0x0C;
 	}
 	
+	PADDDR = PADDDRROW3;
 	PADPORT &= ~(1<<PC6);
 	PADPORT |= (1<<PC7);
+	buttons = PADPIN;
 	
-	if ((buttons & (1<<PC0)) == 1)
+	if ((buttons & (1<<PC0)) == COL0)
 	{
 		//Button E gedrueckt
 		sum += 0x0E;
 	}
-	if ((buttons & (1<<PC1)) == 1)
+	if ((buttons & (1<<PC1)) == COL1)
 	{
 		//Button 10 gedrueckt
 		sum += 10;
 	}
-	if ((buttons & (1<<PC2)) == 1)
+	if ((buttons & (1<<PC2)) == COL2)
 	{
 		//Button F gedrueckt
 		sum += 0x0F;
 	}
-	if ((buttons & (1<<PC3)) == 1)
+	if ((buttons & (1<<PC3)) == COL3)
 	{
 		//Button D gedrueckt
 		sum += 0x0D;
@@ -194,6 +220,6 @@ uint8_t readKeypad() {
 /************************************************************************/
 /* Anzeigen der Summe                                                   */
 /************************************************************************/
-showButtonValue(uint8_t sum) {
+void showButtonValue(uint8_t sum) {
 	OUTPORT = sum;
 }

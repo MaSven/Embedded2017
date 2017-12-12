@@ -57,7 +57,13 @@ uint8_t pattern_save_get_next(pattern_save_t *pattern_save)
 {
 	uint8_t buffer = pattern_save_get_next_with_index(pattern_save, pattern_save->index);
 	pattern_save->index += 2;
-	return buffer;
+	if(buffer==3){
+		return 1;
+	}else if(buffer==2){
+		return 2;
+	}else if(buffer==1){
+		return 4;
+	}return 8;
 }
 
 uint8_t pattern_save_save_new_pattern(pattern_save_t *pattern_save, uint8_t pattern)
@@ -83,4 +89,13 @@ uint8_t pattern_save_set_iterator_begin(pattern_save_t *pattern_save)
 void pattern_save_free(pattern_save_t *pattern_save_ptr){
 	free(pattern_save_ptr);
 	pattern_save_ptr=NULL;
+}
+
+void pattern_save_clean(pattern_save_t *pattern_save_ptr){
+	pattern_save_ptr->size=0;
+	pattern_save_ptr->index=0;	
+}
+
+uint8_t pattern_save_get_size(pattern_save_t *pattern_save_ptr){
+	return pattern_save_ptr->size/2;
 }
