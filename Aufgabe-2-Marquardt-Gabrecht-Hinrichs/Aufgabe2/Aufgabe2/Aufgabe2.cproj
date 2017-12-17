@@ -20,12 +20,12 @@
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
-    <RamSnippetAddress />
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
     <UncachedRange />
     <preserveEEPROM>true</preserveEEPROM>
-    <OverrideVtorValue />
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
     <BootSegment>2</BootSegment>
-    <eraseonlaunchrule>1</eraseonlaunchrule>
+    <eraseonlaunchrule>0</eraseonlaunchrule>
     <AsfFrameworkConfig>
       <framework-data xmlns="">
         <options />
@@ -109,13 +109,7 @@
     <Compile Include="includes\adc\adc.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="includes\global.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="includes\lcd\lcd.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="includes\one_wire\one_wire.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\adc\adc.c">
@@ -124,19 +118,14 @@
     <Compile Include="src\lcd\lcd.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\one_wire\one_wire.c">
-      <SubType>compile</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="includes" />
     <Folder Include="includes\adc" />
     <Folder Include="includes\lcd" />
-    <Folder Include="includes\one_wire" />
     <Folder Include="src" />
     <Folder Include="src\adc" />
     <Folder Include="src\lcd" />
-    <Folder Include="src\one_wire" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
