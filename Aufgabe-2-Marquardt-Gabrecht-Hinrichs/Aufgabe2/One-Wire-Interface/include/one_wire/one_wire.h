@@ -11,6 +11,10 @@
     \brief Signalisieren dass OneWire nicht mehr benutzt wird
 */
 void one_wire_deactivate();
+/**
+Bereite OneWire interface darauf vor, das etwas gesendet werden könnte
+*/
+void one_wire_init();
 
 
 #endif /* ONE_WIRE_H_ */
