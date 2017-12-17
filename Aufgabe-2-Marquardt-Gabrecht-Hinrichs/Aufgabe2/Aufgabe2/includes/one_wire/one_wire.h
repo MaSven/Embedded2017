@@ -10,7 +10,7 @@
 #define ONE_WIRE_H_
 
 
-
+one_wire_deactivate();
 
 
 #endif /* ONE_WIRE_H_ */

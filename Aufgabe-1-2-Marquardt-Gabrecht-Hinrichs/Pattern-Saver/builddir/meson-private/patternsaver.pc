@@ -1,0 +1,9 @@
+prefix=/usr/local
+libdir=${prefix}/lib64
+includedir=${prefix}/include
+
+Name: libpatternsaver
+Description: Speichert patterns
+Version: 1.0
+Libs: -L${libdir} -lpatternsaver
+Cflags: -I${includedir}

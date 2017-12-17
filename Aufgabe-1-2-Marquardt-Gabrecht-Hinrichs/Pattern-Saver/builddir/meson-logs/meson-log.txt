@@ -1,0 +1,27 @@
+Build started at 2017-11-21T10:01:19.396069
+Python binary: /usr/bin/python3
+Python system: Linux
+The Meson build system
+Version: 0.42.1
+Source dir: /home/eiamnacken/git/Embedded2017/Aufgabe-1-2-Marquardt-Gabrecht-Hinrichs/Pattern-Saver
+Build dir: /home/eiamnacken/git/Embedded2017/Aufgabe-1-2-Marquardt-Gabrecht-Hinrichs/Pattern-Saver/builddir
+Build type: native build
+Project name: patternsaverlib
+Sanity testing C compiler: cc
+Is cross compiler: False.
+Sanity check compiler command line: cc /home/eiamnacken/git/Embedded2017/Aufgabe-1-2-Marquardt-Gabrecht-Hinrichs/Pattern-Saver/builddir/meson-private/sanitycheckc.c -o /home/eiamnacken/git/Embedded2017/Aufgabe-1-2-Marquardt-Gabrecht-Hinrichs/Pattern-Saver/builddir/meson-private/sanitycheckc.exe
+Sanity check compile stdout:
+
+-----
+Sanity check compile stderr:
+
+-----
+Running test binary command: /home/eiamnacken/git/Embedded2017/Aufgabe-1-2-Marquardt-Gabrecht-Hinrichs/Pattern-Saver/builddir/meson-private/sanitycheckc.exe
+Native C compiler: cc (gcc 7.2.0)
+Build machine cpu family: x86_64
+Build machine cpu: x86_64
+Found pkg-config: /usr/bin/pkg-config (0.29.2)
+Determining dependency 'cmocka' with pkg-config executable '/usr/bin/pkg-config'
+Native dependency cmocka found: YES 1.1.0
+Adding test "patternsaverlib test".
+Build targets in project: 2

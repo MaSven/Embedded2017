@@ -1,0 +1,14 @@
+ 0x000000000000000e (SONAME)             Library soname: [libpatternsaver.so]
+__bss_start B
+_edata D
+_end B
+_fini T
+get_nth_bit T
+_init T
+pattern_save_create_new T
+pattern_save_free T
+pattern_save_get_next T
+pattern_save_get_next_with_index T
+pattern_save_has_next T
+pattern_save_save_new_pattern T
+pattern_save_set_iterator_begin T

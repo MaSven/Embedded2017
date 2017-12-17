@@ -1,0 +1,50 @@
+Log of Meson test suite run on 2017-11-21T10:08:18.691464
+
+1/1 patternsaverlib test                    OK       0.00 s
+
+--- command ---
+/home/eiamnacken/git/Embedded2017/Aufgabe-1-2-Marquardt-Gabrecht-Hinrichs/Pattern-Saver/builddir/test/testexe
+--- stdout ---
+mask: 3 bitfield: 194 
+bitfieldshift: 194 
+2 value
+mask: 3 bitfield: 12 
+bitfieldshift: 3 
+3 index: 0 pattern: 3
+mask: 3 bitfield: 3 
+bitfieldshift: 3 
+3 index: 0 
+Alter wert 3
+3 index: 2 pattern: 0
+mask: 3 bitfield: 3 
+bitfieldshift: 0 
+0 index: 2 
+Alter wert 0
+3 index: 0 pattern: 3
+mask: 3 bitfield: 3 
+bitfieldshift: 3 
+3 index: 4 
+Alter wert 3
+3 index: 2 pattern: 0
+mask: 3 bitfield: 3 
+bitfieldshift: 0 
+0 index: 6 
+Alter wert 0
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+  <testsuite name="tests" time="0.070" tests="3" failures="0" errors="0" skipped="0" >
+    <testcase name="test_copy_n_bits" time="0.053" >
+    </testcase>
+    <testcase name="test_create_pattern_save" time="0.006" >
+    </testcase>
+    <testcase name="test_create_new_pattern" time="0.011" >
+    </testcase>
+  </testsuite>
+</testsuites>
+-------
+
+
+OK:         1
+FAIL:       0
+SKIP:       0
+TIMEOUT:    0
