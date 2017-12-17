@@ -12,6 +12,14 @@
 #define TEMPERATURE_REGISTER DDRB
 #define TEMPERATURE_PORT PORTB
 
+inline void set_temperature_port_off(){
+	TEMPERATURE_PORT = (0<<PORTB2);
+}
+
+inline void set_temperature_port_on(){
+	TEMPERATURE_PORT = (1<<PORTB2);
+}
+
 void one_wire_deactivate(){
 	TEMPERATURE_REGISTER = (1<<DDB2);
 	TEMPERATURE_PORT = (0<<PORTB2);
@@ -27,3 +35,6 @@ void reset(){
 	_delay_us(70);
 	uint8_t read_slave_count = PORTB;
 }
+
+
+
