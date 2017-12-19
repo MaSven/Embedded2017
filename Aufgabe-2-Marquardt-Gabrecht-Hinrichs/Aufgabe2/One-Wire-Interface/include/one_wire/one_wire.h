@@ -15,6 +15,10 @@ void one_wire_deactivate();
 Bereite OneWire interface darauf vor, das etwas gesendet werden könnte
 */
 void one_wire_init();
+/*
+Reset befehl für onewire. Sollte ein 1 liefern wenn es ein onewire device gibt
+*/
+uint8_t one_wire_reset();
 
 
 #endif /* ONE_WIRE_H_ */

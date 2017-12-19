@@ -7,11 +7,16 @@
 
 
 #include <avr/io.h>
-
+#include "global.h"
+#include "one_wire/one_wire.h"
 int main(void)
 {
     while(1)
     {
-        //TODO:: Please write your application code 
+        DDRD = 0xFF;
+        PORTD = 0xFF;
+        uint8_t watch_for_1_wire = one_wire_reset();
+        PIND = watch_for_1_wire;
+        _delay_ms(500*4);
     }
 }
