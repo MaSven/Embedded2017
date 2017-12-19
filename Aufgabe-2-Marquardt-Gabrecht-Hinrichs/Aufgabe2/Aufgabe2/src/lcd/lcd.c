@@ -13,15 +13,18 @@ void lcd_init(void)
 	// Warten auf interne Initialisierung
 	_delay_ms(15);
 	// Umschalten in 8-Bit Modus
-	lcd_send_command(LCD_EIGHT_BIT_MODE_COMMAND);
+	LCDPORT |= LCD_EIGHT_BIT_MODE_COMMAND;
+	lcd_send_enable_pulse();
 	_delay_ms(LCD_EIGHT_BIT_DELAY_1_MS);
-	lcd_send_command(LCD_EIGHT_BIT_MODE_COMMAND);
+	lcd_send_enable_pulse();
 	_delay_us(LCD_EIGHT_BIT_DELAY_2_US);
-	lcd_send_command(LCD_EIGHT_BIT_MODE_COMMAND);
+	lcd_send_enable_pulse();
 	_delay_us(LCD_COMMAND_DELAY_US);
 	// Umschalten in 4-Bit-Modus
-	lcd_send_command(LCD_FOUR_BIT_MODE_COMMAND);
+	LCDPORT &= ~(LCD_EIGHT_BIT_MODE_COMMAND);
+	LCDPORT |= LCD_FOUR_BIT_MODE_COMMAND;
 	_delay_us(LCD_COMMAND_DELAY_US);
+	LCDPORT &= ~(LCD_FOUR_BIT_MODE_COMMAND);
 	// Display loeschen
 	lcd_clear();	
 }
