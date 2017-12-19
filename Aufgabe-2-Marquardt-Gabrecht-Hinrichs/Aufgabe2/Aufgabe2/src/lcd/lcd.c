@@ -29,6 +29,7 @@ void lcd_init(void)
 	lcd_send_command((LCD_FUNCTION_SET)|(LCD_FUNCTION_SET_TWO_LINES)|(LCD_FUNCTION_SET_EIGHT_DOTS));
 	_delay_us(LCD_COMMAND_DELAY_US);
 	lcd_send_command((LCD_DISPLAY_ON_OFF_CONTROL)|(LCD_DISPLAY_ON_OFF_CONTROL_BLINK_ON)|(LCD_DISPLAY_ON_OFF_CONTROL_CURSOR_ON)|(LCD_DISPLAY_ON_OFF_CONTROL_DISPLAY_ON));
+	_delay_us(LCD_COMMAND_DELAY_US);
 	// Display loeschen
 	lcd_clear();	
 }
@@ -86,11 +87,18 @@ void lcd_send_char(uint8_t character)
 	_delay_us(LCD_DATA_DELAY_US);
 }
 
-void lcd_send_string(const char *string, uint8_t length)
+void lcd_send_string(const char *string)
 {
-	for (int i=0; i<length;i++)
+	for (int i=0;;i++)
 	{
-		lcd_send_char(string[i]);
+		if(string[i] == '\0')
+		{
+			break;
+		}
+		else
+		{
+			lcd_send_char(string[i]);
+		}
 	}
 }
 
