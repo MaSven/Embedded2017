@@ -44,7 +44,7 @@ void lcd_send_char(uint8_t character);
 /************************************************************************/
 /* Senden eines Strings an das Display                                  */
 /************************************************************************/
-void lcd_send_string(const char *string, uint8_t length);
+void lcd_send_string(const char *string);
 
 /************************************************************************/
 /* Senden eines Befehls an das Display                                  */
