@@ -9,13 +9,12 @@
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <delay.h>
-#include <inttypes.h>
-
 #define F_CPU 8000000UL
 
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <util/delay.h>
+#include <inttypes.h>
 
 //IO
 //SENSORS
@@ -54,16 +53,23 @@
 #define ONEWIRE_DELAY_I_US 70
 #define ONEWIRE_DELAY_J_US 410
 //LCD
-#define LCD_DELAY_CLEAR_DISPLAY_MS 2
-#define LCD_DELAY_CURSOR_HOME_MS 2
-#define LCD_DELAY_ENTRY_MODE_SET_US 40
-#define LCD_DELAY_DISPLAY_ON_OFF_US 40
-#define LCD_DELAY_CURSOR_DISPLAY_SHIFT_US 40
-#define LCD_DELAY_FUNCTION_SET_US 40
-#define LCD_DELAY_CG_RAM_ADRESS_SET_US 40
-#define LCD_DELAY_DD_RAM_ADRESS_SET_US 40
-#define LCD_DELAY_BUSY_FLAG_ADRESS_READ_US 40
-#define LCD_DELAY_CG_RAM_DD_RAM_DATA_WRITE_US 40
-#define LCD_DELAY_CG_RAM_DD_RAM_DATA_READ_US 40
+#define LCD_ENABLE_PULSE_US 3
+#define LCD_DATA_DELAY_US 45
+#define LCD_COMMAND_DELAY_US 40
+#define LCD_CLEAR_DELAY_MS 2
+#define LCD_CURSOR_HOME_DELAY_MS 2
+#define LCD_EIGHT_BIT_DELAY_1_MS 5
+#define LCD_EIGHT_BIT_DELAY_2_US 100
+
+//COMMANDS
+//LCD
+#define LCD_COMMAND_RS 0
+#define LCD_COMMAND_RW 0
+#define LCD_CLEAR_DISPLAY_COMMAND 0b00000001
+#define LCD_CURSOR_HOME_COMMAND 0b00000010
+#define LCD_CURSOR_MOVE_RIGHT_COMMAND 0b00010100
+#define LCD_EIGHT_BIT_MODE_COMMAND 0b00111000
+#define LCD_FOUR_BIT_MODE_COMMAND 0b00101000
+
 
 #endif /* GLOBAL_H_ */
