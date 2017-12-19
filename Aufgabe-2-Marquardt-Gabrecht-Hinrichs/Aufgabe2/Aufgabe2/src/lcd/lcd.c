@@ -25,6 +25,9 @@ void lcd_init(void)
 	LCDPORT |= LCD_FOUR_BIT_MODE_COMMAND;
 	_delay_us(LCD_COMMAND_DELAY_US);
 	LCDPORT &= ~(LCD_FOUR_BIT_MODE_COMMAND);
+	// LCD an
+	lcd_send_command(0x0F);
+	_delay_us(LCD_COMMAND_DELAY_US);
 	// Display loeschen
 	lcd_clear();	
 }
