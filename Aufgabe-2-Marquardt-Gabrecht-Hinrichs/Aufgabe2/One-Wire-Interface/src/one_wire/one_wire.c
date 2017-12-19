@@ -4,7 +4,11 @@
 * Created: 11.12.2017 22:11:02
 *  Author: Matthias Hinrichs
 */
-
+/************************************************************************/
+/* Step 1. Initialization
+Step 2. ROM Command (followed by any required data exchange)
+Step 3. DS18S20 Function Command (followed by any required data exchange)                                                                     */
+/************************************************************************/
 
 #include <avr/io.h>
 #include  <avr/cpufunc.h>
