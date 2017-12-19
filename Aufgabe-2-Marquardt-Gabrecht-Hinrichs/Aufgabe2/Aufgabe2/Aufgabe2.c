@@ -14,9 +14,12 @@ int main(void)
     while(1)
     {
         DDRD = 0xFF;
-        PORTD = 0xFF;
+        PORTD = 0x00;
         uint8_t watch_for_1_wire = one_wire_reset();
-        PIND = watch_for_1_wire;
-        _delay_ms(500*4);
+        PORTD = watch_for_1_wire;
+        _delay_ms(500);
+		PORTD = 0xF0;
+		_delay_ms(500);
+		PORTD = watch_for_1_wire;
     }
 }

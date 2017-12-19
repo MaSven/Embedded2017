@@ -16,7 +16,7 @@
 Setze den Temperaturport als eingang
 */
 inline void set_port_input(){
-    TEMPDDR &= (1 << TEMPPIN);
+    TEMPDDR &= ~(1 << TEMPPIN);
 }
 /**
 Setze den Temperaturport aus ausgang
@@ -72,7 +72,7 @@ uint8_t reset(){
     _delay_us(ONEWIRE_DELAY_H_US);
     set_temperature_port_off();
     _delay_us(ONEWIRE_DELAY_I_US);
-    uint8_t read_slave_count = (TEMPPORT<<TEMPPIN);//Warten auf slave
+    uint8_t read_slave_count = read_bit_of_port();
     _delay_us(ONEWIRE_DELAY_J_US);
     return read_slave_count;
 }
