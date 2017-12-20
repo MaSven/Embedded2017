@@ -11,6 +11,8 @@ void adc_init(void)
 	// VCC als Referenzspannung
 	// Ausrichtung linksbuendig (nur ADCH auslesen ergibt 8-Bit)
 	ADMUX = ((1<<REFS0)|(1<<ADLAR));
+	// Hygropin als Kanal
+	ADMUX |= HYGROPIN;
 	// AD-Wandler einschalten
 	// ADC-Frequenz sollte laut mikrocontroller.net zwischen 50kHz und 200kHz liegen
 	// 1.000.000 /  50.000 = 160
@@ -27,12 +29,8 @@ void adc_init(void)
 	(void) ADCW;
 }
 
-uint8_t adc_read(uint8_t channel)
+uint8_t adc_read(void)
 {
-	// Bits 4:0 loeschen
-	ADMUX &= ((1<<REFS1)|(1<<REFS0)|(1<<ADLAR));
-	// Kanal einstellen (Welcher Pin)
-	ADMUX |= channel;
 	// AD-Wandlung starten
 	ADCSRA |= (1<<ADSC);
 	// Auf Ende der Wandlung warten
