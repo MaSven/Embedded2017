@@ -8,6 +8,7 @@
 
 #include <avr/io.h>
 #include  <avr/cpufunc.h>
+#define F_CPU 8000000UL
 #include <util/delay.h>
 #include "one_wire/one_wire.h"
 #include "global.h"
@@ -15,7 +16,7 @@
 Setze den Temperaturport als eingang
 */
 inline void set_port_input(){
-    TEMPDDR &= (1 << TEMPPIN);
+    TEMPDDR &= ~(1 << TEMPPIN);
 }
 /**
 Setze den Temperaturport aus ausgang
@@ -35,7 +36,7 @@ inline void set_temperature_port_off(){
 Setze den Temperaturport auf high
 */
 inline void set_temperature_port_on(){
-    Sende |= (1<<TEMPPIN);
+    TEMPPORT |= (1<<TEMPPIN);
 }
 
 inline uint8_t read_bit_of_port(){
@@ -71,7 +72,7 @@ uint8_t reset(){
     _delay_us(ONEWIRE_DELAY_H_US);
     set_temperature_port_off();
     _delay_us(ONEWIRE_DELAY_I_US);
-    uint8_t read_slave_count = (TEMPPORT<<TEMPPIN);//Warten auf slave
+    uint8_t read_slave_count = read_bit_of_port();
     _delay_us(ONEWIRE_DELAY_J_US);
     return read_slave_count;
 }
@@ -103,7 +104,7 @@ uint8_t read_one_bit(){
 }
 
 uint8_t read_byte(){
-    uint8_t result;
+    uint8_t result=0;
     for(uint8_t i = 0;i<8;i++){
         result >>=1;
         if(read_one_bit()){
@@ -113,18 +114,18 @@ uint8_t read_byte(){
     return result;
 }
 
-uint8_t write_byte(uint8_t byte){
+void write_byte(uint8_t byte){
     for(uint8_t i=0;i<8;i++){
-        write_one_bit(data & 0x01);
-        data >>=1;
+        write_one_bit(byte & 0x01);
+        byte >>=1;
     }
 }
 
 uint8_t write_and_result(uint8_t byte){
-    uint8_t result;
+    uint8_t result=0;
     for(uint8_t i=0;i<8;i++){
         result >>=1;
-        if(data & 0x01){
+        if(byte & 0x01){
             if(read_one_bit()){
                 result |= 0x80;
             }
@@ -143,3 +144,6 @@ void write_byte_block(uint8_t *data,uint8_t data_len){
 
 
 
+uint8_t one_wire_reset(){
+    return reset();
+}
