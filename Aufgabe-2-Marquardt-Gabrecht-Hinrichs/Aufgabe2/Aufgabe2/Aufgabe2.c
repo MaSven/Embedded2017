@@ -26,12 +26,12 @@
 #define DISPLAY_TIME_TEMP 11
 #define DISPLAY_TIME_TEMP_LF 12
 
-uint8_t menue_state = IDLE;
-uint8_t display_state = MENUE_DISPLAY_TIME;
-uint8_t enter_was_pressed = 0;
-uint8_t up_was_pressed = 0;
-uint8_t down_was_pressed = 0;
-uint8_t key_was_pressed = 0;
+uint8_t volatile menue_state = IDLE;
+uint8_t volatile display_state = MENUE_DISPLAY_TIME;
+uint8_t volatile enter_was_pressed = 0;
+uint8_t volatile up_was_pressed = 0;
+uint8_t volatile down_was_pressed = 0;
+uint8_t volatile key_was_pressed = 0;
 uint8_t volatile IOInterruptEnabled = 1;
 volatile uint8_t Lastbutton =0;
 
@@ -45,7 +45,7 @@ ISR (PCINT0_vect){
 	volatile uint8_t button = PINA & ((1<<UP)|(1<<DOWN)|(1<<ENTER)|(1<<CANCEL));
 	if(!button){
 		if(IOInterruptEnabled) {
-			IOInterruptEnabled = 0;
+			//IOInterruptEnabled = 0;
 			key_was_pressed = 1;
 			if(Lastbutton == (1<<CANCEL)){
 				menue_state = IDLE;
@@ -74,19 +74,19 @@ int main(void)
 	cli();
 	external_interrupt_init();
 	sei();
-    while(1)
-    {
-		switch (menue_state)
-		{
+    while(1) {
+		switch (menue_state) {
 		case IDLE:
 			// LCD Display Mode
 			break;
 		case MENUE_TIME:
 		//LCD Zeit einstellen
+			key_was_pressed = 0;
 			while (key_was_pressed == 0)
 			{
 				
 			}
+			key_was_pressed = 0;
 			if (enter_was_pressed)
 			{
 				menue_state = MENUE_TIME_EDIT_H;
@@ -106,6 +106,7 @@ int main(void)
 			break;
 		case MENUE_TIME_EDIT_H:
 		//LCD 
+			key_was_pressed = 0;
 			while (key_was_pressed == 0)
 			{
 				
@@ -130,6 +131,7 @@ int main(void)
 			break;
 		case MENUE_DISPLAY:
 			// LCD Nur Urzeit
+			key_was_pressed = 0;
 			while (key_was_pressed == 0)
 			{
 				
@@ -153,6 +155,7 @@ int main(void)
 			key_was_pressed = 0;
 			break;
 		case MENUE_DISPLAY_TIME:
+			key_was_pressed = 0;
 			//LCD Nur Uhrzeit
 			while (key_was_pressed == 0)
 			{
@@ -178,6 +181,7 @@ int main(void)
 			key_was_pressed = 0;
 			break;
 		case MENUE_DISPLAY_TIME_TEMP:
+			key_was_pressed = 0;
 			//LCD Nur Uhrzeit
 			while (key_was_pressed == 0)
 			{
@@ -203,6 +207,7 @@ int main(void)
 			key_was_pressed = 0;
 			break;
 		case MENUE_DISPLAY_TIME_TEMP_LF:
+			key_was_pressed = 0;
 			//LCD Nur Uhrzeit
 			while (key_was_pressed == 0)
 			{
@@ -227,6 +232,8 @@ int main(void)
 			down_was_pressed = 0;
 			key_was_pressed = 0;
 			break;
+			default :
+			break; 
 		}
 	}
 }
