@@ -327,6 +327,6 @@ __pycache__/
 *.atsuo
 
 # End of https://www.gitignore.io/api/atmelstudio
-*/builddir/*
-*/.vscode/*
-*/builddir/*
+builddir/
+.vscode/
+doxygen/

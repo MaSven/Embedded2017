@@ -16,14 +16,16 @@
 #include <util/delay.h>
 #include <inttypes.h>
 
+
 //IO
 //SENSORS
 #define HYGROPORT PORTA
 #define HYGRODDR DDRA
-#define HYGROPIN PA1
+#define HYGROPIN PA2
 #define TEMPPORT PORTB
 #define TEMPDDR DDRB
 #define TEMPPIN PB2
+#define TEMPPININPUT PINB
 //BUTTONS
 #define BTNPORT PORTA
 #define BTNDDR DDRA
