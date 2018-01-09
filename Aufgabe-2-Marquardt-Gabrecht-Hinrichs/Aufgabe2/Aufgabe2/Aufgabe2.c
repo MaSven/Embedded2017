@@ -7,11 +7,21 @@
 
 
 #include <avr/io.h>
+#include <stdlib.h>
+#include "global.h"
+#include "adc/adc.h"
+#include "lcd/lcd.h"
 
 int main(void)
 {
+	lcd_init();
+	adc_init();
     while(1)
     {
-        //TODO:: Please write your application code 
+          
+		  uint8_t adc = adc_read();
+		  char adc_string[4];
+		  itoa(adc,adc_string,10);
+		  lcd_send_string("Hallo Welt");
     }
 }
