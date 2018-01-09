@@ -9,6 +9,7 @@
 
 #include <avr/io.h>
 #include <inttypes.h>
+#include "global.h"
 
 /************************************************************************/
 /* Initialisierung des AD-Wandlers                                      */
@@ -18,6 +19,6 @@ void adc_init(void);
 /************************************************************************/
 /* Auslesen der AD-Wandlung												*/
 /************************************************************************/
-uint8_t adc_read(uint8_t channel);
+uint8_t adc_read(void);
 
 #endif /* ADC_H_ */

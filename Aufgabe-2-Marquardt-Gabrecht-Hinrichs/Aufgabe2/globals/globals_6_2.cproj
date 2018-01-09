@@ -110,12 +110,5 @@
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\One-Wire-Interface\One-Wire-Interface.cproj">
-      <Name>One-Wire-Interface</Name>
-      <Project>{37c6aa92-a723-45b3-bf69-a5d00a55837f}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

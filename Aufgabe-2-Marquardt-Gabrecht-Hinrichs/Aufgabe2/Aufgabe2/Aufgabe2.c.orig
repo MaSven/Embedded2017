@@ -9,20 +9,33 @@
 #include <avr/io.h>
 #include <stdlib.h>
 #include "global.h"
+<<<<<<< HEAD
 #include "one_wire/ds18s20.h"
-#include "lcd.h"
+=======
+#include "adc/adc.h"
+>>>>>>> adc-fix
+#include "lcd/lcd.h"
 
 int main(void)
 {
 	LCDDDR = 0xFF;
 	LCDPORT = 0x00;
 	lcd_init();
+<<<<<<< HEAD
+=======
+	adc_init();
+>>>>>>> adc-fix
 	while(1)
 	{
 		_delay_ms(500);
 		lcd_clear();
+<<<<<<< HEAD
 		uint8_t temp = ds18s20_read_temperature();
 		char adc_string[STRING_CPACITY];
+=======
+		uint8_t adc = adc_read();
+		char adc_string[4];
+>>>>>>> adc-fix
 		itoa(adc,adc_string,10);
 		lcd_send_string(adc_string);
 	}
