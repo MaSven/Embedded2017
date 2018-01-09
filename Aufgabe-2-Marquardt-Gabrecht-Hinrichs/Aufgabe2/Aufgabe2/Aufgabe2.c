@@ -27,13 +27,13 @@ int main(void)
 		lcd_clear();
 		uint8_t hygro = hygro_read();
 		char hygro_string[4];
-		itoa(adc,hygro_string,10);
+		itoa(hygro,hygro_string,10);
 		lcd_send_string(hygro_string);
 	}
 }
 
 uint8_t hygro_read(void)
 {
-	uint8_t value = ADC_MAP_FACTOR/adc_read();
+	uint8_t value = adc_read()/ADC_MAP_FACTOR;
 	return value;
 }
