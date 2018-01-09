@@ -2,17 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Atmel Studio Solution File, Format Version 11.00
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Aufgabe2", "Aufgabe2\Aufgabe2.cproj", "{31A1D0CA-15FD-4168-BACC-30ED88EA218F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5394E634-4438-42E0-AC86-AFEC9DED8AED} = {5394E634-4438-42E0-AC86-AFEC9DED8AED}
-		{37C6AA92-A723-45B3-BF69-A5D00A55837F} = {37C6AA92-A723-45B3-BF69-A5D00A55837F}
-	EndProjectSection
-EndProject
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "One-Wire-Interface", "One-Wire-Interface\One-Wire-Interface.cproj", "{37C6AA92-A723-45B3-BF69-A5D00A55837F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5394E634-4438-42E0-AC86-AFEC9DED8AED} = {5394E634-4438-42E0-AC86-AFEC9DED8AED}
-	EndProjectSection
-EndProject
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "globals", "globals\globals.cproj", "{5394E634-4438-42E0-AC86-AFEC9DED8AED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,14 +13,6 @@ Global
 		{31A1D0CA-15FD-4168-BACC-30ED88EA218F}.Debug|AVR.Build.0 = Debug|AVR
 		{31A1D0CA-15FD-4168-BACC-30ED88EA218F}.Release|AVR.ActiveCfg = Release|AVR
 		{31A1D0CA-15FD-4168-BACC-30ED88EA218F}.Release|AVR.Build.0 = Release|AVR
-		{37C6AA92-A723-45B3-BF69-A5D00A55837F}.Debug|AVR.ActiveCfg = Debug|AVR
-		{37C6AA92-A723-45B3-BF69-A5D00A55837F}.Debug|AVR.Build.0 = Debug|AVR
-		{37C6AA92-A723-45B3-BF69-A5D00A55837F}.Release|AVR.ActiveCfg = Release|AVR
-		{37C6AA92-A723-45B3-BF69-A5D00A55837F}.Release|AVR.Build.0 = Release|AVR
-		{5394E634-4438-42E0-AC86-AFEC9DED8AED}.Debug|AVR.ActiveCfg = Debug|AVR
-		{5394E634-4438-42E0-AC86-AFEC9DED8AED}.Debug|AVR.Build.0 = Debug|AVR
-		{5394E634-4438-42E0-AC86-AFEC9DED8AED}.Release|AVR.ActiveCfg = Release|AVR
-		{5394E634-4438-42E0-AC86-AFEC9DED8AED}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
