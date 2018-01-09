@@ -48,6 +48,7 @@ C_SRCS +=  \
 ../Aufgabe2.c \
 ../src/adc/adc.c \
 ../src/lcd/lcd.c \
+../src/one_wire/ds18s20.c \
 ../src/one_wire/one_wire.c
 
 
@@ -61,24 +62,28 @@ OBJS +=  \
 Aufgabe2.o \
 src/adc/adc.o \
 src/lcd/lcd.o \
+src/one_wire/ds18s20.o \
 src/one_wire/one_wire.o
 
 OBJS_AS_ARGS +=  \
 Aufgabe2.o \
 src/adc/adc.o \
 src/lcd/lcd.o \
+src/one_wire/ds18s20.o \
 src/one_wire/one_wire.o
 
 C_DEPS +=  \
 Aufgabe2.d \
 src/adc/adc.d \
 src/lcd/lcd.d \
+src/one_wire/ds18s20.d \
 src/one_wire/one_wire.d
 
 C_DEPS_AS_ARGS +=  \
 Aufgabe2.d \
 src/adc/adc.d \
 src/lcd/lcd.d \
+src/one_wire/ds18s20.d \
 src/one_wire/one_wire.d
 
 OUTPUT_FILE_PATH +=Aufgabe2.elf
@@ -95,6 +100,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

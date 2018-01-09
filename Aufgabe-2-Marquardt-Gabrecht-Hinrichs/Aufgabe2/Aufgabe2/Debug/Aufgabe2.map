@@ -1,11 +1,21 @@
 Archive member included because of file (symbol)
 
+c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_divmodhi4.o)
+                              src/one_wire/ds18s20.o (__divmodhi4)
 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
                               c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm644pa.o (exit)
 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_copy_data.o)
                               Aufgabe2.o (__do_copy_data)
 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
                               Aufgabe2.o (__do_clear_bss)
+c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_udivmodhi4.o)
+                              c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_divmodhi4.o) (__udivmodhi4)
+c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(itoa_ncheck.o)
+                              src/one_wire/ds18s20.o (__itoa_ncheck)
+c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(utoa_ncheck.o)
+                              c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(itoa_ncheck.o) (__utoa_common)
+c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(strrev.o)
+                              c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(utoa_ncheck.o) (strrev)
 
 Discarded input sections
 
@@ -27,7 +37,7 @@ Discarded input sections
                 0x00000000       0x28 src/adc/adc.o
  .debug_ranges  0x00000000       0x18 src/adc/adc.o
  .debug_line    0x00000000       0xcf src/adc/adc.o
- .debug_str     0x00000000      0x18d src/adc/adc.o
+ .debug_str     0x00000000      0x183 src/adc/adc.o
  .comment       0x00000000       0x31 src/adc/adc.o
  .debug_frame   0x00000000       0x34 src/adc/adc.o
  .text          0x00000000        0x0 src/lcd/lcd.o
@@ -37,12 +47,83 @@ Discarded input sections
                 0x00000000       0x14 src/lcd/lcd.o
  .text.lcd_set_cursor
                 0x00000000       0x2e src/lcd/lcd.o
+ .text          0x00000000        0x0 src/one_wire/ds18s20.o
+ .data          0x00000000        0x0 src/one_wire/ds18s20.o
+ .bss           0x00000000        0x0 src/one_wire/ds18s20.o
+ .text.crc_check
+                0x00000000       0x1a src/one_wire/ds18s20.o
+ .text.check_scratchpad_data
+                0x00000000       0x56 src/one_wire/ds18s20.o
+ .text.ls_and_ms_to_temperature
+                0x00000000       0x1e src/one_wire/ds18s20.o
+ .text.ds18s20_read_temperature
+                0x00000000       0xd0 src/one_wire/ds18s20.o
+ .text.ds18s20_temperature_as_string
+                0x00000000       0x74 src/one_wire/ds18s20.o
+ .debug_info    0x00000000      0x527 src/one_wire/ds18s20.o
+ .debug_abbrev  0x00000000      0x262 src/one_wire/ds18s20.o
+ .debug_loc     0x00000000      0x4d8 src/one_wire/ds18s20.o
+ .debug_aranges
+                0x00000000       0x40 src/one_wire/ds18s20.o
+ .debug_ranges  0x00000000       0x48 src/one_wire/ds18s20.o
+ .debug_line    0x00000000      0x1ee src/one_wire/ds18s20.o
+ .debug_str     0x00000000      0x345 src/one_wire/ds18s20.o
+ .comment       0x00000000       0x31 src/one_wire/ds18s20.o
+ .debug_frame   0x00000000       0xc4 src/one_wire/ds18s20.o
  .text          0x00000000        0x0 src/one_wire/one_wire.o
  .data          0x00000000        0x0 src/one_wire/one_wire.o
  .bss           0x00000000        0x0 src/one_wire/one_wire.o
- .debug_line    0x00000000        0x0 src/one_wire/one_wire.o
- .debug_str     0x00000000        0x0 src/one_wire/one_wire.o
+ .text.one_wire_init
+                0x00000000        0x6 src/one_wire/one_wire.o
+ .text.reset    0x00000000       0x2c src/one_wire/one_wire.o
+ .text.write_one_bit
+                0x00000000       0x2c src/one_wire/one_wire.o
+ .text.read_one_bit
+                0x00000000       0x20 src/one_wire/one_wire.o
+ .text.read_byte
+                0x00000000       0x1e src/one_wire/one_wire.o
+ .text.write_byte
+                0x00000000       0x1c src/one_wire/one_wire.o
+ .text.write_and_result
+                0x00000000       0x34 src/one_wire/one_wire.o
+ .text.write_byte_block
+                0x00000000       0x2c src/one_wire/one_wire.o
+ .text.one_wire_reset
+                0x00000000        0x6 src/one_wire/one_wire.o
+ .text.one_wire_write_byte
+                0x00000000        0x6 src/one_wire/one_wire.o
+ .text.one_wire_read_write_byte
+                0x00000000        0x6 src/one_wire/one_wire.o
+ .text.one_wire_read_bit
+                0x00000000        0x6 src/one_wire/one_wire.o
+ .text.one_wire_read_byte
+                0x00000000        0x6 src/one_wire/one_wire.o
+ .debug_info    0x00000000      0x712 src/one_wire/one_wire.o
+ .debug_abbrev  0x00000000      0x249 src/one_wire/one_wire.o
+ .debug_loc     0x00000000      0x3f5 src/one_wire/one_wire.o
+ .debug_aranges
+                0x00000000       0x80 src/one_wire/one_wire.o
+ .debug_ranges  0x00000000       0x70 src/one_wire/one_wire.o
+ .debug_line    0x00000000      0x2b1 src/one_wire/one_wire.o
+ .debug_str     0x00000000      0x310 src/one_wire/one_wire.o
  .comment       0x00000000       0x31 src/one_wire/one_wire.o
+ .debug_frame   0x00000000      0x120 src/one_wire/one_wire.o
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_divmodhi4.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_divmodhi4.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_divmodhi4.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_divmodhi4.o)
+ .text.libgcc.div
+                0x00000000       0x28 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_divmodhi4.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_divmodhi4.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_divmodhi4.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_divmodhi4.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_divmodhi4.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_divmodhi4.o)
  .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
@@ -91,6 +172,37 @@ Discarded input sections
                 0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.fixed
                 0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_clear_bss.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_udivmodhi4.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_udivmodhi4.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.div
+                0x00000000       0x28 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_udivmodhi4.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_udivmodhi4.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(itoa_ncheck.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(itoa_ncheck.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(itoa_ncheck.o)
+ .text.avr-libc
+                0x00000000       0x16 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(itoa_ncheck.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(utoa_ncheck.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(utoa_ncheck.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(utoa_ncheck.o)
+ .text.avr-libc
+                0x00000000       0x34 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(utoa_ncheck.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(strrev.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(strrev.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(strrev.o)
+ .text.avr-libc
+                0x00000000       0x20 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libc.a(strrev.o)
 
 Memory Configuration
 
@@ -111,6 +223,7 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-
 LOAD Aufgabe2.o
 LOAD src/adc/adc.o
 LOAD src/lcd/lcd.o
+LOAD src/one_wire/ds18s20.o
 LOAD src/one_wire/one_wire.o
 START GROUP
 LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5\libm.a
@@ -497,12 +610,12 @@ END GROUP
  .debug_frame   0x00000000       0x64 Aufgabe2.o
  .debug_frame   0x00000064       0xcc src/lcd/lcd.o
 
-.debug_str      0x00000000      0x2db
+.debug_str      0x00000000      0x2d1
  *(.debug_str)
- .debug_str     0x00000000      0x202 Aufgabe2.o
-                                0x242 (size before relaxing)
- .debug_str     0x00000202       0xd9 src/lcd/lcd.o
-                                0x278 (size before relaxing)
+ .debug_str     0x00000000      0x1f8 Aufgabe2.o
+                                0x238 (size before relaxing)
+ .debug_str     0x000001f8       0xd9 src/lcd/lcd.o
+                                0x26e (size before relaxing)
 
 .debug_loc      0x00000000      0x299
  *(.debug_loc)

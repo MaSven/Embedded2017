@@ -12,8 +12,6 @@ Step 3. DS18S20 Function Command (followed by any required data exchange)       
 
 #include <avr/io.h>
 #include  <avr/cpufunc.h>
-#define F_CPU 8000000UL
-#include <util/delay.h>
 #include "one_wire/one_wire.h"
 #include "global.h"
 /**
