@@ -330,3 +330,4 @@ __pycache__/
 builddir/
 .vscode/
 doxygen/
+**/Debug/**
