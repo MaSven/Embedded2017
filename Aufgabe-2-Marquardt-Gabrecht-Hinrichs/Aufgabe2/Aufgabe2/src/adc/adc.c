@@ -4,7 +4,7 @@
  * Created: 11.12.2017 22:10:42
  *  Author: Matthias Hinrichs
  */ 
-#include "adc.h"
+#include "adc/adc.h"
 
 void adc_init(void)
 {

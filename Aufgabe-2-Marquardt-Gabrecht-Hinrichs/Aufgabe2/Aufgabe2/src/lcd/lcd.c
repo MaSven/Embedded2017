@@ -6,7 +6,7 @@
  */ 
 
 #include "global.h"
-#include "lcd.h"
+#include "lcd/lcd.h"
 
 void lcd_init(void)
 {
