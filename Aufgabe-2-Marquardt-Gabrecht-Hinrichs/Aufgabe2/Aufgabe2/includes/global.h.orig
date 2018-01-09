@@ -10,13 +10,21 @@
 #define GLOBAL_H_
 
 #define F_CPU 8000000UL
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/adc-fix
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <inttypes.h>
 
+<<<<<<< HEAD
 
+
+
+=======
+>>>>>>> origin/adc-fix
 //IO
 //SENSORS
 #define HYGROPORT PORTA

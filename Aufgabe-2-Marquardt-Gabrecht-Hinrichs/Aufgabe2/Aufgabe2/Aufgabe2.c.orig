@@ -1,11 +1,12 @@
 /*
- * Aufgabe2.c
- *
- * Created: 11.12.2017 22:06:28
- *  Author: Matthias Hinrichs
- */ 
+* Aufgabe2.c
+*
+* Created: 11.12.2017 22:06:28
+*  Author: Matthias Hinrichs
+*/
 
 #include <avr/io.h>
+<<<<<<< HEAD
 #include <avr/interrupt.h>		// interrupts
 #include "global.h"
 #include "lcd/lcd.h"
@@ -70,12 +71,19 @@ ISR (PCINT0_vect){
 		Lastbutton = button;
 	}
 }
+=======
+#include <stdlib.h>
+#include "global.h"
+#include "adc/adc.h"
+#include "lcd/lcd.h"
+>>>>>>> origin/adc-fix
 
 int main(void)
 {
 	LCDDDR = 0xFF;
 	LCDPORT = 0x00;
 	lcd_init();
+<<<<<<< HEAD
 	cli();
 	external_interrupt_init();
 	sei();
@@ -86,7 +94,6 @@ int main(void)
 			break;
 		case MENUE_TIME:
 		//LCD Zeit einstellen
-			lcd_clear();
 			lcd_send_string("MENUE_TIME");
 			key_was_pressed = 0;
 			while (key_was_pressed == 0)
@@ -113,7 +120,6 @@ int main(void)
 			break;
 		case MENUE_TIME_EDIT_H:
 		//LCD 
-			lcd_clear();
 			lcd_send_string("MENUE_TIME_EDIT_H");
 			key_was_pressed = 0;
 			while (key_was_pressed == 0)
@@ -140,7 +146,6 @@ int main(void)
 			break;
 		case MENUE_DISPLAY:
 			// LCD Nur Urzeit
-			lcd_clear();
 			lcd_send_string("MENU_DISPLAY");
 			key_was_pressed = 0;
 			while (key_was_pressed == 0)
@@ -168,7 +173,6 @@ int main(void)
 		case MENUE_DISPLAY_TIME:
 			key_was_pressed = 0;
 			//LCD Nur Uhrzeit
-			lcd_clear();
 			lcd_send_string("MENUE_DISPLAY_TIME");
 			while (key_was_pressed == 0)
 			{
@@ -196,7 +200,6 @@ int main(void)
 		case MENUE_DISPLAY_TIME_TEMP:
 			key_was_pressed = 0;
 			//LCD Nur Uhrzeit
-			lcd_clear();
 			lcd_send_string("MENUE_DISPLAY_TIME_TEMP");
 			while (key_was_pressed == 0)
 			{
@@ -224,7 +227,6 @@ int main(void)
 		case MENUE_DISPLAY_TIME_TEMP_LF:
 			key_was_pressed = 0;
 			//LCD Nur Uhrzeit
-			lcd_clear();
 			lcd_send_string("MENUE_DISPLAY_TIME_TEMP_LF");
 			while (key_was_pressed == 0)
 			{
@@ -252,5 +254,16 @@ int main(void)
 			default :
 			break; 
 		}
+=======
+	adc_init();
+	while(1)
+	{
+		_delay_ms(500);
+		lcd_clear();
+		uint8_t adc = adc_read();
+		char adc_string[4];
+		itoa(adc,adc_string,10);
+		lcd_send_string(adc_string);
+>>>>>>> origin/adc-fix
 	}
 }
