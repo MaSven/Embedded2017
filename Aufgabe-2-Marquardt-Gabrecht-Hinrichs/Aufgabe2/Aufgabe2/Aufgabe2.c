@@ -7,6 +7,8 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>		// interrupts
+#include "global.h"
+#include "lcd/lcd.h"
 
 #define UP PA0
 #define DOWN PA3
@@ -71,6 +73,9 @@ ISR (PCINT0_vect){
 
 int main(void)
 {
+	LCDDDR = 0xFF;
+	LCDPORT = 0x00;
+	lcd_init();
 	cli();
 	external_interrupt_init();
 	sei();
@@ -81,6 +86,7 @@ int main(void)
 			break;
 		case MENUE_TIME:
 		//LCD Zeit einstellen
+			lcd_send_string("MENUE_TIME");
 			key_was_pressed = 0;
 			while (key_was_pressed == 0)
 			{
@@ -106,6 +112,7 @@ int main(void)
 			break;
 		case MENUE_TIME_EDIT_H:
 		//LCD 
+			lcd_send_string("MENUE_TIME_EDIT_H");
 			key_was_pressed = 0;
 			while (key_was_pressed == 0)
 			{
@@ -131,6 +138,7 @@ int main(void)
 			break;
 		case MENUE_DISPLAY:
 			// LCD Nur Urzeit
+			lcd_send_string("MENU_DISPLAY");
 			key_was_pressed = 0;
 			while (key_was_pressed == 0)
 			{
@@ -157,6 +165,7 @@ int main(void)
 		case MENUE_DISPLAY_TIME:
 			key_was_pressed = 0;
 			//LCD Nur Uhrzeit
+			lcd_send_string("MENUE_DISPLAY_TIME");
 			while (key_was_pressed == 0)
 			{
 				
@@ -183,6 +192,7 @@ int main(void)
 		case MENUE_DISPLAY_TIME_TEMP:
 			key_was_pressed = 0;
 			//LCD Nur Uhrzeit
+			lcd_send_string("MENUE_DISPLAY_TIME_TEMP");
 			while (key_was_pressed == 0)
 			{
 			
@@ -209,6 +219,7 @@ int main(void)
 		case MENUE_DISPLAY_TIME_TEMP_LF:
 			key_was_pressed = 0;
 			//LCD Nur Uhrzeit
+			lcd_send_string("MENUE_DISPLAY_TIME_TEMP_LF");
 			while (key_was_pressed == 0)
 			{
 				
