@@ -62,12 +62,15 @@ int16_t ds18s20_read_temperature(){
 		//Lesen des scratchpads beinhaltet 9 bytes im ds18s20
 		for(int i=0;i<SCRATCHPAD_SIZE_IN_BYTE;i++){
 			scratchpad_data[i]=one_wire_read_byte();
-			#ifdef DEBUG
+		}
+		#ifdef DEBUG
+		for(uint8_t i=0;i<SCRATCHPAD_SIZE_IN_BYTE;i++){			
 			lcd_clear();
 			char int_string[4]={0};
 			itoa(scratchpad_data[i],int_string,10);
-			#endif
+			_delay_ms(500);
 		}
+		#endif
 		if(check_scratchpad_data(scratchpad_data,SCRATCHPAD_SIZE_IN_BYTE,scratchpad_data[SCRATCHPAD_CRC_BYTE])){
 			uint8_t count_remain = scratchpad_data[SCRATCHPAD_COUNT_REMAIN_BYTE];
 			uint8_t count_per_c = scratchpad_data[SCRATCHPAD_COUNT_PER_C_BYTE];
