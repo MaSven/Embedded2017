@@ -7,6 +7,7 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>		// interrupts
+#include <stdlib.h>
 #include "global.h"
 #include "lcd/lcd.h"
 #include "one_wire/ds18s20.h"
@@ -28,6 +29,7 @@
 #define DISPLAY_TIME 10
 #define DISPLAY_TIME_TEMP 11
 #define DISPLAY_TIME_TEMP_LF 12
+#define DEBUG 1
 
 uint8_t volatile menue_state = IDLE;
 uint8_t volatile display_state = MENUE_DISPLAY_TIME;
