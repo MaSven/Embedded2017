@@ -48,7 +48,7 @@ int main(void){
 		lcd_clear();
 		uint8_t temp = ds18s20_read_temperature();
 		char adc_string[STRING_CPACITY];
-		itoa(adc,adc_string,10);
+		itoa(temp,adc_string,10);
 		lcd_send_string(adc_string);
 	}
 }
