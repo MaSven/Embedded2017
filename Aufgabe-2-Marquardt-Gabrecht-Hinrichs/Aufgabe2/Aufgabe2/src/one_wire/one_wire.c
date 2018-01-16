@@ -17,19 +17,19 @@ Step 3. DS18S20 Function Command (followed by any required data exchange)       
 /**
 Setze den Temperaturport als eingang
 */
-inline void set_port_input(){
+static inline void set_port_input(){
 	TEMPDDR &= ~(1 << TEMPPIN);
 }
 /**
 Setze den Temperaturport aus ausgang
 */
-inline void set_port_output(){
+static inline void set_port_output(){
 	TEMPDDR |= (1<<TEMPPIN);
 }
 /**
 Setze den Temperaturport auf low
 */
-inline void set_temperature_port_off(){
+static inline void set_temperature_port_down(){
 	TEMPPORT &= ~(1<<TEMPPIN);
 	
 }
@@ -37,90 +37,54 @@ inline void set_temperature_port_off(){
 /**
 Setze den Temperaturport auf high
 */
-inline void set_temperature_port_on(){
+static inline void set_temperature_port_high(){
 	TEMPPORT |= (1<<TEMPPIN);
-}
-
-inline uint8_t read_bit_of_port(){
-	set_port_input();
-	set_temperature_port_on();
-	uint8_t bit = (TEMPPININPUT & (1<<TEMPPIN));
-	return bit;
-}
-
-
-
-/**
-TEMPPORT eine 1 an alle slaves
-*/
-inline void send_high(){
-	TEMPPORT |= (1<<TEMPPIN);
-}
-/**
-Sende eine 0 an alle slaves
-*/
-inline void send_low(){
-	TEMPPORT &= ~(1<<TEMPPIN);
-}
-
-void one_wire_init(){
-	set_port_output();
-	set_temperature_port_on();
 }
 
 
 uint8_t reset(){
-	uint8_t wait_for_bit=0;
 	uint8_t read_slave_bit=0;
 	set_port_output();
-	set_temperature_port_on();
+	set_temperature_port_high();
 	_delay_us(ONEWIRE_DELAY_G_US);
-	set_temperature_port_off();
+	set_temperature_port_down();
 	_delay_us(ONEWIRE_DELAY_H_US);
-	set_temperature_port_on();
 	set_port_input();
 	//Lese durchf�hren bis DELAY_I erreicht ist
 	_delay_us(ONEWIRE_DELAY_I_US);
 	read_slave_bit= (TEMPPININPUT & (1<<TEMPPIN));
-	set_port_output();
-	set_temperature_port_on();
 	_delay_us(ONEWIRE_DELAY_J_US);
 	return read_slave_bit;
 }
 
 void write_one_bit(uint8_t bit){
 	set_port_output();
+	set_temperature_port_down();
+	_delay_us(ONEWIRE_DELAY_A_US);
 	if(bit){
-		set_temperature_port_off();
-		_delay_us(ONEWIRE_DELAY_A_US);
-		set_temperature_port_on();
 		set_port_input();
 		_delay_us(ONEWIRE_DELAY_B_US);
 		
 		}else{
-		set_temperature_port_off();
 		_delay_us(ONEWIRE_DELAY_C_US);
 		set_port_input();
 		_delay_us(ONEWIRE_DELAY_D_US);
-		set_port_output();
-		set_temperature_port_off();
 	}
 }
 
 uint8_t read_one_bit(){
-	uint8_t result=0;
+	uint8_t read_bit=0;
 	set_port_output();
-	set_temperature_port_off();
-	_delay_us(ONEWIRE_DELAY_A_US);
-	set_temperature_port_on();
+	set_temperature_port_down();
+	_delay_us(ONEWIRE_RESET_SLOT);
 	set_port_input();
 	_delay_us(ONEWIRE_DELAY_E_US);
-	set_port_input();
-	result = (TEMPPININPUT & (1<<TEMPPIN));
+	if((TEMPPININPUT&(1<<TEMPPIN))){
+		read_bit=1;
+	}
 	_delay_us(ONEWIRE_DELAY_F_US);
-	set_port_output();
-	set_temperature_port_on();
-	return result;
+	return read_bit;
+	
 }
 
 uint8_t read_byte(){
