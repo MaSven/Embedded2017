@@ -23,13 +23,12 @@ void lcd_init(void)
 	// Umschalten in 4-Bit-Modus
 	LCDPORT &= ~(LCD_FUNCTION_SET | LCD_FUNCTION_SET_EIGHT_BIT);
 	LCDPORT |= (LCD_FUNCTION_SET | LCD_FUNCTION_SET_FOUR_BIT);
-	_delay_us(LCD_COMMAND_DELAY_US);
 	LCDPORT &= ~(LCD_FUNCTION_SET | LCD_FUNCTION_SET_FOUR_BIT);
 	// LCD an
 	lcd_send_command((LCD_FUNCTION_SET)|(LCD_FUNCTION_SET_TWO_LINES)|(LCD_FUNCTION_SET_EIGHT_DOTS));
-	_delay_us(LCD_COMMAND_DELAY_US);
-	lcd_send_command((LCD_DISPLAY_ON_OFF_CONTROL)|(LCD_DISPLAY_ON_OFF_CONTROL_BLINK_ON)|(LCD_DISPLAY_ON_OFF_CONTROL_CURSOR_ON)|(LCD_DISPLAY_ON_OFF_CONTROL_DISPLAY_ON));
-	_delay_us(LCD_COMMAND_DELAY_US);
+	lcd_send_command((LCD_DISPLAY_ON_OFF_CONTROL)|(LCD_DISPLAY_ON_OFF_CONTROL_BLINK_OFF)|(LCD_DISPLAY_ON_OFF_CONTROL_CURSOR_OFF)|(LCD_DISPLAY_ON_OFF_CONTROL_DISPLAY_ON));
+	// ENTRY MODE
+	lcd_send_command((LCD_ENTRY_MODE_SET)|(LCD_ENTRY_MODE_SET_INCREMENT)|(LCD_ENTRY_MODE_SET_NO_SHIFT));
 	// Display loeschen
 	lcd_clear();	
 }
@@ -50,15 +49,13 @@ void lcd_set_cursor(uint8_t row, uint8_t col)
 {
 	// Cursor auf Home setzen
 	lcd_cursor_home();
-	// Zweite Zeile beginnt ab 40
 	if(row == 2)
 	{
-		col += 40;
+		lcd_send_command(LCD_SECOND_ROW_COMMAND);
 	}
 	while (col != 0)
 	{
 		lcd_send_command(LCD_CURSOR_MOVE_RIGHT_COMMAND);
-		_delay_us(LCD_COMMAND_DELAY_US);
 		col--;
 	}
 }
