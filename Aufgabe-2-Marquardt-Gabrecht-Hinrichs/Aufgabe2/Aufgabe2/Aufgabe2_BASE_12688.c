@@ -1,17 +1,14 @@
 /*
-* Aufgabe2.c
-*
-* Created: 11.12.2017 22:06:28
-*  Author: Matthias Hinrichs
-*/
+ * Aufgabe2.c
+ *
+ * Created: 11.12.2017 22:06:28
+ *  Author: Matthias Hinrichs
+ */ 
 
 #include <avr/io.h>
 #include <avr/interrupt.h>		// interrupts
-#include <stdlib.h>
 #include "global.h"
 #include "lcd/lcd.h"
-#include "one_wire/ds18s20.h"
-#include "clock/clock.h"
 
 #define UP PA0
 #define DOWN PA3
@@ -30,14 +27,9 @@
 #define DISPLAY_TIME 10
 #define DISPLAY_TIME_TEMP 11
 #define DISPLAY_TIME_TEMP_LF 12
-#define DEBUG 1
-
-#define DISPLAY_MODE_TIME = 13
-#define DISPLAY_MODE_TIME_TEMP = 14
-#define DISPLAY_MODE_TIME_TEMP_LF = 15
 
 uint8_t volatile menue_state = IDLE;
-uint8_t volatile display_state = DISPLAY_MODE_TIME;
+uint8_t volatile display_state = MENUE_DISPLAY_TIME;
 uint8_t volatile enter_was_pressed = 0;
 uint8_t volatile up_was_pressed = 0;
 uint8_t volatile down_was_pressed = 0;
@@ -45,53 +37,57 @@ uint8_t volatile key_was_pressed = 0;
 uint8_t volatile IOInterruptEnabled = 1;
 volatile uint8_t Lastbutton =0;
 
-extern volatile uint8_t hours;
-extern volatile uint8_t minutes;
-extern volatile uint8_t seconds;
+void external_interrupt_init(){
+	PCMSK0 |= ((1<<UP)|(1<<DOWN)|(1<<ENTER)|(1<<CANCEL));
+	PCICR |= (1<<PCIE0);
+}
 
+//External Interrupt ausgeloest
+ISR (PCINT0_vect){
+	volatile uint8_t button = PINA & ((1<<UP)|(1<<DOWN)|(1<<ENTER)|(1<<CANCEL));
+	if(!button){
+		if(IOInterruptEnabled) {
+			//IOInterruptEnabled = 0;
+			key_was_pressed = 1;
+			if(Lastbutton == (1<<CANCEL)){
+				menue_state = IDLE;
+			}
+			if(Lastbutton == (1<<ENTER)){
+				if (menue_state == IDLE)
+				{
+					menue_state = MENUE_TIME;
+				}
+				enter_was_pressed = 1;
+			}
+			if(Lastbutton == (1<<UP)){
+				up_was_pressed = 1;
+			}
+			if(Lastbutton == (1<<DOWN)){
+				down_was_pressed = 1;
+			}
+		}
+	} else {
+		Lastbutton = button;
+	}
+}
 
-// Prototypes
-void timer1Init (void);
-
-
-int main(void){
-	LCDDDR = ((0xF0)|(1<<LCD_RS_PIN)|(1<<LCD_E_PIN));
+int main(void)
+{
+	LCDDDR = 0xFF;
 	LCDPORT = 0x00;
 	lcd_init();
 	cli();
-	timer1Init();
+	external_interrupt_init();
 	sei();
-	while(1) {
+    while(1) {
 		switch (menue_state) {
-			case IDLE:
-			switch(display_state){
-				case DISPLAY_MODE_TIME:
-				lcd_clear();
-				clock_display();
-				break;
-				case DISPLAY_MODE_TIME_TEMP:
-				lcd_clear();
-				clock_display();
-				lcd_set_cursor(2, 0);
-				lcd_send_string("100 Grad ");
-				break;
-				case DISPLAY_MODE_TIME_TEMP_LF:
-				lcd_clear();
-				clock_display();
-				lcd_set_cursor(2, 0);
-				char[4] luftfeuchte = {0};
-				itoa(adc_read(), luftfeuchte, 10);
-				lcd_send_string("100 Grad ");
-				lcd_send_string(luftfeuchte);
-				lcd_send_string("%");
-				break;
-			}
-			case MENUE_TIME:
-			//LCD Zeit einstellen
+		case IDLE:
+			// LCD Display Mode
+			break;
+		case MENUE_TIME:
+		//LCD Zeit einstellen
 			lcd_clear();
-			lcd_send_string("LCD einstellen");
-			lcd_set_cursor(2, 0);
-			lcd_send_string("(ENTER)");
+			lcd_send_string("MENUE_TIME");
 			key_was_pressed = 0;
 			while (key_was_pressed == 0)
 			{
@@ -115,10 +111,10 @@ int main(void){
 			down_was_pressed = 0;
 			key_was_pressed = 0;
 			break;
-			case MENUE_TIME_EDIT_H:
-			//LCD
+		case MENUE_TIME_EDIT_H:
+		//LCD 
 			lcd_clear();
-			clock_display();
+			lcd_send_string("MENUE_TIME_EDIT_H");
 			key_was_pressed = 0;
 			while (key_was_pressed == 0)
 			{
@@ -131,48 +127,21 @@ int main(void){
 			}
 			if (down_was_pressed)
 			{
-				clock_hour_dec()
+				// Studnen -1
 			}
 			if (up_was_pressed)
 			{
-				clock_hour_inc()
+				// Studen +1
 			}
 			enter_was_pressed = 0;
 			up_was_pressed = 0;
 			down_was_pressed = 0;
 			key_was_pressed = 0;
 			break;
-			case MENUE_TIME_EDIT_M:
-			//LCD
-			lcd_clear();
-			clock_display();
-			key_was_pressed = 0;
-			while (key_was_pressed == 0)
-			{
-				
-			}
-			key_was_pressed = 0;
-			if (enter_was_pressed)
-			{
-				menue_state = IDLE;
-			}
-			if (down_was_pressed)
-			{
-				clock_min_dec()
-			}
-			if (up_was_pressed)
-			{
-				clock_min_inc()
-			}
-			enter_was_pressed = 0;
-			up_was_pressed = 0;
-			down_was_pressed = 0;
-			key_was_pressed = 0;
-			break;
-			case MENUE_DISPLAY:
+		case MENUE_DISPLAY:
 			// LCD Nur Urzeit
 			lcd_clear();
-			lcd_send_string("Display Anzeige einstellen");//---------------------
+			lcd_send_string("MENU_DISPLAY");
 			key_was_pressed = 0;
 			while (key_was_pressed == 0)
 			{
@@ -196,11 +165,11 @@ int main(void){
 			down_was_pressed = 0;
 			key_was_pressed = 0;
 			break;
-			case MENUE_DISPLAY_TIME:
+		case MENUE_DISPLAY_TIME:
 			key_was_pressed = 0;
 			//LCD Nur Uhrzeit
 			lcd_clear();
-			lcd_send_string("Nur Zeit anzeigen");
+			lcd_send_string("MENUE_DISPLAY_TIME");
 			while (key_was_pressed == 0)
 			{
 				
@@ -208,7 +177,7 @@ int main(void){
 			key_was_pressed = 0;
 			if (enter_was_pressed)
 			{
-				display_state = DISPLAY_MODE_TIME;
+				display_state = DISPLAY_TIME;
 				menue_state = IDLE;
 			}
 			if (down_was_pressed)
@@ -224,19 +193,19 @@ int main(void){
 			down_was_pressed = 0;
 			key_was_pressed = 0;
 			break;
-			case MENUE_DISPLAY_TIME_TEMP:
+		case MENUE_DISPLAY_TIME_TEMP:
 			key_was_pressed = 0;
 			//LCD Nur Uhrzeit
 			lcd_clear();
 			lcd_send_string("MENUE_DISPLAY_TIME_TEMP");
 			while (key_was_pressed == 0)
 			{
-				
+			
 			}
 			key_was_pressed = 0;
 			if (enter_was_pressed)
 			{
-				display_state = DISPLAY_MODE_TIME_TEMP;
+				display_state = DISPLAY_TIME_TEMP;
 				menue_state = IDLE;
 			}
 			if (down_was_pressed)
@@ -252,7 +221,7 @@ int main(void){
 			down_was_pressed = 0;
 			key_was_pressed = 0;
 			break;
-			case MENUE_DISPLAY_TIME_TEMP_LF:
+		case MENUE_DISPLAY_TIME_TEMP_LF:
 			key_was_pressed = 0;
 			//LCD Nur Uhrzeit
 			lcd_clear();
@@ -264,7 +233,7 @@ int main(void){
 			key_was_pressed = 0;
 			if (enter_was_pressed)
 			{
-				display_state = DISPLAY_MODE_TIME_TEMP_LF;
+				display_state = DISPLAY_TIME_TEMP_LF;
 				menue_state = IDLE;
 			}
 			if (down_was_pressed)
@@ -274,43 +243,14 @@ int main(void){
 			if (up_was_pressed)
 			{
 				menue_state = MENUE_DISPLAY_TIME_TEMP;
-				=======
-				while (1)
-				{
-					clock_display();
-				}
 			}
-
-			void timer1Init(void)
-			{
-				TCCR1A = 0x00;
-				TCCR1B |= ((1<<WGM12)|(1<<CS12)); // CTC ON, Prescaler 1024
-				// Timer 1,0s
-				// 1 * 8.000.000 / 256 = 31250
-				OCR1A = 31250;
-				// Interrupt aktivieren
-				TIMSK1 |= (1<<OCIE1A);
-				// Zaehlregister auf 0
-				TCNT1 = 0x00;
-			}
-
-			ISR (TIMER1_COMPA_vect)
-			{
-				seconds++;
-				if (seconds == 60)
-				{
-					seconds = 0;
-					minutes++;
-					if (minutes == 60)
-					{
-						minutes = 0;
-						hours++;
-						if (hours == 24)
-						{
-							hours = 0;
-							>>>>>>> origin/clock
-						}
-					}
-				}
-				
-			}
+			enter_was_pressed = 0;
+			up_was_pressed = 0;
+			down_was_pressed = 0;
+			key_was_pressed = 0;
+			break;
+			default :
+			break; 
+		}
+	}
+}
