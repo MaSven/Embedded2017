@@ -41,7 +41,7 @@ uint8_t volatile IOInterruptEnabled = 1;
 volatile uint8_t Lastbutton =0;
 
 int main(void){
-	LCDDDR = 0xFF;
+	LCDDDR = ((0xF0)|(1<<LCD_RS_PIN)|(1<<LCD_E_PIN));
 	LCDPORT = 0x00;
 	lcd_init();
 		
@@ -60,4 +60,43 @@ int main(void){
 		_delay_ms(500);
 		lcd_clear();
 	}
+	/*while (1)
+	{
+		uint8_t changeDDRAMCommand = 0x80; // 0b1000.0000
+		uint8_t secondRowCommand = 0x40; // 0b0100.0000
+		uint8_t firstRowFirstCol = ((changeDDRAMCommand)|0);
+		uint8_t firstRowFifthCol = ((changeDDRAMCommand)|5);
+		uint8_t secondRowFirstCol = ((changeDDRAMCommand)|(secondRowCommand)|0);
+		uint8_t secondRowFifthCol = ((changeDDRAMCommand)|(secondRowCommand)|5);
+		
+		lcd_clear();
+		_delay_ms(500);
+		lcd_send_command(firstRowFirstCol);
+		lcd_send_string("Test1");
+		lcd_send_command(firstRowFifthCol);
+		lcd_send_string("Test2");
+		lcd_send_command(secondRowFirstCol);
+		lcd_send_string("Test3");
+		lcd_send_command(secondRowFifthCol);
+		lcd_send_string("Test4");
+		_delay_ms(500);
+	}*/
+	/*while (1)
+	{
+		uint8_t changeDDRAMCommand = 0x80; // 0b1000.0000
+		uint8_t secondRowCommand = 0x40; // 0b0100.0000
+		uint8_t firstRowFirstCol = ((changeDDRAMCommand)|0);
+		uint8_t firstRowFifthCol = ((changeDDRAMCommand)|5);
+		uint8_t secondRowFirstCol = ((changeDDRAMCommand)|(secondRowCommand)|0);
+		uint8_t secondRowFifthCol = ((changeDDRAMCommand)|(secondRowCommand)|5);
+		
+		lcd_send_command(firstRowFirstCol);
+		_delay_ms(500);
+		lcd_send_command(firstRowFifthCol);
+		_delay_ms(500);
+		lcd_send_command(secondRowFirstCol);
+		_delay_ms(500);
+		lcd_send_command(secondRowFifthCol);
+		_delay_ms(500);
+	}*/
 }
