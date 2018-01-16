@@ -77,17 +77,11 @@ uint8_t reset(){
 	_delay_us(ONEWIRE_DELAY_G_US);
 	set_temperature_port_off();
 	_delay_us(ONEWIRE_DELAY_H_US);
-	set_port_input();
 	set_temperature_port_on();
-	//Lese durchführen bis DELAY_I erreicht ist
-	while(wait_for_bit<=ONEWIRE_DELAY_I_US){
-		_delay_us(30);
-		//Wenn eine 1 gelesen wurde, muss nicht mehr eingelesen werden. Onewire wurde erkannt
-		if(!read_slave_bit){
-			read_slave_bit = (TEMPPININPUT & (1<<TEMPPIN));
-		}
-		wait_for_bit+=30;
-	}
+	set_port_input();
+	//Lese durchfï¿½hren bis DELAY_I erreicht ist
+	_delay_us(ONEWIRE_DELAY_I_US);
+	read_slave_bit= (TEMPPININPUT & (1<<TEMPPIN));
 	set_port_output();
 	set_temperature_port_on();
 	_delay_us(ONEWIRE_DELAY_J_US);
@@ -100,13 +94,16 @@ void write_one_bit(uint8_t bit){
 		set_temperature_port_off();
 		_delay_us(ONEWIRE_DELAY_A_US);
 		set_temperature_port_on();
+		set_port_input();
 		_delay_us(ONEWIRE_DELAY_B_US);
 		
 		}else{
 		set_temperature_port_off();
 		_delay_us(ONEWIRE_DELAY_C_US);
-		set_temperature_port_on();
+		set_port_input();
 		_delay_us(ONEWIRE_DELAY_D_US);
+		set_port_output();
+		set_temperature_port_off();
 	}
 }
 
@@ -116,14 +113,11 @@ uint8_t read_one_bit(){
 	set_temperature_port_off();
 	_delay_us(ONEWIRE_DELAY_A_US);
 	set_temperature_port_on();
+	set_port_input();
 	_delay_us(ONEWIRE_DELAY_E_US);
 	set_port_input();
-	uint8_t wait_for_bit=0;
-	while(wait_for_bit!=ONEWIRE_DELAY_F_US){
-		_delay_us(30);
-		result = (TEMPPININPUT & (1<<TEMPPIN));
-		wait_for_bit+=30;
-	}
+	result = (TEMPPININPUT & (1<<TEMPPIN));
+	_delay_us(ONEWIRE_DELAY_F_US);
 	set_port_output();
 	set_temperature_port_on();
 	return result;

@@ -16,7 +16,6 @@
 #include <util/delay.h>
 #include <inttypes.h>
 
-
 //IO
 //SENSORS
 #define HYGROPORT PORTA
