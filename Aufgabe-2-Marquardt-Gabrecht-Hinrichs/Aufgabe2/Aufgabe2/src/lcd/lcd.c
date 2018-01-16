@@ -23,6 +23,7 @@ void lcd_init(void)
 	// Umschalten in 4-Bit-Modus
 	LCDPORT &= ~(LCD_FUNCTION_SET | LCD_FUNCTION_SET_EIGHT_BIT);
 	LCDPORT |= (LCD_FUNCTION_SET | LCD_FUNCTION_SET_FOUR_BIT);
+	_delay_us(LCD_COMMAND_DELAY_US);
 	LCDPORT &= ~(LCD_FUNCTION_SET | LCD_FUNCTION_SET_FOUR_BIT);
 	_delay_ms(5);
 	// LCD an

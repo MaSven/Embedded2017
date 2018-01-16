@@ -49,16 +49,13 @@ int main(void){
 	{
 		lcd_set_cursor(1,0);
 		lcd_send_string("Test1");
-		_delay_ms(500);
-		lcd_clear();
 		lcd_set_cursor(1,4);
 		lcd_send_string("Test2");
-		_delay_ms(500);
-		lcd_clear();
 		lcd_set_cursor(2,4);
 		lcd_send_string("Test3");
 		_delay_ms(500);
 		lcd_clear();
+		_delay_ms(500);
 	}
 	/*while (1)
 	{
