@@ -8,10 +8,10 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>		// interrupts
 #include <stdlib.h>
-#include <stdio.h>
 #include "global.h"
 #include "lcd/lcd.h"
 #include "one_wire/ds18s20.h"
+#include "clock/clock.h"
 
 #define UP PA0
 #define DOWN PA3
@@ -41,13 +41,14 @@ uint8_t volatile key_was_pressed = 0;
 uint8_t volatile IOInterruptEnabled = 1;
 volatile uint8_t Lastbutton =0;
 
-volatile uint8_t hours = 23;
-volatile uint8_t minutes = 59;
-volatile uint8_t seconds = 45;
+extern volatile uint8_t hours;
+extern volatile uint8_t minutes;
+extern volatile uint8_t seconds;
+
 
 // Prototypes
 void timer1Init (void);
-void clock_display(void);
+
 
 int main(void){
 	LCDDDR = ((0xF0)|(1<<LCD_RS_PIN)|(1<<LCD_E_PIN));
@@ -60,14 +61,6 @@ int main(void){
 	{
 		clock_display();
 	}
-}
-
-void clock_display(void)
-{
-	char time[12];
-	sprintf(time, "%.2d:%.2d:%.2d Uhr",hours,minutes,seconds);
-	lcd_set_cursor(1,2);
-	lcd_send_string(time);
 }
 
 void timer1Init(void)
