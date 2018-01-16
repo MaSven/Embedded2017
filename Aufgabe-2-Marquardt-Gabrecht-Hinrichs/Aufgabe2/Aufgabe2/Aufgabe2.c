@@ -40,6 +40,13 @@ uint8_t volatile key_was_pressed = 0;
 uint8_t volatile IOInterruptEnabled = 1;
 volatile uint8_t Lastbutton =0;
 
+volatile uint8_t hours = 0;
+volatile uint8_t minutes = 0;
+volatile uint8_t seconds = 0;
+
+// Prototypes
+void timer1Init (void);
+
 int main(void){
 	LCDDDR = ((0xF0)|(1<<LCD_RS_PIN)|(1<<LCD_E_PIN));
 	LCDPORT = 0x00;
@@ -47,56 +54,53 @@ int main(void){
 		
 	while(1)
 	{
+		char sec[2];
+		char min[2];
+		char h[2];
+		itoa(seconds, sec, 10);
+		itoa(minutes, min, 10);
+		itoa(hours, h, 10);
+		
 		lcd_set_cursor(1,0);
-		lcd_send_string("Test1");
-		_delay_ms(500);
-		lcd_clear();
-		lcd_set_cursor(1,4);
-		lcd_send_string("Test2");
-		_delay_ms(500);
-		lcd_clear();
-		lcd_set_cursor(2,4);
-		lcd_send_string("Test3");
+		lcd_send_string(h);
+		lcd_send_string(":");
+		lcd_send_string(min);
+		lcd_send_string(":");
+		lcd_send_string(sec);
 		_delay_ms(500);
 		lcd_clear();
 	}
-	/*while (1)
+}
+
+void timer1Init(void)
+{
+	TCCR1A = 0x00;
+	TCCR1B |= ((1<<WGM12)|(1<<CS12)); // CTC ON, Prescaler 1024
+	// Timer 1,0s
+	// 1 * 8.000.000 / 256 = 31250
+	OCR1A = 31250;
+	// Interrupt aktivieren
+	TIMSK1 |= (1<<OCIE1A);
+	// Zaehlregister auf 0
+	TCNT1 = 0x00;
+}
+
+ISR (TIMER1_COMPA_vect)
+{
+	seconds++;
+	if (seconds == 60)
 	{
-		uint8_t changeDDRAMCommand = 0x80; // 0b1000.0000
-		uint8_t secondRowCommand = 0x40; // 0b0100.0000
-		uint8_t firstRowFirstCol = ((changeDDRAMCommand)|0);
-		uint8_t firstRowFifthCol = ((changeDDRAMCommand)|5);
-		uint8_t secondRowFirstCol = ((changeDDRAMCommand)|(secondRowCommand)|0);
-		uint8_t secondRowFifthCol = ((changeDDRAMCommand)|(secondRowCommand)|5);
-		
-		lcd_clear();
-		_delay_ms(500);
-		lcd_send_command(firstRowFirstCol);
-		lcd_send_string("Test1");
-		lcd_send_command(firstRowFifthCol);
-		lcd_send_string("Test2");
-		lcd_send_command(secondRowFirstCol);
-		lcd_send_string("Test3");
-		lcd_send_command(secondRowFifthCol);
-		lcd_send_string("Test4");
-		_delay_ms(500);
-	}*/
-	/*while (1)
-	{
-		uint8_t changeDDRAMCommand = 0x80; // 0b1000.0000
-		uint8_t secondRowCommand = 0x40; // 0b0100.0000
-		uint8_t firstRowFirstCol = ((changeDDRAMCommand)|0);
-		uint8_t firstRowFifthCol = ((changeDDRAMCommand)|5);
-		uint8_t secondRowFirstCol = ((changeDDRAMCommand)|(secondRowCommand)|0);
-		uint8_t secondRowFifthCol = ((changeDDRAMCommand)|(secondRowCommand)|5);
-		
-		lcd_send_command(firstRowFirstCol);
-		_delay_ms(500);
-		lcd_send_command(firstRowFifthCol);
-		_delay_ms(500);
-		lcd_send_command(secondRowFirstCol);
-		_delay_ms(500);
-		lcd_send_command(secondRowFifthCol);
-		_delay_ms(500);
-	}*/
+		seconds = 0;
+		minutes++;
+		if (minutes == 60)
+		{
+			minutes = 0;
+			hours++;
+			if (hours == 24)
+			{
+				hours = 0;
+			}
+		}
+	}
+	
 }
