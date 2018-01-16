@@ -28,8 +28,12 @@
 #define DISPLAY_TIME_TEMP 11
 #define DISPLAY_TIME_TEMP_LF 12
 
+#define DISPLAY_MODE_TIME = 13
+#define DISPLAY_MODE_TIME_TEMP = 14
+#define DISPLAY_MODE_TIME_TEMP_LF = 15
+
 uint8_t volatile menue_state = IDLE;
-uint8_t volatile display_state = MENUE_DISPLAY_TIME;
+uint8_t volatile display_state = DISPLAY_MODE_TIME;
 uint8_t volatile enter_was_pressed = 0;
 uint8_t volatile up_was_pressed = 0;
 uint8_t volatile down_was_pressed = 0;
@@ -177,7 +181,7 @@ int main(void)
 			key_was_pressed = 0;
 			if (enter_was_pressed)
 			{
-				display_state = DISPLAY_TIME;
+				display_state = DISPLAY_MODE_TIME;
 				menue_state = IDLE;
 			}
 			if (down_was_pressed)
@@ -205,7 +209,7 @@ int main(void)
 			key_was_pressed = 0;
 			if (enter_was_pressed)
 			{
-				display_state = DISPLAY_TIME_TEMP;
+				display_state = DISPLAY_MODE_TIME_TEMP;
 				menue_state = IDLE;
 			}
 			if (down_was_pressed)
@@ -233,7 +237,7 @@ int main(void)
 			key_was_pressed = 0;
 			if (enter_was_pressed)
 			{
-				display_state = DISPLAY_TIME_TEMP_LF;
+				display_state = DISPLAY_MODE_TIME_TEMP_LF;
 				menue_state = IDLE;
 			}
 			if (down_was_pressed)
