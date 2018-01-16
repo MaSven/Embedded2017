@@ -84,14 +84,14 @@ uint8_t reset(){
 		_delay_us(30);
 		//Wenn eine 1 gelesen wurde, muss nicht mehr eingelesen werden. Onewire wurde erkannt
 		if(!read_slave_bit){
-			read_slave_count = (TEMPPININPUT & (1<<TEMPPIN))
+			read_slave_bit = (TEMPPININPUT & (1<<TEMPPIN));
 		}
 		wait_for_bit+=30;
 	}
 	set_port_output();
 	set_temperature_port_on();
 	_delay_us(ONEWIRE_DELAY_J_US);
-	return read_slave_count;
+	return read_slave_bit;
 }
 
 void write_one_bit(uint8_t bit){
@@ -121,7 +121,7 @@ uint8_t read_one_bit(){
 	uint8_t wait_for_bit=0;
 	while(wait_for_bit!=ONEWIRE_DELAY_F_US){
 		_delay_us(30);
-		result = read_bit_of_port();
+		result = (TEMPPININPUT & (1<<TEMPPIN));
 		wait_for_bit+=30;
 	}
 	set_port_output();
