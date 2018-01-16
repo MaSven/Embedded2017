@@ -57,6 +57,7 @@ int16_t ds18s20_read_temperature(){
 	if(one_wire_reset()){
 		one_wire_write_byte(ROM_COMMAND_SKIP_ROM);
 		one_wire_write_byte(FUNCTION_COMMAND_CONVERT_T);
+		//Warte bis die temperatur in digitalform im scratchpad ist
 		while(!one_wire_read_bit());
 		one_wire_write_byte(FUNCTION_COMMAND_READ_SCRATCHPAD);
 		//Lesen des scratchpads beinhaltet 9 bytes im ds18s20
