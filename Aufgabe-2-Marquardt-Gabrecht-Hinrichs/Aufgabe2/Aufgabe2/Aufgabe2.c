@@ -10,10 +10,12 @@
 #include <stdlib.h>
 #include "global.h"
 #include "adc/adc.h"
+#include "adc/hygro.h"
 #include "lcd/lcd.h"
 
+/*
 //Prototypes
-uint8_t hygro_read(void);
+uint8_t hygro_read(void);*/
 
 int main(void)
 {
@@ -21,7 +23,7 @@ int main(void)
 	LCDPORT = 0x00;
 	lcd_init();
 	adc_init();
-	while(1)
+	/*while(1)
 	{
 		_delay_ms(500);
 		lcd_clear();
@@ -29,11 +31,18 @@ int main(void)
 		char hygro_string[4];
 		itoa(hygro,hygro_string,10);
 		lcd_send_string(hygro_string);
+	}*/
+	while (1)
+	{
+		_delay_ms(500);
+		lcd_clear();
+		hygro_display(1,0);
 	}
 }
 
+/*
 uint8_t hygro_read(void)
 {
 	uint8_t value = adc_read()/ADC_MAP_FACTOR;
 	return value;
-}
+}*/
