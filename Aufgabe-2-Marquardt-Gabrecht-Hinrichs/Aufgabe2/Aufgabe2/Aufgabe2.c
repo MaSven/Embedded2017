@@ -59,7 +59,7 @@ int main(void){
 	sei();
 	while (1)
 	{
-		clock_display();
+		clock_display(1,2);
 	}
 }
 
