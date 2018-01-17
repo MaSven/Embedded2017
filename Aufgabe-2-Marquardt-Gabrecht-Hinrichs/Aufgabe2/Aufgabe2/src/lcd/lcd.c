@@ -23,12 +23,14 @@ void lcd_init(void)
 	// Umschalten in 4-Bit-Modus
 	LCDPORT &= ~(LCD_FUNCTION_SET | LCD_FUNCTION_SET_EIGHT_BIT);
 	LCDPORT |= (LCD_FUNCTION_SET | LCD_FUNCTION_SET_FOUR_BIT);
+	lcd_send_enable_pulse();
+	_delay_us(LCD_COMMAND_DELAY_US);
 	LCDPORT &= ~(LCD_FUNCTION_SET | LCD_FUNCTION_SET_FOUR_BIT);
-	_delay_ms(5);
-	// LCD an
+	// LCD mit zwei Zeilen und Zeichen der Grosse 5x7
 	lcd_send_command((LCD_FUNCTION_SET)|(LCD_FUNCTION_SET_TWO_LINES)|(LCD_FUNCTION_SET_EIGHT_DOTS));
 	lcd_send_command((LCD_DISPLAY_ON_OFF_CONTROL)|(LCD_DISPLAY_ON_OFF_CONTROL_DISPLAY_ON)|(LCD_DISPLAY_ON_OFF_CONTROL_BLINK_OFF)|(LCD_DISPLAY_ON_OFF_CONTROL_CURSOR_OFF));
-	// ENTRY MODE
+	// Display an, Blinken aus, Cursor aus
+	// Automatisches inkrementieren und kein Shift
 	lcd_send_command((LCD_ENTRY_MODE_SET)|(LCD_ENTRY_MODE_SET_INCREMENT)|(LCD_ENTRY_MODE_SET_NO_SHIFT));
 	// Display loeschen
 	lcd_clear();	
