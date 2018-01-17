@@ -96,9 +96,12 @@
         </avrgcc.compiler.symbols.DefSymbols>
         <avrgcc.compiler.directories.IncludePaths>
           <ListValues>
+<<<<<<< HEAD:Aufgabe-2-Marquardt-Gabrecht-Hinrichs/Aufgabe2/Aufgabe2/Aufgabe2_6_2.cproj~adc-fix
             <Value>../includes/adc</Value>
             <Value>../includes/lcd</Value>
             <Value>../includes/one_wire</Value>
+=======
+>>>>>>> clock:Aufgabe-2-Marquardt-Gabrecht-Hinrichs/Aufgabe2/Aufgabe2/Aufgabe2_6_2.cproj
             <Value>../includes</Value>
           </ListValues>
         </avrgcc.compiler.directories.IncludePaths>
@@ -123,7 +126,26 @@
     <Compile Include="includes\adc\adc.h">
       <SubType>compile</SubType>
     </Compile>
+<<<<<<< HEAD:Aufgabe-2-Marquardt-Gabrecht-Hinrichs/Aufgabe2/Aufgabe2/Aufgabe2_6_2.cproj~adc-fix
     <Compile Include="includes\global.h">
+=======
+    <Compile Include="includes\clock\clock.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="includes\lcd\lcd.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\adc\adc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\clock\clock.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lcd\lcd.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\one_wire\ds18s20.c">
+>>>>>>> clock:Aufgabe-2-Marquardt-Gabrecht-Hinrichs/Aufgabe2/Aufgabe2/Aufgabe2_6_2.cproj
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="includes\lcd\lcd.h">
@@ -146,10 +168,12 @@
     <Folder Include="includes" />
     <Folder Include="includes\adc" />
     <Folder Include="includes\lcd" />
+    <Folder Include="includes\clock" />
     <Folder Include="includes\one_wire" />
     <Folder Include="src" />
     <Folder Include="src\adc" />
     <Folder Include="src\lcd" />
+    <Folder Include="src\clock" />
     <Folder Include="src\one_wire" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />

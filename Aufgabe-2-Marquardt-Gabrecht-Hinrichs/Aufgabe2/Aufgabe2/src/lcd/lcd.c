@@ -28,8 +28,8 @@ void lcd_init(void)
 	LCDPORT &= ~(LCD_FUNCTION_SET | LCD_FUNCTION_SET_FOUR_BIT);
 	// LCD mit zwei Zeilen und Zeichen der Grosse 5x7
 	lcd_send_command((LCD_FUNCTION_SET)|(LCD_FUNCTION_SET_TWO_LINES)|(LCD_FUNCTION_SET_EIGHT_DOTS));
-	// Display an, Blinken aus, Cursor aus
 	lcd_send_command((LCD_DISPLAY_ON_OFF_CONTROL)|(LCD_DISPLAY_ON_OFF_CONTROL_DISPLAY_ON)|(LCD_DISPLAY_ON_OFF_CONTROL_BLINK_OFF)|(LCD_DISPLAY_ON_OFF_CONTROL_CURSOR_OFF));
+	// Display an, Blinken aus, Cursor aus
 	// Automatisches inkrementieren und kein Shift
 	lcd_send_command((LCD_ENTRY_MODE_SET)|(LCD_ENTRY_MODE_SET_INCREMENT)|(LCD_ENTRY_MODE_SET_NO_SHIFT));
 	// Display loeschen
