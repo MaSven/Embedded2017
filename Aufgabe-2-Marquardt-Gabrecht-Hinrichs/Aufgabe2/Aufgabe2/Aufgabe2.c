@@ -9,9 +9,9 @@
 #include <avr/interrupt.h>		// interrupts
 #include <stdlib.h>
 #include "global.h"
+#include "lcd/lcd.h"
 #include "adc/adc.h"
 #include "adc/hygro.h"
-#include "lcd/lcd.h"
 #include "one_wire/ds18s20.h"
 #include "clock/clock.h"
 
@@ -63,6 +63,7 @@ int main(void){
 	while(1)
 	{
 		clock_display(1,2);
+		hygro_display(2,5);
 	}
 }
 

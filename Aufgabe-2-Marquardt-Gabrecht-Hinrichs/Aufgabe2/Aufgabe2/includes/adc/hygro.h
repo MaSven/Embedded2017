@@ -2,7 +2,7 @@
  * hygro.h
  *
  * Created: 17.01.2018 12:10:06
- *  Author: Maetzel
+ *  Author: Matthias Hinrichs
  */ 
 
 

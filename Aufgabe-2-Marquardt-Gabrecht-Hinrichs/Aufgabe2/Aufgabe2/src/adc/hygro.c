@@ -2,11 +2,11 @@
  * hygro.c
  *
  * Created: 17.01.2018 12:12:56
- *  Author: Maetzel
+ *  Author: Matthias Hinrichs
  */ 
 #include <stdio.h>
-#include "adc/adc.h"
 #include "adc/hygro.h"
+#include "adc/adc.h"
 #include "lcd/lcd.h"
 
 void hygro_display(int row, int col)
