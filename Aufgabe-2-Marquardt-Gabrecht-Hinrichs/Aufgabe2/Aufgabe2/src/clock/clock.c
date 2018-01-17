@@ -22,7 +22,7 @@ void clock_display(void)
 	lcd_send_string(time);
 }
 
-void clock_hours_inc(void)
+void clock_hour_inc(void)
 {
 	cli();
 	hours++;
@@ -33,7 +33,7 @@ void clock_hours_inc(void)
 	sei();
 }
 
-void clock_hours_dec(void)
+void clock_hour_dec(void)
 {
 	cli();
 	hours--;
