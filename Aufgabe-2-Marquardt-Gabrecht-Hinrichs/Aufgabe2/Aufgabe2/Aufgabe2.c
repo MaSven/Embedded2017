@@ -9,6 +9,8 @@
 #include <avr/interrupt.h>		// interrupts
 #include <stdlib.h>
 #include "global.h"
+#include "adc/adc.h"
+#include "adc/hygro.h"
 #include "lcd/lcd.h"
 #include "one_wire/ds18s20.h"
 
@@ -44,7 +46,7 @@ int main(void){
 	LCDDDR = ((0xF0)|(1<<LCD_RS_PIN)|(1<<LCD_E_PIN));
 	LCDPORT = 0x00;
 	lcd_init();
-		
+	adc_init();
 	while(1)
 	{
 		lcd_set_cursor(1,0);
@@ -97,3 +99,10 @@ int main(void){
 		_delay_ms(500);
 	}*/
 }
+
+/*
+uint8_t hygro_read(void)
+{
+	uint8_t value = adc_read()/ADC_MAP_FACTOR;
+	return value;
+}*/
