@@ -149,10 +149,16 @@
     <Compile Include="includes\adc\adc.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="includes\clock\clock.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="includes\lcd\lcd.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\adc\adc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\clock\clock.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\lcd\lcd.c">
@@ -181,10 +187,12 @@
     <Folder Include="includes" />
     <Folder Include="includes\adc" />
     <Folder Include="includes\lcd" />
+    <Folder Include="includes\clock" />
     <Folder Include="includes\one_wire" />
     <Folder Include="src" />
     <Folder Include="src\adc" />
     <Folder Include="src\lcd" />
+    <Folder Include="src\clock" />
     <Folder Include="src\one_wire" />
   </ItemGroup>
   <ItemGroup>
