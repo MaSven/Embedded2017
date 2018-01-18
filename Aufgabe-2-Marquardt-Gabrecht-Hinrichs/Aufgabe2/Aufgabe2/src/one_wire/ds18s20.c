@@ -161,9 +161,13 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 	char temp_as_string[STRING_CPACITY];
 	itoa(temperature,temp_as_string,10);
 	uint8_t counter =0;
+	lcd_send_string(temperature);
+	_delay_ms(300);
 	while(counter<STRING_CPACITY){
 		lcd_clear();
-		lcd_send_string(temperature_string);
+		lcd_send_char(temperature_string[STRING_CPACITY-3]);
+		_delay_ms(300);
+		lcd_send_char(temperature_string[STRING_CPACITY-2]);
 		_delay_ms(300);
 		if(counter==2){
 			//Setze das komma nach der zweiten stelle
