@@ -27,7 +27,11 @@ int16_t ds18s20_read_temperature();
 *   \return Die temperatur als String. Komma wird richtig gesetzt
 */
 char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_string);
-
+/*
+*	Zeigt die Temperatur auf dem LCD an
+*
+*/
+void temp_display(int row, int col);
 
 
 

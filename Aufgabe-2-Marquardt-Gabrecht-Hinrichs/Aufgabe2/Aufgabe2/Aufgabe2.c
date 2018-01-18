@@ -3,11 +3,12 @@
  *
  * Created: 11.12.2017 22:06:28
  *  Author: Matthias Hinrichs
- */ 
+ */
 
 #include <avr/io.h>
 #include <avr/interrupt.h>		// interrupts
 #include <stdlib.h>
+#include <stdio.h>
 #include "global.h"
 #include "lcd/lcd.h"
 #include "adc/adc.h"
@@ -100,5 +101,5 @@ ISR (TIMER1_COMPA_vect)
 			}
 		}
 	}
-	
+
 }

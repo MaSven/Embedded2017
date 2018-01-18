@@ -17,153 +17,139 @@ Step 3. DS18S20 Function Command (followed by any required data exchange)       
 /**
 Setze den Temperaturport als eingang
 */
-inline void set_port_input(){
-    TEMPDDR &= ~(1 << TEMPPIN);
+static inline void set_port_input(){
+	TEMPDDR &= ~(1 << TEMPPIN);
 }
 /**
 Setze den Temperaturport aus ausgang
 */
-inline void set_port_output(){
-    TEMPDDR |= (1<<TEMPPIN);
+static inline void set_port_output(){
+	TEMPDDR |= (1<<TEMPPIN);
 }
 /**
 Setze den Temperaturport auf low
 */
-inline void set_temperature_port_off(){
-    TEMPPORT &= ~(1<<TEMPPIN);
-    
+static inline void set_temperature_port_down(){
+	TEMPPORT &= ~(1<<TEMPPIN);
+	
 }
 
 /**
 Setze den Temperaturport auf high
 */
-inline void set_temperature_port_on(){
-    TEMPPORT |= (1<<TEMPPIN);
+static inline void set_temperature_port_high(){
+	TEMPPORT |= (1<<TEMPPIN);
 }
-
-inline uint8_t read_bit_of_port(){
-    set_port_input();
-    uint8_t bit = (TEMPPININPUT & (1<<TEMPPIN));
-    return bit;
-}
-
-
-
-/**
-TEMPPORT eine 1 an alle slaves
-*/
-inline void send_high(){
-    TEMPPORT |= (1<<TEMPPIN);
-}
-/**
-Sende eine 0 an alle slaves
-*/
-inline void send_low(){
-    TEMPPORT &= ~(1<<TEMPPIN);
-}
-
-void one_wire_init(){
-    set_port_output();
-    set_temperature_port_on();
-}
-
 
 uint8_t reset(){
-    _delay_us(ONEWIRE_DELAY_G_US);
-    set_temperature_port_on();
-    _delay_us(ONEWIRE_DELAY_H_US);
-    set_temperature_port_off();
-    _delay_us(ONEWIRE_DELAY_I_US);
-    uint8_t read_slave_count = read_bit_of_port();
-    _delay_us(ONEWIRE_DELAY_J_US);
-    return read_slave_count;
+	uint8_t read_slave_bit = 0;
+	// Bus auf low ziehen und 480us warten
+	set_temperature_port_down();
+	set_port_output();
+	_delay_us(ONEWIRE_DELAY_H_US);
+	// Bus loslassen und 70us warten
+	set_temperature_port_high();
+	_delay_us(ONEWIRE_DELAY_I_US);
+	// Buswert lesen und warten bis der zweite 480us-Slot zu Ende ist
+	read_slave_bit = (TEMPPININPUT & (1<<TEMPPIN));
+	_delay_us(ONEWIRE_DELAY_J_US);
+	// Buswert zurueckgeben
+	return read_slave_bit;
 }
 
 void write_one_bit(uint8_t bit){
-    if(bit){
-        set_temperature_port_off();
-        _delay_us(ONEWIRE_DELAY_A_US);
-        set_temperature_port_on();
-        _delay_us(ONEWIRE_DELAY_B_US);
-        
-        }else{
-        set_temperature_port_off();
-        _delay_us(ONEWIRE_DELAY_C_US);
-        set_temperature_port_on();
-        _delay_us(ONEWIRE_DELAY_D_US);
-    }
+	set_port_output();
+	set_temperature_port_down();
+	//_delay_us(ONEWIRE_DELAY_A_US);
+	if(bit){
+		_delay_us(ONEWIRE_DELAY_A_US); //copy von z63
+		set_port_input();
+		_delay_us(ONEWIRE_DELAY_B_US);
+		
+		}else{
+		_delay_us(ONEWIRE_DELAY_C_US);
+		set_port_input();
+		_delay_us(ONEWIRE_DELAY_D_US);
+	}
 }
 
 uint8_t read_one_bit(){
-    uint8_t result;
-    set_temperature_port_off();
-    _delay_us(ONEWIRE_DELAY_A_US);
-    set_temperature_port_on();
-    _delay_us(ONEWIRE_DELAY_E_US);
-    result = read_bit_of_port();
-    _delay_us(ONEWIRE_DELAY_F_US);
-    return result;
+	uint8_t read_bit=0;
+	set_port_output();
+	set_temperature_port_down();
+	_delay_us(ONEWIRE_RESET_SLOT);
+	// Test application_note one-wire page 6 of 12 OWReadBit uses delay(A)
+	//_delay_us(ONEWIRE_DELAY_A_US);
+	set_port_input();
+	_delay_us(ONEWIRE_DELAY_E_US);
+	if((TEMPPININPUT&(1<<TEMPPIN))){
+		read_bit=1;
+	}
+	_delay_us(ONEWIRE_DELAY_F_US);
+	return read_bit;
+	
 }
 
 uint8_t read_byte(){
-    uint8_t result=0;
-    for(uint8_t i = 0;i<8;i++){
-        result >>=1;
-        if(read_one_bit()){
-            result |= 0x80;
-        }
-    }
-    return result;
+	uint8_t result=0;
+	for(uint8_t i = 0;i<8;i++){
+		result >>=1;
+		if(read_one_bit()){
+			result |= 0x80;
+		}
+	}
+	return result;
 }
 
 
 
 void write_byte(uint8_t byte){
-    for(uint8_t i=0;i<8;i++){
-        write_one_bit(byte & 0x01);
-        byte >>=1;
-    }
+	for(uint8_t i=0;i<8;i++){
+		write_one_bit(byte & 0x01);
+		byte >>=1;
+	}
 }
 
 uint8_t write_and_result(uint8_t byte){
-    uint8_t result=0;
-    for(uint8_t i=0;i<8;i++){
-        result >>=1;
-        if(byte & 0x01){
-            if(read_one_bit()){
-                result |= 0x80;
-            }
-            }else{
-            write_one_bit(0);
-        }
-    }
-    return result;
+	uint8_t result=0;
+	for(uint8_t i=0;i<8;i++){
+		result >>=1;
+		if(byte & 0x01){
+			if(read_one_bit()){
+				result |= 0x80;
+			}
+			}else{
+				write_one_bit(0);
+			}
+			byte >>=1;
+	}
+	return result;
 }
 
 void write_byte_block(uint8_t *data,uint8_t data_len){
-    for(uint8_t i=0;i<data_len;i++){
-        data[i]= write_and_result(data[i]);
-    }
+	for(uint8_t i=0;i<data_len;i++){
+		data[i]= write_and_result(data[i]);
+	}
 }
 
 
 
 uint8_t one_wire_reset(){
-    return reset();
+	return reset();
 }
 
 void one_wire_write_byte(uint8_t data){
-    write_byte(data);
+	write_byte(data);
 }
 
 uint8_t one_wire_read_write_byte(uint8_t data){
-    return write_and_result(data);
+	return write_and_result(data);
 }
 
 uint8_t one_wire_read_bit(){
-    return read_one_bit();
+	return read_one_bit();
 }
 
 uint8_t one_wire_read_byte(){
-    return read_byte();
+	return read_byte();
 }
