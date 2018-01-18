@@ -8,6 +8,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>		// interrupts
 #include <stdlib.h>
+#include <stdio.h>
 #include "global.h"
 #include "lcd/lcd.h"
 #include "one_wire/ds18s20.h"

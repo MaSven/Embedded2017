@@ -175,7 +175,7 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 
 void temp_display(int row, int col){
 	char temperature[5];
-	sprintf(temperature, "%3d%cC",ds18s20_read_temperature(),0xB0);
+	sprintf(temperature, "%3d%cC",ds18s20_read_temperature(),0xB2);
 	lcd_set_cursor(row,col);
 	lcd_send_string(temperature);
 }
