@@ -110,7 +110,7 @@ int16_t ds18s20_read_temperature(){
 			lcd_send_string(int_string);
 			#endif*/
 			temperature=(temperature - TEMPERATURE_CONSTANT)+(((count_per_c-count_remain)));
-			return (temperature * 10)>> 3;
+			return (temperature * 100)>> 4;
 		}
 	}
 	return 0;
