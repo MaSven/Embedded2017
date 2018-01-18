@@ -171,11 +171,11 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 		}
 		counter++;
 	}
-	if(temperature_string[STRING_CPACITY-3]==''){
+	if(temperature_string[STRING_CPACITY-3]==0){
 		temperature_string[STRING_CPACITY-3]='0';
 		
 	}
-	if(temperature_string[STRING_CPACITY-2]==''){
+	if(temperature_string[STRING_CPACITY-2]==0){
 		temperature_string[STRING_CPACITY-2]='0';
 	}
 	return temperature_string;
