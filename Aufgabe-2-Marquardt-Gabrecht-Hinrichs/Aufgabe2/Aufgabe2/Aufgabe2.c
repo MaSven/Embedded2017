@@ -358,7 +358,7 @@ int main(void){
 			key_was_pressed = 0;
 			//LCD Nur Uhrzeit
 			lcd_clear();
-			lcd_send_string("Temp/Uhr wechsel");
+			lcd_send_string("Temp/Luftfeuchte");
 			lcd_set_cursor(2, 0);
 			lcd_send_string("anzeigen");
 			while (key_was_pressed == 0)
