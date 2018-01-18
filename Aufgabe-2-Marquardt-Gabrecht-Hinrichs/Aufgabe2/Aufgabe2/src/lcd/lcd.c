@@ -10,6 +10,8 @@
 
 void lcd_init(void)
 {
+	LCDDDR = ((0xF0)|(1<<LCD_RS_PIN)|(1<<LCD_E_PIN));
+	LCDPORT = 0x00;
 	// Warten auf interne Initialisierung
 	_delay_ms(15);
 	// Umschalten in 8-Bit Modus
@@ -50,8 +52,6 @@ void lcd_cursor_home(void)
 
 void lcd_set_cursor(uint8_t row, uint8_t col)
 {
-	// Cursor auf Home setzen
-	lcd_cursor_home();
 	// Kommando erstellen
 	uint8_t DDRAMCommand = LCD_SET_DDRAM;
 	if (row == 1)

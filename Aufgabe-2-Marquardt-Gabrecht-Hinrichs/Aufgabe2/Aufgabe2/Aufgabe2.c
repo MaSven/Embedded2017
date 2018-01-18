@@ -11,7 +11,7 @@
 #include "global.h"
 #include "lcd/lcd.h"
 #include "adc/adc.h"
-//#include "adc/hygro.h"
+#include "adc/hygro.h"
 #include "one_wire/ds18s20.h"
 #include "clock/clock.h"
 
@@ -209,7 +209,7 @@ int main(void){
 			lcd_clear();
 			clock_display();
 			lcd_set_cursor(2, 0);
-			lcd_send_string("Stunden edit");	// bearbeiten wäre zu lang
+			lcd_send_string("Stunden edit");	// bearbeiten wï¿½re zu lang
 			key_was_pressed = 0;
 			while (key_was_pressed == 0)
 			{
@@ -238,7 +238,7 @@ int main(void){
 			lcd_clear();
 			clock_display();
 			lcd_set_cursor(2, 0);
-			lcd_send_string("Minuten edit");	// bearbeiten wäre zu lang
+			lcd_send_string("Minuten edit");	// bearbeiten wï¿½re zu lang
 			key_was_pressed = 0;
 			while (key_was_pressed == 0)
 			{

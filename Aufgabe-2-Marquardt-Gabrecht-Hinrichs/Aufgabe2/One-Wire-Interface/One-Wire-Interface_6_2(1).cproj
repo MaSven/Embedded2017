@@ -4,41 +4,42 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>6.2</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8.C</ToolchainName>
-    <ProjectGuid>{31a1d0ca-15fd-4168-bacc-30ed88ea218f}</ProjectGuid>
+    <ProjectGuid>{37c6aa92-a723-45b3-bf69-a5d00a55837f}</ProjectGuid>
     <avrdevice>ATmega644PA</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
-    <OutputType>Executable</OutputType>
+    <OutputType>StaticLibrary</OutputType>
     <Language>C</Language>
-    <OutputFileName>$(MSBuildProjectName)</OutputFileName>
-    <OutputFileExtension>.elf</OutputFileExtension>
+    <OutputFileName>lib$(MSBuildProjectName)</OutputFileName>
+    <OutputFileExtension>.a</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>Aufgabe2</AssemblyName>
-    <Name>Aufgabe2</Name>
-    <RootNamespace>Aufgabe2</RootNamespace>
+    <AvrGccProjectExtensions>
+    </AvrGccProjectExtensions>
+    <AssemblyName>One-Wire-Interface</AssemblyName>
+    <Name>One-Wire-Interface</Name>
+    <RootNamespace>One-Wire-Interface</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
-    <RamSnippetAddress>0x20000000</RamSnippetAddress>
+    <RamSnippetAddress />
     <UncachedRange />
     <preserveEEPROM>true</preserveEEPROM>
-    <OverrideVtorValue>exception_table</OverrideVtorValue>
+    <OverrideVtorValue />
     <BootSegment>2</BootSegment>
-    <eraseonlaunchrule>0</eraseonlaunchrule>
+    <eraseonlaunchrule>1</eraseonlaunchrule>
     <AsfFrameworkConfig>
-      <framework-data xmlns="">
-        <options />
-        <configurations />
-        <files />
-        <documentation help="" />
-        <offline-documentation help="" />
-        <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.21.0" />
-        </dependencies>
-      </framework-data>
+      <framework-data>
+  <options />
+  <configurations />
+  <files />
+  <documentation help="" />
+  <offline-documentation help="" />
+  <dependencies>
+    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.20.1" />
+  </dependencies>
+</framework-data>
     </AsfFrameworkConfig>
-    <avrtool>com.atmel.avrdbg.tool.simulator</avrtool>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -82,11 +83,6 @@
             <Value>DEBUG</Value>
           </ListValues>
         </avrgcc.compiler.symbols.DefSymbols>
-        <avrgcc.compiler.directories.IncludePaths>
-          <ListValues>
-            <Value>../includes</Value>
-          </ListValues>
-        </avrgcc.compiler.directories.IncludePaths>
         <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
         <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
         <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
@@ -102,69 +98,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Aufgabe2.c">
+    <Compile Include="One-Wire-Interface.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="includes\adc\adc.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="includes\clock\clock.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="includes\lcd\lcd.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\adc\adc.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\clock\clock.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\lcd\lcd.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\one_wire\ds18s20.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\one_wire\one_wire.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="includes\one_wire\one_wire.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="includes\one_wire\ds18s20.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="includes\global.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="includes\one_wire\commands.h">
-      <SubType>compile</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="includes" />
-    <Folder Include="includes\adc" />
-    <Folder Include="includes\lcd" />
-    <Folder Include="includes\clock" />
-    <Folder Include="includes\one_wire" />
-    <Folder Include="src" />
-    <Folder Include="src\adc" />
-    <Folder Include="src\lcd" />
-    <Folder Include="src\clock" />
-    <Folder Include="src\one_wire" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\globals\globals.cproj">
-      <Name>globals</Name>
-      <Project>{5394e634-4438-42e0-ac86-afec9ded8aed}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\One-Wire-Interface\One-Wire-Interface.cproj">
-      <Name>One-Wire-Interface</Name>
-      <Project>{37c6aa92-a723-45b3-bf69-a5d00a55837f}</Project>
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

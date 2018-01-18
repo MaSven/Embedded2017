@@ -10,15 +10,15 @@
 #include "clock/clock.h"
 #include "lcd/lcd.h"
 
-volatile uint8_t hours = 23;
-volatile uint8_t minutes = 59;
-volatile uint8_t seconds = 45;
+volatile uint8_t hours = 0;
+volatile uint8_t minutes = 0;
+volatile uint8_t seconds = 0;
 
-void clock_display(void)
+void clock_display(int row, int col)
 {
 	char time[12];
 	sprintf(time, "%.2d:%.2d:%.2d Uhr",hours,minutes,seconds);
-	lcd_set_cursor(1,2);
+	lcd_set_cursor(row,col);
 	lcd_send_string(time);
 }
 
