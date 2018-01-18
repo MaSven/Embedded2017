@@ -139,18 +139,22 @@ int main(void){
 			case IDLE:
 			switch(display_state){
 				case DISPLAY_MODE_TIME:
+				// Anforderrung f) i.
 				lcd_clear();
 				clock_display();
 				break;
 				case DISPLAY_MODE_TIME_TEMP:
+				// Anforderrung f) ii.
 				lcd_clear();
 				clock_display();
 				lcd_set_cursor(2, 0);
-				lcd_send_string("100 Grad ");
+				lcd_send_string("100 Grad ");// 
 				break;
 				case DISPLAY_MODE_TIME_TEMP_LF:
+				// Anforderrung f) iV
 				lcd_clear();
 				clock_display();
+				// --- Fehlt eine geeignete umschaltung
 				lcd_set_cursor(2, 0);
 				char luftfeuchte[4] = {0};
 				itoa(adc_read(), luftfeuchte, 10);
@@ -162,13 +166,13 @@ int main(void){
 			case MENUE_TIME:
 			//LCD Zeit einstellen
 			lcd_clear();
-			lcd_send_string("LCD einstellen");
+			lcd_send_string("Uhrzeit");
 			lcd_set_cursor(2, 0);
-			lcd_send_string("(ENTER)");
+			lcd_send_string("einstellen");
 			key_was_pressed = 0;
 			while (key_was_pressed == 0)
 			{
-				
+				// warte auf eingbabe
 			}
 			key_was_pressed = 0;
 			if (enter_was_pressed)
@@ -189,9 +193,10 @@ int main(void){
 			key_was_pressed = 0;
 			break;
 			case MENUE_TIME_EDIT_H:
-			//LCD
 			lcd_clear();
 			clock_display();
+			lcd_set_cursor(2, 0);
+			lcd_send_string("Stunden edit");	// bearbeiten wäre zu lang
 			key_was_pressed = 0;
 			while (key_was_pressed == 0)
 			{
@@ -219,6 +224,8 @@ int main(void){
 			//LCD
 			lcd_clear();
 			clock_display();
+			lcd_set_cursor(2, 0);
+			lcd_send_string("Minuten edit");	// bearbeiten wäre zu lang
 			key_was_pressed = 0;
 			while (key_was_pressed == 0)
 			{
