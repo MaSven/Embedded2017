@@ -48,16 +48,6 @@ int main(void){
 	while(1)
 	{
 		_delay_ms(1000);
-		lcd_clear();
-		int16_t temp = ds18s20_read_temperature();
-		char adc_string[STRING_CPACITY];
-		itoa(temp,adc_string,10);
-		lcd_set_cursor(1,0);
-		lcd_send_string(adc_string);
-		temp_display(2,0);
-		char temp_string[STRING_CPACITY];
-		ds18s20_temperature_as_string(temp, temp_string);
-		lcd_set_cursor(1,6);
-		lcd_send_string(temp_string);
+		temp_display(2,4);
 	}
 }
