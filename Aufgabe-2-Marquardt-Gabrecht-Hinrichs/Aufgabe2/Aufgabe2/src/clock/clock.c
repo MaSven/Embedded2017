@@ -10,9 +10,9 @@
 #include "clock/clock.h"
 #include "lcd/lcd.h"
 
-volatile uint8_t hours = 23;
-volatile uint8_t minutes = 59;
-volatile uint8_t seconds = 45;
+volatile uint8_t hours = 0;
+volatile uint8_t minutes = 0;
+volatile uint8_t seconds = 0;
 
 void clock_display(int row, int col)
 {

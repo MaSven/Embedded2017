@@ -50,21 +50,24 @@ extern volatile uint8_t seconds;
 
 // Prototypes
 void timer1Init (void);
-
+void init(void);
 
 int main(void){
-	LCDDDR = ((0xF0)|(1<<LCD_RS_PIN)|(1<<LCD_E_PIN));
-	LCDPORT = 0x00;
-	lcd_init();
-	cli();
-	timer1Init();
-	sei();
-	adc_init();
+	init();
 	while(1)
 	{
 		clock_display(1,2);
 		hygro_display(2,5);
 	}
+}
+
+void init(void)
+{
+	cli();
+	lcd_init();
+	adc_init();
+	timer1Init();
+	sei();
 }
 
 void timer1Init(void)
@@ -99,10 +102,3 @@ ISR (TIMER1_COMPA_vect)
 	}
 	
 }
-
-/*
-uint8_t hygro_read(void)
-{
-	uint8_t value = adc_read()/ADC_MAP_FACTOR;
-	return value;
-}*/
