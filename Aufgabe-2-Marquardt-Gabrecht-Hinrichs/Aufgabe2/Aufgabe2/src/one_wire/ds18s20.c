@@ -56,6 +56,11 @@ static inline uint8_t is_temperature_negative(uint8_t ms_byte);
 */
 int8_t ls_and_ms_to_temperature(uint8_t ls_byte,uint8_t ms_byte);
 
+#define ERROR_CRC 0
+#define READ_SUCCESFULL 1
+
+uint8_t status;
+
 int16_t ds18s20_read_temperature(){
 	uint8_t scratchpad_data[SCRATCHPAD_SIZE_IN_BYTE]={0};
 	if(one_wire_reset()){
@@ -92,6 +97,7 @@ int16_t ds18s20_read_temperature(){
 		}
 		#endif*/
 		if(check_scratchpad_data(scratchpad_data,SCRATCHPAD_SIZE_IN_BYTE,scratchpad_data[SCRATCHPAD_CRC_BYTE])){
+			status = READ_SUCCESFULL;
 			uint8_t count_remain = scratchpad_data[SCRATCHPAD_COUNT_REMAIN_BYTE];
 			uint8_t count_per_c = scratchpad_data[SCRATCHPAD_COUNT_PER_C_BYTE];
 			uint8_t ls_byte = scratchpad_data[SCRATCHPAD_LS_BYTE];
@@ -112,6 +118,7 @@ int16_t ds18s20_read_temperature(){
 			temperature=(temperature - TEMPERATURE_CONSTANT)+(((count_per_c-count_remain)));
 			return ((temperature * 10)>> 4);
 		}
+		status=ERROR_CRC;
 	}
 	return 0;
 }
@@ -168,9 +175,15 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 	itoa(temperature,temp_as_string,10);
 	uint8_t counter =0;
 	uint8_t length_of_number_before_com = 1;
+	//Temperatur hat ein minus
 	if(temperature<0){
 		length_of_number_before_com++;
 	}
+	//Temperatu hat 2 zahlen vor dem komma
+	if(temperature>999||temperature<(-999)){
+		length_of_number_before_com++;
+	}
+	//Temperatur ist 
 	if(temperature>9999||temperature<(-9999)){
 		length_of_number_before_com++;
 	}
@@ -179,7 +192,11 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 			//Setze das nach dem die vorkomma zahlen behandelt wurden
 			temperature_string[counter++]=',';
 			//Es gibt nur 2 nachkomma stellen
-			temperature_string[counter]=temp_as_string[counter-1];
+			if(temperature=0){
+				temperature_string[counter]='0';
+			}else{
+				temperature_string[counter]=temp_as_string[counter-1];
+			}
 			counter++;
 			//Alle Zahlen eingetragen nun die zeichen fuer Temperatur
 			temperature_string[counter++]=0xB2;
