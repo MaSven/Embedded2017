@@ -135,6 +135,7 @@ int main(void){
 	lcd_init();
 	cli();
 	timer1Init();
+	external_interrupt_init()
 	sei();
 	while(1) {
 		switch (menue_state) {
