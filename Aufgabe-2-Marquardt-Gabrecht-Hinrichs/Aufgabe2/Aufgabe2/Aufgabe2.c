@@ -55,7 +55,7 @@ int main(void){
 		lcd_set_cursor(1,0);
 		lcd_send_string(adc_string);
 		temp_display(2,0);
-		char temp_string[16];
+		char temp_string[STRING_CPACITY];
 		ds18s20_temperature_as_string(temp, temp_string);
 		lcd_set_cursor(1,6);
 		lcd_send_string(temp_string);
