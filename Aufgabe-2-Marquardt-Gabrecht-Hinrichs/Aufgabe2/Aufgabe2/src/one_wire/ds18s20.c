@@ -94,7 +94,7 @@ int16_t ds18s20_read_temperature(){
 			uint8_t ls_byte = scratchpad_data[SCRATCHPAD_LS_BYTE];
 			uint8_t ms_byte = scratchpad_data[SCRATCHPAD_MS_BYTE];
 			int16_t temperature = ls_and_ms_to_temperature(ls_byte,ms_byte);
-			#ifdef DEBUG
+			/*#ifdef DEBUG
 			char int_string[4]={0};
 			//itoa(((temperature - TEMPERATURE_CONSTANT)+(((count_per_c-count_remain)/count_per_c)*INTEGER_OFFSET)),int_string,10);
 			itoa(ms_byte,int_string,10);
@@ -103,7 +103,7 @@ int16_t ds18s20_read_temperature(){
 			itoa(ls_byte,int_string,10);
 			lcd_set_cursor(2,10);
 			lcd_send_string(int_string);
-			#endif
+			#endif*/
 			return (temperature - TEMPERATURE_CONSTANT)+(((count_per_c-count_remain)/count_per_c));
 		}
 	}
@@ -194,8 +194,9 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 }
 
 void temp_display(int row, int col){
-	char temperature[STRING_CPACITY];
-	sprintf(temperature, "%d%cC",ds18s20_read_temperature(),0xB2);
+	int16_t temperature = ds18s20_read_temperature();
+	char temp_string[STRING_CPACITY];
+	ds18s20_temperature_as_string(temperature,temp_string);
 	lcd_set_cursor(row,col);
-	lcd_send_string(temperature);
+	lcd_send_string(temp_string);
 }
