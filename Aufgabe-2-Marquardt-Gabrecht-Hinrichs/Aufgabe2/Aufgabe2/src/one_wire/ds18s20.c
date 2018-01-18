@@ -9,12 +9,13 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "one_wire/one_wire.h"
 #include "global.h"
 #include "one_wire/ds18s20.h"
-#ifdef DEBUG
+//#ifdef DEBUG
 #include "lcd/lcd.h"
-#endif
+//#endif
 /*
 *   Scratchpad ist 9 byte gross im DS18S20
 */
@@ -59,29 +60,46 @@ int16_t ds18s20_read_temperature(){
 		one_wire_write_byte(FUNCTION_COMMAND_CONVERT_T);
 		//Warte bis die temperatur in digitalform im scratchpad ist
 		while(!one_wire_read_bit());
+		// Reset vor jedem Command
+		one_wire_reset();
+		one_wire_write_byte(ROM_COMMAND_SKIP_ROM);
 		one_wire_write_byte(FUNCTION_COMMAND_READ_SCRATCHPAD);
 		//Lesen des scratchpads beinhaltet 9 bytes im ds18s20
 		for(int i=0;i<SCRATCHPAD_SIZE_IN_BYTE;i++){
 			scratchpad_data[i]=one_wire_read_byte();
 		}
-		#ifdef DEBUG
+		/*// Test scratchpad leer?
+		char scratchpad_string[3]={0};
+		itoa(scratchpad_data[0], scratchpad_string, 10);
+		lcd_set_cursor(2,0);
+		lcd_send_string(scratchpad_string);
+		itoa(scratchpad_data[1], scratchpad_string, 10);
+		lcd_set_cursor(2,4);
+		lcd_send_string(scratchpad_string);*/
+		/*#ifdef DEBUG
 		for(uint8_t i=0;i<SCRATCHPAD_SIZE_IN_BYTE;i++){
-			lcd_clear();
+			//lcd_clear();
+			lcd_set_cursor(1,5);
+			lcd_send_string("Test");
 			char int_string[4]={0};
 			itoa(scratchpad_data[i],int_string,10);
+			lcd_set_cursor(2,0);
+			lcd_send_string(int_string);
 			_delay_ms(500);
 		}
-		#endif
+		#endif*/
 		if(check_scratchpad_data(scratchpad_data,SCRATCHPAD_SIZE_IN_BYTE,scratchpad_data[SCRATCHPAD_CRC_BYTE])){
 			uint8_t count_remain = scratchpad_data[SCRATCHPAD_COUNT_REMAIN_BYTE];
 			uint8_t count_per_c = scratchpad_data[SCRATCHPAD_COUNT_PER_C_BYTE];
 			uint8_t ls_byte = scratchpad_data[SCRATCHPAD_LS_BYTE];
 			uint8_t ms_byte = scratchpad_data[SCRATCHPAD_MS_BYTE];
 			int16_t temperature = ls_and_ms_to_temperature(ls_byte,ms_byte);
-			#ifdef DEBUG
+			/*#ifdef DEBUG
 			char int_string[4]={0};
 			itoa(((temperature - TEMPERATURE_CONSTANT)+(((count_per_c-count_remain)/count_per_c)*INTEGER_OFFSET)),int_string,10);
-			#endif
+			lcd_set_cursor(2,6);
+			lcd_send_string(int_string);
+			#endif*/
 			return (temperature - TEMPERATURE_CONSTANT)+(((count_per_c-count_remain)/count_per_c)*INTEGER_OFFSET);
 		}
 	}
@@ -153,4 +171,11 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 	
 	
 	
+}
+
+void temp_display(int row, int col){
+	char temperature[5];
+	sprintf(temperature, "%3d%cC",ds18s20_read_temperature(),0xB0);
+	lcd_set_cursor(row,col);
+	lcd_send_string(temperature);
 }

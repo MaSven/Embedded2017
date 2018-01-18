@@ -41,27 +41,28 @@ static inline void set_temperature_port_high(){
 	TEMPPORT |= (1<<TEMPPIN);
 }
 
-
 uint8_t reset(){
-	uint8_t read_slave_bit=0;
-	set_port_output();
-	set_temperature_port_high();
-	_delay_us(ONEWIRE_DELAY_G_US);
+	uint8_t read_slave_bit = 0;
+	// Bus auf low ziehen und 480us warten
 	set_temperature_port_down();
+	set_port_output();
 	_delay_us(ONEWIRE_DELAY_H_US);
-	set_port_input();
-	//Lese durchf�hren bis DELAY_I erreicht ist
+	// Bus loslassen und 70us warten
+	set_temperature_port_high();
 	_delay_us(ONEWIRE_DELAY_I_US);
-	read_slave_bit= (TEMPPININPUT & (1<<TEMPPIN));
+	// Buswert lesen und warten bis der zweite 480us-Slot zu Ende ist
+	read_slave_bit = (TEMPPININPUT & (1<<TEMPPIN));
 	_delay_us(ONEWIRE_DELAY_J_US);
+	// Buswert zurueckgeben
 	return read_slave_bit;
 }
 
 void write_one_bit(uint8_t bit){
 	set_port_output();
 	set_temperature_port_down();
-	_delay_us(ONEWIRE_DELAY_A_US);
+	//_delay_us(ONEWIRE_DELAY_A_US);
 	if(bit){
+		_delay_us(ONEWIRE_DELAY_A_US); //copy von z63
 		set_port_input();
 		_delay_us(ONEWIRE_DELAY_B_US);
 		
@@ -77,6 +78,8 @@ uint8_t read_one_bit(){
 	set_port_output();
 	set_temperature_port_down();
 	_delay_us(ONEWIRE_RESET_SLOT);
+	// Test application_note one-wire page 6 of 12 OWReadBit uses delay(A)
+	//_delay_us(ONEWIRE_DELAY_A_US);
 	set_port_input();
 	_delay_us(ONEWIRE_DELAY_E_US);
 	if((TEMPPININPUT&(1<<TEMPPIN))){
@@ -116,8 +119,9 @@ uint8_t write_and_result(uint8_t byte){
 				result |= 0x80;
 			}
 			}else{
-			write_one_bit(0);
-		}
+				write_one_bit(0);
+			}
+			byte >>=1;
 	}
 	return result;
 }
