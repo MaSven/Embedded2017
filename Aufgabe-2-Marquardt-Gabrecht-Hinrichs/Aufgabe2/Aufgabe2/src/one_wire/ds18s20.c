@@ -115,7 +115,7 @@ uint8_t crc_check(uint8_t data,uint8_t crc){
 		return 1;
 	}
 	return 0;
-	
+
 }
 
 uint8_t check_scratchpad_data(uint8_t* data,uint8_t length,uint8_t crc_byte){
@@ -146,15 +146,14 @@ int16_t ls_and_ms_to_temperature(const uint8_t ls_byte,const uint8_t ms_byte){
 		//nur dei 1 kopieren die ueberprueft wird
 		check_byte = (ls_byte & (check_byte));
 		if(check_byte){
-			if(i==0){
-				temperature = 50*sign;
-				}else{
+			if(i!=0)
+				//bit 0 ignorieren um eine hoeher aufloesung zu erreichen
 				temperature += (pow((2*sign),i-1)*INTEGER_OFFSET);
 			}
 		}
 	}
 	return temperature;
-	
+
 }
 
 char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_string){
@@ -177,7 +176,7 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 			counter++;
 			temperature_string[counter]=temp_as_string[counter-1];
 			counter++;
-			//Alle Zahlen eingetragen nun die zeichen fuer Temperatur 
+			//Alle Zahlen eingetragen nun die zeichen fuer Temperatur
 			temperature_string[counter++]=0xB2;
 			temperature_string[counter++]='C';
 			temperature_string[counter]='\0';
@@ -188,9 +187,9 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 		counter++;
 	}
 	return temperature_string;
-	
-	
-	
+
+
+
 }
 
 void temp_display(int row, int col){
