@@ -116,7 +116,7 @@ int16_t ds18s20_read_temperature(){
 			lcd_send_string(int_string);
 			#endif*/
 			temperature=(temperature - TEMPERATURE_CONSTANT)+(((count_per_c-count_remain)));
-			return (temperature * 10)>> 4;
+			return ((temperature * 10)>> 4)*10;
 		}
 		status=ERROR_CRC;
 	}
@@ -192,7 +192,7 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 			//Setze das nach dem die vorkomma zahlen behandelt wurden
 			temperature_string[counter++]=',';
 			//Es gibt nur 2 nachkomma stellen
-			if(temperature=0){
+			if(temperature==0){
 				temperature_string[counter]='0';
 			}else{
 				temperature_string[counter]=temp_as_string[counter-1];
