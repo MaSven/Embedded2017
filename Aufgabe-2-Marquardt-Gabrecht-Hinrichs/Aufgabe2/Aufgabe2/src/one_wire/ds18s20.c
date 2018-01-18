@@ -25,7 +25,7 @@
 #define SCRATCHPAD_CRC_BYTE 8
 #define SCRATCHPAD_COUNT_REMAIN_BYTE 6
 #define SCRATCHPAD_COUNT_PER_C_BYTE 7
-#define SIZE_OF_UINT8 sizeof(uint8_t)
+#define SIZE_OF_UINT8 sizeof(uint8_t)*8
 #define TEMPERATURE_CONSTANT 25
 
 /*
@@ -136,8 +136,6 @@ int16_t ls_and_ms_to_temperature(const uint8_t ls_byte,const uint8_t ms_byte){
 	int16_t temperature=0;
 	uint8_t check_byte=0;
 	int8_t sign = 1;
-	char temperature_string[2];
-	char temp_as_string[STRING_CPACITY];
 	if(is_temperature_negative(ms_byte)){
 		sign = -1;
 	}
@@ -147,10 +145,6 @@ int16_t ls_and_ms_to_temperature(const uint8_t ls_byte,const uint8_t ms_byte){
 		check_byte = (1<<i);
 		//nur dei 1 kopieren die ueberprueft wird
 		check_byte = (ls_byte & (check_byte));
-		lcd_clear();
-		sprintf(temperature_string, "%d%cC",check_byte);
-		lcd_send_string(temperature);
-		_delay_ms(400);	
 		if(check_byte){
 			if(i==0){
 				temperature = 50*sign;
@@ -159,10 +153,6 @@ int16_t ls_and_ms_to_temperature(const uint8_t ls_byte,const uint8_t ms_byte){
 			}
 		}
 	}
-	lcd_clear();
-	sprintf(temp_as_string, "%d%cC",temperature);
-	lcd_send_string(temperature);
-	_delay_ms(400);
 	return temperature;
 	
 }
@@ -171,22 +161,27 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 	char temp_as_string[STRING_CPACITY];
 	itoa(temperature,temp_as_string,10);
 	uint8_t counter =0;
+	uint8_t length_of_number_before_com = 2;
+	if(temperature<0){
+		length_of_number_before_com++;
+	}
+	if(temperature>9999||temperature<(-9999)){
+		length_of_number_before_com++;
+	}
 	while(counter<STRING_CPACITY){
-		if(counter==2){
+		if(counter==length_of_number_before_com){
 			//Setze das komma nach der zweiten stelle
 			temperature_string[counter++]=',';
+			temperature_string[counter]=temp_as_string[counter-1];
+			temperature_string[++counter]=temp_as_string[counter-1];
+			}else if(counter<length_of_number_before_com){
 			temperature_string[counter]=temp_as_string[counter];
-			}else{
-			temperature_string[counter]=temp_as_string[counter];
+		}else{
+			temperature_string[counter]='°';
+			temperature_string[counter+1]='C';
+			break;
 		}
 		counter++;
-	}
-	if(temperature_string[STRING_CPACITY-3]==0){
-		temperature_string[STRING_CPACITY-3]='0';
-		
-	}
-	if(temperature_string[STRING_CPACITY-2]==0){
-		temperature_string[STRING_CPACITY-2]='0';
 	}
 	return temperature_string;
 	
