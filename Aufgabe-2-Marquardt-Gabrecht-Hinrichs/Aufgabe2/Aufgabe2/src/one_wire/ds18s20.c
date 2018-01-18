@@ -170,16 +170,20 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 	}
 	while(counter<STRING_CPACITY){
 		if(counter==length_of_number_before_com){
-			//Setze das komma nach der zweiten stelle
+			//Setze das nach dem die vorkomma zahlen behandelt wurden
 			temperature_string[counter++]=',';
+			//Es gibt nur 2 nachkomma stellen
 			temperature_string[counter]=temp_as_string[counter-1];
-			temperature_string[++counter]=temp_as_string[counter-1];
+			counter++;
+			temperature_string[counter]=temp_as_string[counter-1];
+			counter++;
+			//Alle Zahlen eingetragen nun die zeichen fuer Temperatur 
+			temperature_string[counter++]=0xB2;
+			temperature_string[counter++]='C';
+			temperature_string[counter]='\0';
+			break;
 			}else if(counter<length_of_number_before_com){
 			temperature_string[counter]=temp_as_string[counter];
-		}else{
-			temperature_string[counter]='°';
-			temperature_string[counter+1]='C';
-			break;
 		}
 		counter++;
 	}
