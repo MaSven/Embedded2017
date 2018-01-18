@@ -26,7 +26,7 @@
 #define SCRATCHPAD_COUNT_REMAIN_BYTE 6
 #define SCRATCHPAD_COUNT_PER_C_BYTE 7
 #define SIZE_OF_UINT8 sizeof(uint8_t)*8
-#define TEMPERATURE_CONSTANT 25
+#define TEMPERATURE_CONSTANT 4
 
 /*
 *   Offset um float berechnung in einem int16_t speichern zu koennen
@@ -51,7 +51,7 @@ static inline uint8_t is_temperature_negative(uint8_t ms_byte);
 /*
 *   Wandelt
 */
-int16_t ls_and_ms_to_temperature(uint8_t ls_byte,uint8_t ms_byte);
+int8_t ls_and_ms_to_temperature(uint8_t ls_byte,uint8_t ms_byte);
 
 int16_t ds18s20_read_temperature(){
 	uint8_t scratchpad_data[SCRATCHPAD_SIZE_IN_BYTE]={0};
@@ -105,7 +105,8 @@ int16_t ds18s20_read_temperature(){
 			lcd_set_cursor(2,10);
 			lcd_send_string(int_string);
 			#endif*/
-			return (temperature - TEMPERATURE_CONSTANT)+(((count_per_c-count_remain)));
+			temperature=(temperature - TEMPERATURE_CONSTANT)+(((count_per_c-count_remain)));
+			return (temperature * 10) >> 4;
 		}
 	}
 	return 0;
