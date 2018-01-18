@@ -110,7 +110,7 @@ int16_t ds18s20_read_temperature(){
 			lcd_send_string(int_string);
 			#endif*/
 			temperature=(temperature - TEMPERATURE_CONSTANT)+(((count_per_c-count_remain)));
-			return ((temperature * 10)>> 4)*10;
+			return ((temperature * 10)>> 4);
 		}
 	}
 	return 0;
@@ -167,7 +167,7 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 	char temp_as_string[STRING_CPACITY];
 	itoa(temperature,temp_as_string,10);
 	uint8_t counter =0;
-	uint8_t length_of_number_before_com = 2;
+	uint8_t length_of_number_before_com = 1;
 	if(temperature<0){
 		length_of_number_before_com++;
 	}
@@ -179,8 +179,6 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 			//Setze das nach dem die vorkomma zahlen behandelt wurden
 			temperature_string[counter++]=',';
 			//Es gibt nur 2 nachkomma stellen
-			temperature_string[counter]=temp_as_string[counter-1];
-			counter++;
 			temperature_string[counter]=temp_as_string[counter-1];
 			counter++;
 			//Alle Zahlen eingetragen nun die zeichen fuer Temperatur
