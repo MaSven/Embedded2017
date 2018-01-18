@@ -151,6 +151,7 @@ int16_t ls_and_ms_to_temperature(const uint8_t ls_byte,const uint8_t ms_byte){
 				temperature += (pow((2*sign),i-1)*INTEGER_OFFSET);
 			}
 		}
+		
 	}
 	return temperature;
 
