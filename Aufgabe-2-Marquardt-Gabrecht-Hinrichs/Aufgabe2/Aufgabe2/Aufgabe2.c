@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include "global.h"
 #include "lcd/lcd.h"
+#include "adc/adc.h"
+//#include "adc/hygro.h"
 #include "one_wire/ds18s20.h"
 #include "clock/clock.h"
 
@@ -32,11 +34,11 @@
 #define DISPLAY_TIME_TEMP_LF 12
 #define DEBUG 1
 
-#define DISPLAY_MODE_TIME = 13
-#define DISPLAY_MODE_TIME_TEMP = 14
-#define DISPLAY_MODE_TIME_TEMP_LF = 15
+#define DISPLAY_MODE_TIME 13
+#define DISPLAY_MODE_TIME_TEMP 14
+#define DISPLAY_MODE_TIME_TEMP_LF 15
 
-uint8_t volatile menue_state = IDLE;
+uint8_t volatile menue_state = MENUE_TIME_EDIT_H;
 uint8_t volatile display_state = DISPLAY_MODE_TIME;
 uint8_t volatile enter_was_pressed = 0;
 uint8_t volatile up_was_pressed = 0;
@@ -79,7 +81,7 @@ int main(void){
 				lcd_clear();
 				clock_display();
 				lcd_set_cursor(2, 0);
-				char[4] luftfeuchte = {0};
+				char luftfeuchte[4] = {0};
 				itoa(adc_read(), luftfeuchte, 10);
 				lcd_send_string("100 Grad ");
 				lcd_send_string(luftfeuchte);
@@ -131,11 +133,11 @@ int main(void){
 			}
 			if (down_was_pressed)
 			{
-				clock_hour_dec()
+				clock_hour_dec();
 			}
 			if (up_was_pressed)
 			{
-				clock_hour_inc()
+				clock_hour_inc();
 			}
 			enter_was_pressed = 0;
 			up_was_pressed = 0;
@@ -158,11 +160,11 @@ int main(void){
 			}
 			if (down_was_pressed)
 			{
-				clock_min_dec()
+				clock_min_dec();
 			}
 			if (up_was_pressed)
 			{
-				clock_min_inc()
+				clock_min_inc();
 			}
 			enter_was_pressed = 0;
 			up_was_pressed = 0;
@@ -274,43 +276,73 @@ int main(void){
 			if (up_was_pressed)
 			{
 				menue_state = MENUE_DISPLAY_TIME_TEMP;
-				=======
-				while (1)
-				{
-					clock_display();
-				}
 			}
+	}
+}
 
-			void timer1Init(void)
+void timer1Init(void)
+{
+	TCCR1A = 0x00;
+	TCCR1B |= ((1<<WGM12)|(1<<CS12)); // CTC ON, Prescaler 1024
+	// Timer 1,0s
+	// 1 * 8.000.000 / 256 = 31250
+	OCR1A = 31250;
+	// Interrupt aktivieren
+	TIMSK1 |= (1<<OCIE1A);
+	// Zaehlregister auf 0
+	TCNT1 = 0x00;
+}
+
+ISR (TIMER1_COMPA_vect)
+{
+	seconds++;
+	if (seconds == 60)
+	{
+		seconds = 0;
+		minutes++;
+		if (minutes == 60)
+		{
+			minutes = 0;
+			hours++;
+			if (hours == 24)
 			{
-				TCCR1A = 0x00;
-				TCCR1B |= ((1<<WGM12)|(1<<CS12)); // CTC ON, Prescaler 1024
-				// Timer 1,0s
-				// 1 * 8.000.000 / 256 = 31250
-				OCR1A = 31250;
-				// Interrupt aktivieren
-				TIMSK1 |= (1<<OCIE1A);
-				// Zaehlregister auf 0
-				TCNT1 = 0x00;
+				hours = 0;
 			}
+		}
+	}
+	
+}
 
-			ISR (TIMER1_COMPA_vect)
-			{
-				seconds++;
-				if (seconds == 60)
-				{
-					seconds = 0;
-					minutes++;
-					if (minutes == 60)
-					{
-						minutes = 0;
-						hours++;
-						if (hours == 24)
-						{
-							hours = 0;
-							>>>>>>> origin/clock
-						}
+void external_interrupt_init(){
+	PCMSK0 |= ((1<<UP)|(1<<DOWN)|(1<<ENTER)|(1<<CANCEL));
+	PCICR |= (1<<PCIE0);
+}
+
+//External Interrupt ausgeloest
+ISR (PCINT0_vect){
+	volatile uint8_t button = PINA & ((1<<UP)|(1<<DOWN)|(1<<ENTER)|(1<<CANCEL));
+	if(!button){
+			if(IOInterruptEnabled) {
+					//IOInterruptEnabled = 0;
+					key_was_pressed = 1;
+					if(Lastbutton == (1<<CANCEL)){
+							menue_state = IDLE;
 					}
-				}
-				
+					if(Lastbutton == (1<<ENTER)){
+							if (menue_state == IDLE)
+							{
+									menue_state = MENUE_TIME;
+							}
+							enter_was_pressed = 1;
+					}
+					if(Lastbutton == (1<<UP)){
+							up_was_pressed = 1;
+					}
+					if(Lastbutton == (1<<DOWN)){
+							down_was_pressed = 1;
+					}
 			}
+		} else {
+			Lastbutton = button;
+	}
+}
