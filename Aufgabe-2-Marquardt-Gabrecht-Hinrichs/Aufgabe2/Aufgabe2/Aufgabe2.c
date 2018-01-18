@@ -58,7 +58,8 @@ int main(void){
 	while(1)
 	{
 		clock_display(1,2);
-		hygro_display(2,5);
+		temp_display(2,2);
+		hygro_display(2,9);
 	}
 }
 
