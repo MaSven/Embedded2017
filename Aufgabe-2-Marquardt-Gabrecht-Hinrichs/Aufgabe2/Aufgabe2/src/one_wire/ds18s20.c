@@ -96,7 +96,8 @@ int16_t ds18s20_read_temperature(){
 			uint8_t count_per_c = scratchpad_data[SCRATCHPAD_COUNT_PER_C_BYTE];
 			uint8_t ls_byte = scratchpad_data[SCRATCHPAD_LS_BYTE];
 			uint8_t ms_byte = scratchpad_data[SCRATCHPAD_MS_BYTE];
-			int16_t temperature = ls_and_ms_to_temperature(ls_byte,ms_byte);
+			int16_t temperature = ((int16_t)ms_byte|ls_byte);
+			temperature &= ~1;
 			temperature <<=3;
 			/*#ifdef DEBUG
 			char int_string[4]={0};
@@ -109,7 +110,7 @@ int16_t ds18s20_read_temperature(){
 			lcd_send_string(int_string);
 			#endif*/
 			temperature=(temperature - TEMPERATURE_CONSTANT)+(((count_per_c-count_remain)));
-			return (temperature * 10) >> 4;
+			return (temperature * 10)>> 4;
 		}
 	}
 	return 0;
