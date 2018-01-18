@@ -136,6 +136,8 @@ int16_t ls_and_ms_to_temperature(const uint8_t ls_byte,const uint8_t ms_byte){
 	int16_t temperature=0;
 	uint8_t check_byte=0;
 	int8_t sign = 1;
+	char temperature_string[2];
+	char temp_as_string[STRING_CPACITY];
 	if(is_temperature_negative(ms_byte)){
 		sign = -1;
 	}
@@ -145,6 +147,10 @@ int16_t ls_and_ms_to_temperature(const uint8_t ls_byte,const uint8_t ms_byte){
 		check_byte = (1<<i);
 		//nur dei 1 kopieren die ueberprueft wird
 		check_byte = (ls_byte & (check_byte));
+		lcd_clear();
+		sprintf(temperature_string, "%d%cC",check_byte);
+		lcd_send_string(temperature);
+		_delay_ms(400);	
 		if(check_byte){
 			if(i==0){
 				temperature = 50*sign;
@@ -153,6 +159,10 @@ int16_t ls_and_ms_to_temperature(const uint8_t ls_byte,const uint8_t ms_byte){
 			}
 		}
 	}
+	lcd_clear();
+	sprintf(temp_as_string, "%d%cC",temperature);
+	lcd_send_string(temperature);
+	_delay_ms(400);
 	return temperature;
 	
 }
@@ -161,14 +171,7 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 	char temp_as_string[STRING_CPACITY];
 	itoa(temperature,temp_as_string,10);
 	uint8_t counter =0;
-	lcd_send_string(temperature);
-	_delay_ms(300);
 	while(counter<STRING_CPACITY){
-		lcd_clear();
-		lcd_send_char(temperature_string[STRING_CPACITY-3]);
-		_delay_ms(300);
-		lcd_send_char(temperature_string[STRING_CPACITY-2]);
-		_delay_ms(300);
 		if(counter==2){
 			//Setze das komma nach der zweiten stelle
 			temperature_string[counter++]=',';
