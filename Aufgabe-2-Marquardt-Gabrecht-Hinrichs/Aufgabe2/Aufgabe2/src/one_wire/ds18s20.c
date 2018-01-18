@@ -104,7 +104,7 @@ int16_t ds18s20_read_temperature(){
 			lcd_set_cursor(2,10);
 			lcd_send_string(int_string);
 			#endif
-			return (temperature - TEMPERATURE_CONSTANT)+(((count_per_c-count_remain)/count_per_c)*INTEGER_OFFSET);
+			return (temperature - TEMPERATURE_CONSTANT)+(((count_per_c-count_remain)/count_per_c));
 		}
 	}
 	return 0;
@@ -146,8 +146,8 @@ int16_t ls_and_ms_to_temperature(const uint8_t ls_byte,const uint8_t ms_byte){
 		//nur dei 1 kopieren die ueberprueft wird
 		check_byte = (ls_byte & (check_byte));
 		if(check_byte){
-			if(i!=0)
-				//bit 0 ignorieren um eine hoeher aufloesung zu erreichen
+			if(i!=0){
+				//bit 0 ignorieren um eine hoehere aufloesung zu erreichen
 				temperature += (pow((2*sign),i-1)*INTEGER_OFFSET);
 			}
 		}
