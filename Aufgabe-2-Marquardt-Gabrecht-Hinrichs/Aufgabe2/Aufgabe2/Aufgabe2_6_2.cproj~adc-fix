@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectVersion>7.0</ProjectVersion>
+    <ProjectVersion>6.2</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8.C</ToolchainName>
     <ProjectGuid>{31a1d0ca-15fd-4168-bacc-30ed88ea218f}</ProjectGuid>
     <avrdevice>ATmega644PA</avrdevice>
@@ -27,28 +27,18 @@
     <BootSegment>2</BootSegment>
     <eraseonlaunchrule>0</eraseonlaunchrule>
     <AsfFrameworkConfig>
-      <framework-data>
+      <framework-data xmlns="">
         <options />
         <configurations />
         <files />
         <documentation help="" />
         <offline-documentation help="" />
         <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.26.0" />
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.21.0" />
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
     <avrtool>com.atmel.avrdbg.tool.avrdragon</avrtool>
-    <ResetRule>0</ResetRule>
-    <EraseKey />
-    <avrtoolserialnumber>00A200019549</avrtoolserialnumber>
-    <avrdeviceexpectedsignature>0x1E960A</avrdeviceexpectedsignature>
-    <com_atmel_avrdbg_tool_simulator>
-      <ToolOptions xmlns="">
-        <InterfaceProperties>
-        </InterfaceProperties>
-      </ToolOptions>
-    </com_atmel_avrdbg_tool_simulator>
     <com_atmel_avrdbg_tool_avrdragon>
       <ToolOptions>
         <InterfaceProperties>
@@ -61,13 +51,10 @@
       <ToolName>AVR Dragon</ToolName>
     </com_atmel_avrdbg_tool_avrdragon>
     <avrtoolinterface>JTAG</avrtoolinterface>
-    <ResetRule>0</ResetRule>
-    <EraseKey />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
       <AvrGcc>
-        <avrgcc.common.Device>-mmcu=atmega644pa -B "%24(PackRepoDir)\atmel\ATmega_DFP\1.2.150\gcc\dev\atmega644pa"</avrgcc.common.Device>
         <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
         <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
         <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
@@ -80,11 +67,6 @@
             <Value>NDEBUG</Value>
           </ListValues>
         </avrgcc.compiler.symbols.DefSymbols>
-        <avrgcc.compiler.directories.IncludePaths>
-          <ListValues>
-            <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.2.150\include</Value>
-          </ListValues>
-        </avrgcc.compiler.directories.IncludePaths>
         <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
         <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
         <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
@@ -94,18 +76,12 @@
             <Value>libm</Value>
           </ListValues>
         </avrgcc.linker.libraries.Libraries>
-        <avrgcc.assembler.general.IncludePaths>
-          <ListValues>
-            <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.2.150\include</Value>
-          </ListValues>
-        </avrgcc.assembler.general.IncludePaths>
       </AvrGcc>
     </ToolchainSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <ToolchainSettings>
       <AvrGcc>
-        <avrgcc.common.Device>-mmcu=atmega644pa -B "%24(PackRepoDir)\atmel\ATmega_DFP\1.2.150\gcc\dev\atmega644pa"</avrgcc.common.Device>
         <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
         <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
         <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
@@ -120,11 +96,13 @@
         </avrgcc.compiler.symbols.DefSymbols>
         <avrgcc.compiler.directories.IncludePaths>
           <ListValues>
+<<<<<<< HEAD:Aufgabe-2-Marquardt-Gabrecht-Hinrichs/Aufgabe2/Aufgabe2/Aufgabe2_6_2.cproj~adc-fix
             <Value>../includes/adc</Value>
             <Value>../includes/lcd</Value>
             <Value>../includes/one_wire</Value>
+=======
+>>>>>>> clock:Aufgabe-2-Marquardt-Gabrecht-Hinrichs/Aufgabe2/Aufgabe2/Aufgabe2_6_2.cproj
             <Value>../includes</Value>
-            <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.2.150\include</Value>
           </ListValues>
         </avrgcc.compiler.directories.IncludePaths>
         <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
@@ -137,11 +115,6 @@
             <Value>libm</Value>
           </ListValues>
         </avrgcc.linker.libraries.Libraries>
-        <avrgcc.assembler.general.IncludePaths>
-          <ListValues>
-            <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.2.150\include</Value>
-          </ListValues>
-        </avrgcc.assembler.general.IncludePaths>
         <avrgcc.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcc.assembler.debugging.DebugLevel>
       </AvrGcc>
     </ToolchainSettings>
@@ -153,12 +126,9 @@
     <Compile Include="includes\adc\adc.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="includes\adc\hygro.h">
-      <SubType>compile</SubType>
-    </Compile>
+<<<<<<< HEAD:Aufgabe-2-Marquardt-Gabrecht-Hinrichs/Aufgabe2/Aufgabe2/Aufgabe2_6_2.cproj~adc-fix
     <Compile Include="includes\global.h">
-      <SubType>compile</SubType>
-    </Compile>
+=======
     <Compile Include="includes\clock\clock.h">
       <SubType>compile</SubType>
     </Compile>
@@ -175,21 +145,22 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\one_wire\ds18s20.c">
+>>>>>>> clock:Aufgabe-2-Marquardt-Gabrecht-Hinrichs/Aufgabe2/Aufgabe2/Aufgabe2_6_2.cproj
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\one_wire\one_wire.c">
+    <Compile Include="includes\lcd\lcd.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="includes\one_wire\one_wire.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="includes\one_wire\ds18s20.h">
+    <Compile Include="src\adc\adc.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\adc\hygro.c">
+    <Compile Include="src\lcd\lcd.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="includes\one_wire\commands.h">
+    <Compile Include="src\one_wire\one_wire.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
@@ -204,18 +175,6 @@
     <Folder Include="src\lcd" />
     <Folder Include="src\clock" />
     <Folder Include="src\one_wire" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\globals\globals.cproj">
-      <Name>globals</Name>
-      <Project>{5394e634-4438-42e0-ac86-afec9ded8aed}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\One-Wire-Interface\One-Wire-Interface.cproj">
-      <Name>One-Wire-Interface</Name>
-      <Project>{37c6aa92-a723-45b3-bf69-a5d00a55837f}</Project>
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

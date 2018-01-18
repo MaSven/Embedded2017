@@ -3,7 +3,7 @@
  *
  * Created: 11.12.2017 22:06:28
  *  Author: Matthias Hinrichs
- */ 
+ */
 
 #include <avr/io.h>
 #include <avr/interrupt.h>		// interrupts
@@ -11,7 +11,10 @@
 #include <stdio.h>
 #include "global.h"
 #include "lcd/lcd.h"
+#include "adc/adc.h"
+#include "adc/hygro.h"
 #include "one_wire/ds18s20.h"
+#include "clock/clock.h"
 
 #define UP PA0
 #define DOWN PA3
@@ -41,13 +44,62 @@ uint8_t volatile key_was_pressed = 0;
 uint8_t volatile IOInterruptEnabled = 1;
 volatile uint8_t Lastbutton =0;
 
+extern volatile uint8_t hours;
+extern volatile uint8_t minutes;
+extern volatile uint8_t seconds;
+
+
+// Prototypes
+void timer1Init (void);
+void init(void);
+
 int main(void){
-	LCDDDR = ((0xF0)|(1<<LCD_RS_PIN)|(1<<LCD_E_PIN));
-	LCDPORT = 0x00;
-	lcd_init();
+	init();
 	while(1)
 	{
-		_delay_ms(1000);
-		temp_display(2,4);
+		clock_display(1,2);
+		hygro_display(2,5);
 	}
+}
+
+void init(void)
+{
+	cli();
+	lcd_init();
+	adc_init();
+	timer1Init();
+	sei();
+}
+
+void timer1Init(void)
+{
+	TCCR1A = 0x00;
+	TCCR1B |= ((1<<WGM12)|(1<<CS12)); // CTC ON, Prescaler 1024
+	// Timer 1,0s
+	// 1 * 8.000.000 / 256 = 31250
+	OCR1A = 31250;
+	// Interrupt aktivieren
+	TIMSK1 |= (1<<OCIE1A);
+	// Zaehlregister auf 0
+	TCNT1 = 0x00;
+}
+
+ISR (TIMER1_COMPA_vect)
+{
+	seconds++;
+	if (seconds == 60)
+	{
+		seconds = 0;
+		minutes++;
+		if (minutes == 60)
+		{
+			minutes = 0;
+			hours++;
+			if (hours == 24)
+			{
+				hours = 0;
+			}
+		}
+	}
+
 }

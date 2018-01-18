@@ -10,6 +10,8 @@
 
 void lcd_init(void)
 {
+	LCDDDR = ((0xF0)|(1<<LCD_RS_PIN)|(1<<LCD_E_PIN));
+	LCDPORT = 0x00;
 	// Warten auf interne Initialisierung
 	_delay_ms(15);
 	// Umschalten in 8-Bit Modus
@@ -28,8 +30,8 @@ void lcd_init(void)
 	LCDPORT &= ~(LCD_FUNCTION_SET | LCD_FUNCTION_SET_FOUR_BIT);
 	// LCD mit zwei Zeilen und Zeichen der Grosse 5x7
 	lcd_send_command((LCD_FUNCTION_SET)|(LCD_FUNCTION_SET_TWO_LINES)|(LCD_FUNCTION_SET_EIGHT_DOTS));
-	// Display an, Blinken aus, Cursor aus
 	lcd_send_command((LCD_DISPLAY_ON_OFF_CONTROL)|(LCD_DISPLAY_ON_OFF_CONTROL_DISPLAY_ON)|(LCD_DISPLAY_ON_OFF_CONTROL_BLINK_OFF)|(LCD_DISPLAY_ON_OFF_CONTROL_CURSOR_OFF));
+	// Display an, Blinken aus, Cursor aus
 	// Automatisches inkrementieren und kein Shift
 	lcd_send_command((LCD_ENTRY_MODE_SET)|(LCD_ENTRY_MODE_SET_INCREMENT)|(LCD_ENTRY_MODE_SET_NO_SHIFT));
 	// Display loeschen
@@ -50,8 +52,6 @@ void lcd_cursor_home(void)
 
 void lcd_set_cursor(uint8_t row, uint8_t col)
 {
-	// Cursor auf Home setzen
-	lcd_cursor_home();
 	// Kommando erstellen
 	uint8_t DDRAMCommand = LCD_SET_DDRAM;
 	if (row == 1)
