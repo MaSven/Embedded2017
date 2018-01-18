@@ -162,6 +162,9 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 	itoa(temperature,temp_as_string,10);
 	uint8_t counter =0;
 	while(counter<STRING_CPACITY){
+		lcd_clear();
+		lcd_send_string(temperature_string);
+		_delay_ms(300);
 		if(counter==2){
 			//Setze das komma nach der zweiten stelle
 			temperature_string[counter++]=',';
