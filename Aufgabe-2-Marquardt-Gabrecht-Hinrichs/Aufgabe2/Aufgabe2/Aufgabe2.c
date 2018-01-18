@@ -180,6 +180,7 @@ int main(void){
 				}
 				break;
 			}
+			break;
 			case MENUE_TIME:
 			//LCD Zeit einstellen
 			lcd_clear();
