@@ -156,26 +156,21 @@ int main(void){
 				case DISPLAY_MODE_TEMP_LF:
 				// Anforderrung f) iii.
 				lcd_clear();
-					char luftfeuchte[4] = {0};
-					itoa(adc_read(), luftfeuchte, 10);
 					lcd_send_string("100 Grad ");
-					lcd_set_cursor(2, 0);
-					lcd_send_string(luftfeuchte);
+					hygro_display(0,2);
 					lcd_send_string("%");
 				break;
 				case DISPLAY_MODE_TIME_TEMP_LF:
 				// Anforderrung f) iV.
 				lcd_clear();
-				if (minutes<30)
+				if (seconds<30)
 				{
 					clock_display();
 				}
 				else
 				{
-					char luftfeuchte[4] = {0};
-					itoa(adc_read(), luftfeuchte, 10);
 					lcd_send_string("100 Grad ");
-					lcd_send_string(luftfeuchte);
+					hygro_display(0,2);
 					lcd_send_string("%");
 				}
 				break;
