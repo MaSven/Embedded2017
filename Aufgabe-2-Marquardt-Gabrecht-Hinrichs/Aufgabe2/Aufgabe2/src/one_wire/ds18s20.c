@@ -132,8 +132,8 @@ static inline uint8_t is_temperature_negative(uint8_t ms_byte){
 	return ms_byte>0;
 }
 
-int16_t ls_and_ms_to_temperature(const uint8_t ls_byte,const uint8_t ms_byte){
-	int16_t temperature=0;
+int8_t ls_and_ms_to_temperature(const uint8_t ls_byte,const uint8_t ms_byte){
+	int8_t temperature=0;
 	uint8_t check_byte=0;
 	int8_t sign = 1;
 	if(is_temperature_negative(ms_byte)){
@@ -148,7 +148,7 @@ int16_t ls_and_ms_to_temperature(const uint8_t ls_byte,const uint8_t ms_byte){
 		if(check_byte){
 			if(i!=0){
 				//bit 0 ignorieren um eine hoehere aufloesung zu erreichen
-				temperature += (pow((2*sign),i-1)*INTEGER_OFFSET);
+				temperature += (pow((2*sign),i-1));
 			}
 		}
 		
