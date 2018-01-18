@@ -49,7 +49,7 @@ int main(void){
 	{
 		_delay_ms(1000);
 		lcd_clear();
-		uint8_t temp = ds18s20_read_temperature();
+		int16_t temp = ds18s20_read_temperature();
 		char adc_string[STRING_CPACITY];
 		itoa(temp,adc_string,10);
 		lcd_set_cursor(1,0);
