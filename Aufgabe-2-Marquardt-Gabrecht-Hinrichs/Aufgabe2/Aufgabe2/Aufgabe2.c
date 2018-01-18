@@ -30,7 +30,7 @@
 #define DISPLAY_TIME 10
 #define DISPLAY_TIME_TEMP 11
 #define DISPLAY_TIME_TEMP_LF 12
-//#define DEBUG 1
+#define DEBUG 1
 
 uint8_t volatile menue_state = IDLE;
 uint8_t volatile display_state = MENUE_DISPLAY_TIME;
@@ -45,17 +45,15 @@ int main(void){
 	LCDDDR = ((0xF0)|(1<<LCD_RS_PIN)|(1<<LCD_E_PIN));
 	LCDPORT = 0x00;
 	lcd_init();
-	/*while(1)
+	while(1)
 	{
-		//_delay_ms(1000);
+		_delay_ms(1000);
+		lcd_clear();
 		uint8_t temp = ds18s20_read_temperature();
 		char adc_string[STRING_CPACITY];
 		itoa(temp,adc_string,10);
-		lcd_set_cursor(1,4);
+		lcd_set_cursor(1,0);
 		lcd_send_string(adc_string);
-	}*/
-	while (1)
-	{
-		temp_display(2,4);
+		temp_display(2,0);
 	}
 }
