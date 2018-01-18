@@ -26,6 +26,9 @@
 #define SCRATCHPAD_COUNT_REMAIN_BYTE 6
 #define SCRATCHPAD_COUNT_PER_C_BYTE 7
 #define SIZE_OF_UINT8 sizeof(uint8_t)*8
+/*
+	16*0.25 = 4
+*/
 #define TEMPERATURE_CONSTANT 4
 
 /*
