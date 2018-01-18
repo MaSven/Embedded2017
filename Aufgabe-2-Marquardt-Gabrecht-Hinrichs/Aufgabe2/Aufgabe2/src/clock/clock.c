@@ -37,7 +37,7 @@ void clock_hour_dec(void)
 {
 	cli();
 	hours--;
-	if (hours < 0)
+	if (hours > 23)
 	{
 		hours = 23;
 	}
@@ -59,7 +59,7 @@ void clock_min_dec(void)
 {
 	cli();
 	minutes--;
-	if (minutes < 0)
+	if (minutes > 59)
 	{
 		minutes = 59;
 	}
