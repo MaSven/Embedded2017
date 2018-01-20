@@ -53,6 +53,7 @@ volatile uint8_t temp_flag = 0;
 volatile uint8_t temp_counter = 0;
 volatile uint8_t hygro_flag = 0;
 volatile uint8_t hygro_counter = 0;
+extern volatile uint8_t clock_blink_flag;
 
 
 // Prototypes
@@ -105,9 +106,7 @@ void timer1Init(void)
 
 ISR (TIMER1_COMPA_vect)
 {
-	temp_counter++;
-	hygro_counter++;
-	
+	clock_blink_flag ^= 1;
 	seconds++;
 	if (seconds == 60)
 	{
