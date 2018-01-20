@@ -48,6 +48,12 @@ extern volatile uint8_t hours;
 extern volatile uint8_t minutes;
 extern volatile uint8_t seconds;
 
+volatile uint8_t clock_flag = 0;
+volatile uint8_t temp_flag = 0;
+volatile uint8_t temp_counter = 0;
+volatile uint8_t hygro_flag = 0;
+volatile uint8_t hygro_counter = 0;
+
 
 // Prototypes
 void timer1Init (void);
@@ -57,9 +63,21 @@ int main(void){
 	init();
 	while(1)
 	{
-		clock_display(1,2);
-		temp_display(2,2);
-		hygro_display(2,9);
+		if (clock_flag)
+		{
+			clock_flag = 0;
+			clock_display(1,2);
+		}
+		if (temp_flag)
+		{
+			temp_flag = 0;
+			temp_display(2,2);
+		}
+		if (hygro_flag)
+		{
+			hygro_flag = 0;
+			hygro_display(2,9);
+		}
 	}
 }
 
@@ -87,6 +105,9 @@ void timer1Init(void)
 
 ISR (TIMER1_COMPA_vect)
 {
+	temp_counter++;
+	hygro_counter++;
+	
 	seconds++;
 	if (seconds == 60)
 	{
@@ -102,5 +123,15 @@ ISR (TIMER1_COMPA_vect)
 			}
 		}
 	}
-
+	clock_flag = 1;
+	if (temp_counter == 5)
+	{
+		temp_counter = 0;
+		temp_flag = 1;
+	}
+	if (hygro_counter == 5)
+	{
+		hygro_counter = 0;
+		hygro_flag = 1;
+	}
 }
