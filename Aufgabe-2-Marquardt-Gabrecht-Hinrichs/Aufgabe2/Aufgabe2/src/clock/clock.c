@@ -10,14 +10,31 @@
 #include "clock/clock.h"
 #include "lcd/lcd.h"
 
-volatile uint8_t hours = 23;
-volatile uint8_t minutes = 59;
-volatile uint8_t seconds = 45;
+volatile uint8_t hours = 0;
+volatile uint8_t minutes = 0;
+volatile uint8_t seconds = 0;
 
-void clock_display(int row, int col)
+volatile uint8_t clock_blink_flag = 0;
+
+void clock_display(int row, int col, int blink_pos)
 {
 	char time[12];
-	sprintf(time, "%.2d:%.2d:%.2d Uhr",hours,minutes,seconds);
+	
+	if (blink_pos == 1 && clock_blink_flag)
+	{
+		// Stunden nicht anzeigen
+		sprintf(time, "  :%.2d:%.2d Uhr",minutes,seconds);
+	}
+	else if (blink_pos == 2 && clock_blink_flag)
+	{
+		// Minuten nicht anzeigen
+		sprintf(time, "%.2d:  :%.2d Uhr",hours,seconds);
+	}
+	else
+	{
+		// Normale Anzeige
+		sprintf(time, "%.2d:%.2d:%.2d Uhr",hours,minutes,seconds);
+	} 
 	lcd_set_cursor(row,col);
 	lcd_send_string(time);
 }

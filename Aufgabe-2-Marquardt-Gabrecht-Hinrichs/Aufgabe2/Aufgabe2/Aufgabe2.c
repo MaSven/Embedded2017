@@ -45,6 +45,7 @@ extern volatile uint8_t hours;
 extern volatile uint8_t minutes;
 extern volatile uint8_t seconds;
 
+extern volatile uint8_t clock_blink_flag;
 
 // Prototypes
 void timer1Init (void);
@@ -59,7 +60,7 @@ int main(void){
 	sei();
 	while (1)
 	{
-		clock_display(1,2);
+		clock_display(1,2,0);
 	}
 }
 
@@ -78,6 +79,7 @@ void timer1Init(void)
 
 ISR (TIMER1_COMPA_vect)
 {
+	clock_blink_flag ^= 1;
 	seconds++;
 	if (seconds == 60)
 	{
