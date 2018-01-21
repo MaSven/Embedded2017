@@ -321,6 +321,34 @@ inline void menue_display_time_lf(void) {
 	global_keys_reset();
 }
 
+inline void menue_display_time_temp_lf(void) {
+	key_was_pressed = 0;
+	//LCD Temperatur&Luftfeuchtigkeit im Wechsel mit Uhrzeit
+	lcd_set_cursor(1, 0);
+	lcd_send_string("Temp/Uhr wechsel");
+	lcd_set_cursor(2, 4);
+	lcd_send_string("anzeigen");
+	/*while (key_was_pressed == 0)
+	 {
+
+	 }
+	 key_was_pressed = 0;*/
+	if (enter_was_pressed) {
+		display_state = DISPLAY_MODE_TIME_TEMP_LF;
+		menue_state = IDLE;
+		lcd_clear();
+	}
+	if (down_was_pressed) {
+		menue_state = MENUE_DISPLAY_TIME;
+		lcd_clear();
+	}
+	if (up_was_pressed) {
+		menue_state = MENUE_DISPLAY_TIME_TEMP;
+		lcd_clear();
+	}
+	global_keys_reset();
+}
+
 int main(void) {
 	init();
 	while (1) {
@@ -363,34 +391,7 @@ int main(void) {
 
 			break;
 		case MENUE_DISPLAY_TIME_TEMP_LF:
-			key_was_pressed = 0;
-			//LCD Temperatur&Luftfeuchtigkeit im Wechsel mit Uhrzeit
-			lcd_set_cursor(1, 0);
-			lcd_send_string("Temp/Uhr wechsel");
-			lcd_set_cursor(2, 4);
-			lcd_send_string("anzeigen");
-			/*while (key_was_pressed == 0)
-			 {
 
-			 }
-			 key_was_pressed = 0;*/
-			if (enter_was_pressed) {
-				display_state = DISPLAY_MODE_TIME_TEMP_LF;
-				menue_state = IDLE;
-				lcd_clear();
-			}
-			if (down_was_pressed) {
-				menue_state = MENUE_DISPLAY_TIME;
-				lcd_clear();
-			}
-			if (up_was_pressed) {
-				menue_state = MENUE_DISPLAY_TIME_TEMP;
-				lcd_clear();
-			}
-			enter_was_pressed = 0;
-			up_was_pressed = 0;
-			down_was_pressed = 0;
-			key_was_pressed = 0;
 		}
 	}
 }
