@@ -162,6 +162,30 @@ inline void menu_time(void) {
 	key_was_pressed = 0;
 }
 
+inline void menu_time_edit_h(void) {
+	clock_display(1, 2, 1);
+	/*key_was_pressed = 0;
+	 while (key_was_pressed == 0)
+	 {
+
+	 }
+	 key_was_pressed = 0;*/
+	if (enter_was_pressed) {
+		menue_state = MENUE_TIME_EDIT_M;
+		lcd_clear();
+	}
+	if (down_was_pressed) {
+		clock_hour_dec();
+	}
+	if (up_was_pressed) {
+		clock_hour_inc();
+	}
+	enter_was_pressed = 0;
+	up_was_pressed = 0;
+	down_was_pressed = 0;
+	key_was_pressed = 0;
+}
+
 int main(void) {
 	init();
 	while (1) {
@@ -186,27 +210,7 @@ int main(void) {
 			menu_time();
 			break;
 		case MENUE_TIME_EDIT_H:
-			clock_display(1, 2, 1);
-			/*key_was_pressed = 0;
-			 while (key_was_pressed == 0)
-			 {
-
-			 }
-			 key_was_pressed = 0;*/
-			if (enter_was_pressed) {
-				menue_state = MENUE_TIME_EDIT_M;
-				lcd_clear();
-			}
-			if (down_was_pressed) {
-				clock_hour_dec();
-			}
-			if (up_was_pressed) {
-				clock_hour_inc();
-			}
-			enter_was_pressed = 0;
-			up_was_pressed = 0;
-			down_was_pressed = 0;
-			key_was_pressed = 0;
+			menu_time_edit_h();
 			break;
 		case MENUE_TIME_EDIT_M:
 			clock_display(1, 2, 2);
