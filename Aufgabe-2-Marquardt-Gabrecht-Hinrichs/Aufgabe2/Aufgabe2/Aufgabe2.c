@@ -265,7 +265,7 @@ inline void menue_display_time(void) {
 	global_keys_reset();
 }
 
-inline void menu_display_time_temp(void) {
+inline void menue_display_time_temp(void) {
 	key_was_pressed = 0;
 	//LCD Uhrzeit und Temperatur
 	lcd_set_cursor(1, 0);
@@ -293,7 +293,7 @@ inline void menu_display_time_temp(void) {
 	global_keys_reset();
 }
 
-inline void menue_display_time_lf(void) {
+inline void menue_display_temp_lf(void) {
 	key_was_pressed = 0;
 	//LCD Temperatur und Luftfeuchtigkeit
 	lcd_set_cursor(1, 0);
@@ -385,13 +385,13 @@ int main(void) {
 			menue_display_time();
 			break;
 		case MENUE_DISPLAY_TIME_TEMP:
-
+			menue_display_time_temp();
 			break;
 		case MENUE_DISPLAY_TEMP_LF:
-
+			menue_display_temp_lf();
 			break;
 		case MENUE_DISPLAY_TIME_TEMP_LF:
-
+			menue_display_time_temp_lf();
 		}
 	}
 }
