@@ -90,6 +90,12 @@ void init(void);
  }
  }
  }*/
+inline void gloabl_keys_reset(void) {
+	enter_was_pressed = 0;
+	up_was_pressed = 0;
+	down_was_pressed = 0;
+	key_was_pressed = 0;
+}
 /**
  * Erfüllt anforderung der Aufgabe f) i
  */
@@ -180,11 +186,31 @@ inline void menu_time_edit_h(void) {
 	if (up_was_pressed) {
 		clock_hour_inc();
 	}
-	enter_was_pressed = 0;
-	up_was_pressed = 0;
-	down_was_pressed = 0;
-	key_was_pressed = 0;
+	gloabl_keys_reset();
 }
+
+static void menu_time_edit_m(void) {
+	clock_display(1, 2, 2);
+	key_was_pressed = 0;
+	/*while (key_was_pressed == 0)
+	 {
+
+	 }
+	 key_was_pressed = 0;*/
+	if (enter_was_pressed) {
+		menue_state = IDLE;
+		lcd_clear();
+	}
+	if (down_was_pressed) {
+		clock_min_dec();
+	}
+	if (up_was_pressed) {
+		clock_min_inc();
+	}
+	gloabl_keys_reset();
+}
+
+
 
 int main(void) {
 	init();
@@ -213,27 +239,7 @@ int main(void) {
 			menu_time_edit_h();
 			break;
 		case MENUE_TIME_EDIT_M:
-			clock_display(1, 2, 2);
-			key_was_pressed = 0;
-			/*while (key_was_pressed == 0)
-			 {
 
-			 }
-			 key_was_pressed = 0;*/
-			if (enter_was_pressed) {
-				menue_state = IDLE;
-				lcd_clear();
-			}
-			if (down_was_pressed) {
-				clock_min_dec();
-			}
-			if (up_was_pressed) {
-				clock_min_inc();
-			}
-			enter_was_pressed = 0;
-			up_was_pressed = 0;
-			down_was_pressed = 0;
-			key_was_pressed = 0;
 			break;
 		case MENUE_DISPLAY:
 			// LCD Nur Urzeit
