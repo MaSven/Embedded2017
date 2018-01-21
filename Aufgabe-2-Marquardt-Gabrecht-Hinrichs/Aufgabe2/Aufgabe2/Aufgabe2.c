@@ -90,7 +90,7 @@ void init(void);
  }
  }
  }*/
-inline void gloabl_keys_reset(void) {
+inline void global_keys_reset(void) {
 	enter_was_pressed = 0;
 	up_was_pressed = 0;
 	down_was_pressed = 0;
@@ -186,7 +186,7 @@ inline void menu_time_edit_h(void) {
 	if (up_was_pressed) {
 		clock_hour_inc();
 	}
-	gloabl_keys_reset();
+	global_keys_reset();
 }
 
 static void menu_time_edit_m(void) {
@@ -207,10 +207,63 @@ static void menu_time_edit_m(void) {
 	if (up_was_pressed) {
 		clock_min_inc();
 	}
-	gloabl_keys_reset();
+	global_keys_reset();
 }
 
+inline void menu_display(void) {
+	// LCD Nur Urzeit
+	lcd_set_cursor(1, 2);
+	lcd_send_string("Displaymodus");
+	lcd_set_cursor(2, 3);
+	lcd_send_string("einstellen");
+	/*key_was_pressed = 0;
+	 while (key_was_pressed == 0)
+	 {
 
+	 }
+	 key_was_pressed = 0;*/
+	if (enter_was_pressed) {
+		menue_state = MENUE_DISPLAY_TIME;
+		lcd_clear();
+	}
+	if (down_was_pressed) {
+		menue_state = MENUE_TIME;
+		lcd_clear();
+	}
+	if (up_was_pressed) {
+		menue_state = MENUE_TIME;
+		lcd_clear();
+	}
+	global_keys_reset();
+}
+
+inline void menue_display_time(void) {
+	key_was_pressed = 0;
+	//LCD Nur Uhrzeit
+	lcd_set_cursor(1, 4);
+	lcd_send_string("Uhrzeit");
+	lcd_set_cursor(2, 4);
+	lcd_send_string("anzeigen");
+	/*while (key_was_pressed == 0)
+	 {
+
+	 }
+	 key_was_pressed = 0;*/
+	if (enter_was_pressed) {
+		display_state = DISPLAY_MODE_TIME;
+		menue_state = IDLE;
+		lcd_clear();
+	}
+	if (down_was_pressed) {
+		menue_state = MENUE_DISPLAY_TIME_TEMP;
+		lcd_clear();
+	}
+	if (up_was_pressed) {
+		menue_state = MENUE_DISPLAY_TIME_TEMP_LF;
+		lcd_clear();
+	}
+	global_keys_reset();
+}
 
 int main(void) {
 	init();
@@ -239,66 +292,13 @@ int main(void) {
 			menu_time_edit_h();
 			break;
 		case MENUE_TIME_EDIT_M:
-
+			menu_time_edit_m();
 			break;
 		case MENUE_DISPLAY:
-			// LCD Nur Urzeit
-			lcd_set_cursor(1, 2);
-			lcd_send_string("Displaymodus");
-			lcd_set_cursor(2, 3);
-			lcd_send_string("einstellen");
-			/*key_was_pressed = 0;
-			 while (key_was_pressed == 0)
-			 {
-
-			 }
-			 key_was_pressed = 0;*/
-			if (enter_was_pressed) {
-				menue_state = MENUE_DISPLAY_TIME;
-				lcd_clear();
-			}
-			if (down_was_pressed) {
-				menue_state = MENUE_TIME;
-				lcd_clear();
-			}
-			if (up_was_pressed) {
-				menue_state = MENUE_TIME;
-				lcd_clear();
-			}
-			enter_was_pressed = 0;
-			up_was_pressed = 0;
-			down_was_pressed = 0;
-			key_was_pressed = 0;
+			menu_display();
 			break;
 		case MENUE_DISPLAY_TIME:
-			key_was_pressed = 0;
-			//LCD Nur Uhrzeit
-			lcd_set_cursor(1, 4);
-			lcd_send_string("Uhrzeit");
-			lcd_set_cursor(2, 4);
-			lcd_send_string("anzeigen");
-			/*while (key_was_pressed == 0)
-			 {
 
-			 }
-			 key_was_pressed = 0;*/
-			if (enter_was_pressed) {
-				display_state = DISPLAY_MODE_TIME;
-				menue_state = IDLE;
-				lcd_clear();
-			}
-			if (down_was_pressed) {
-				menue_state = MENUE_DISPLAY_TIME_TEMP;
-				lcd_clear();
-			}
-			if (up_was_pressed) {
-				menue_state = MENUE_DISPLAY_TIME_TEMP_LF;
-				lcd_clear();
-			}
-			enter_was_pressed = 0;
-			up_was_pressed = 0;
-			down_was_pressed = 0;
-			key_was_pressed = 0;
 			break;
 		case MENUE_DISPLAY_TIME_TEMP:
 			key_was_pressed = 0;
