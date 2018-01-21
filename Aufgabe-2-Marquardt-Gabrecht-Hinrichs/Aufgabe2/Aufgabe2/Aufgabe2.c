@@ -61,6 +61,7 @@ volatile uint8_t hygro_flag = 1;
 volatile uint8_t hygro_counter = 0;
 extern volatile uint8_t clock_blink_flag;
 volatile uint8_t clock_blink_counter = 0;
+volatile uint8_t debounce_counter = 0;
 
 // Prototypes
 void timer0Init(void);
@@ -353,7 +354,13 @@ int main(void) {
 	init();
 	while (1) {
 		switch (menue_state) {
+		
 		case IDLE:
+		if (enter_was_pressed)
+				{
+					menue_state = MENUE_TIME;
+					enter_was_pressed = 0;
+				} else{
 			switch (display_state) {
 			case DISPLAY_MODE_TIME:
 				display_mode_time();
@@ -367,6 +374,7 @@ int main(void) {
 			case DISPLAY_MODE_TIME_TEMP_LF:
 				display_mode_time_temp_lf();
 				break;
+			}
 			}
 			break;
 		case MENUE_TIME:
@@ -418,18 +426,24 @@ void timer0Init(void) {
 	TCNT0 = 0x00;
 }
 
-ISR (TIMER0_COMPA_vect) {
+ISR (TIMER0_COMPA_vect)
+{
 	clock_blink_counter++;
-	if (clock_blink_counter == 20) {
+	debounce_counter++;
+	if (clock_blink_counter == 20)
+	{
 		clock_blink_counter = 0;
 		clock_blink_flag ^= 1;
 	}
-	if (!IOInterruptEnabled) {
+	if (debounce_counter == 3)
+	{
+		debounce_counter = 0;
 		IOInterruptEnabled = 1;
 	}
 }
 
-void timer1Init(void) {
+void timer1Init(void)
+{
 	TCCR1A = 0x00;
 	TCCR1B |= ((1 << WGM12) | (1 << CS12)); // CTC ON, Prescaler 1024
 	// Timer 1,0s
@@ -484,10 +498,11 @@ ISR (PCINT0_vect) {
 			if (Lastbutton == (1 << CANCEL)) {
 				menue_state = IDLE;
 			}
-			if (Lastbutton == (1 << ENTER)) {
-				if (menue_state == IDLE) {
+			if(Lastbutton == (1<<ENTER)){
+				/*if (menue_state == IDLE)
+				{
 					menue_state = MENUE_TIME;
-				}
+				}*/
 				enter_was_pressed = 1;
 			}
 			if (Lastbutton == (1 << UP)) {
