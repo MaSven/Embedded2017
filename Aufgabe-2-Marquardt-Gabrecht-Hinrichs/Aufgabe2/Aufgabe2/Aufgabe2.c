@@ -60,12 +60,16 @@ volatile uint8_t temp_counter = 0;
 volatile uint8_t hygro_flag = 1;
 volatile uint8_t hygro_counter = 0;
 extern volatile uint8_t clock_blink_flag;
+volatile uint8_t clock_blink_counter = 0;
 
 
 // Prototypes
-void timer1Init (void);
+void timer0Init(void);
+void timer1Init(void);
+void pin_change_interrupt_init(void);
 void init(void);
 
+/*
 int main(void){
 	init();
 	while(1)
@@ -86,6 +90,308 @@ int main(void){
 			hygro_display(2,9);
 		}
 	}
+}*/
+
+int main(void){
+	init();
+	while(1) {
+		switch (menue_state) {
+			case IDLE:
+			switch(display_state){
+				case DISPLAY_MODE_TIME:
+					// Anforderung f) i.
+					if (clock_flag)
+					{
+						clock_display(1,2,0);
+					}
+					break;
+				case DISPLAY_MODE_TIME_TEMP:
+					// Anforderung f) ii.
+					if (clock_flag)
+					{
+						clock_display(1,2,0);
+					}
+					if (temp_flag)
+					{
+						temp_display(2,2);
+					}
+					break;
+				case DISPLAY_MODE_TEMP_LF:
+					// Anforderung f) iii.
+					if (temp_flag)
+					{
+						temp_display(1,2);
+					}
+					if (hygro_flag)
+					{
+						hygro_display(2,2);
+					}
+					break;
+				case DISPLAY_MODE_TIME_TEMP_LF:
+					// Anforderung f) iV.
+					// Uhrzeit im Wechsel mit Temperatur/Luftfeuchtigkeit
+					if (clock_flag)
+					{
+						clock_display(1,2,0);
+					}
+					if (temp_flag)
+					{
+						temp_display(2,2);
+					}
+					if (hygro_flag)
+					{
+						hygro_display(2,10);
+					}
+					break;
+			}
+			break;
+			case MENUE_TIME:
+				//LCD Zeit einstellen
+				lcd_set_cursor(1,1);
+				lcd_send_string("Uhr einstellen");
+				/*key_was_pressed = 0;
+				while (key_was_pressed == 0)
+				{
+					// warte auf eingbabe
+				}
+				key_was_pressed = 0;*/
+				if (enter_was_pressed)
+				{
+					menue_state = MENUE_TIME_EDIT_H;
+					lcd_clear();
+				}
+				if (down_was_pressed)
+				{
+					menue_state = MENUE_DISPLAY;
+					lcd_clear();
+				}
+				if (up_was_pressed)
+				{
+					menue_state = MENUE_DISPLAY;
+					lcd_clear();
+				}
+				enter_was_pressed = 0;
+				up_was_pressed = 0;
+				down_was_pressed = 0;
+				key_was_pressed = 0;
+				break;
+			case MENUE_TIME_EDIT_H:
+				clock_display(1,2,1);
+				/*key_was_pressed = 0;
+				while (key_was_pressed == 0)
+				{
+								
+				}
+				key_was_pressed = 0;*/
+				if (enter_was_pressed)
+				{
+					menue_state = MENUE_TIME_EDIT_M;
+					lcd_clear();
+				}
+				if (down_was_pressed)
+				{
+					clock_hour_dec();
+				}
+				if (up_was_pressed)
+				{
+					clock_hour_inc();
+				}
+				enter_was_pressed = 0;
+				up_was_pressed = 0;
+				down_was_pressed = 0;
+				key_was_pressed = 0;
+				break;
+			case MENUE_TIME_EDIT_M:
+				clock_display(1,2,2);
+				key_was_pressed = 0;
+				/*while (key_was_pressed == 0)
+				{
+				
+				}
+				key_was_pressed = 0;*/
+				if (enter_was_pressed)
+				{
+					menue_state = IDLE;
+					lcd_clear();
+				}
+				if (down_was_pressed)
+				{
+					clock_min_dec();
+				}
+				if (up_was_pressed)
+				{
+					clock_min_inc();
+				}
+				enter_was_pressed = 0;
+				up_was_pressed = 0;
+				down_was_pressed = 0;
+				key_was_pressed = 0;
+				break;
+			case MENUE_DISPLAY:
+				// LCD Nur Urzeit
+				lcd_set_cursor(1,2);
+				lcd_send_string("Displaymodus");
+				lcd_set_cursor(2, 3);
+				lcd_send_string("einstellen");
+				/*key_was_pressed = 0;
+				while (key_was_pressed == 0)
+				{
+									
+				}
+				key_was_pressed = 0;*/
+				if (enter_was_pressed)
+				{
+					menue_state = MENUE_DISPLAY_TIME;
+					lcd_clear();
+				}
+				if (down_was_pressed)
+				{
+					menue_state = MENUE_TIME;
+					lcd_clear();
+				}
+				if (up_was_pressed)
+				{
+					menue_state = MENUE_TIME;
+					lcd_clear();
+				}
+				enter_was_pressed = 0;
+				up_was_pressed = 0;
+				down_was_pressed = 0;
+				key_was_pressed = 0;
+				break;
+			case MENUE_DISPLAY_TIME:
+				key_was_pressed = 0;
+				//LCD Nur Uhrzeit
+				lcd_set_cursor(1,4);
+				lcd_send_string("Uhrzeit");
+				lcd_set_cursor(2, 4);
+				lcd_send_string("anzeigen");
+				/*while (key_was_pressed == 0)
+				{
+					
+				}
+				key_was_pressed = 0;*/
+				if (enter_was_pressed)
+				{
+					display_state = DISPLAY_MODE_TIME;
+					menue_state = IDLE;
+					lcd_clear();
+				}
+				if (down_was_pressed)
+				{
+					menue_state = MENUE_DISPLAY_TIME_TEMP;
+					lcd_clear();
+				}
+				if (up_was_pressed)
+				{
+					menue_state = MENUE_DISPLAY_TIME_TEMP_LF;
+					lcd_clear();
+				}
+				enter_was_pressed = 0;
+				up_was_pressed = 0;
+				down_was_pressed = 0;
+				key_was_pressed = 0;
+				break;
+			case MENUE_DISPLAY_TIME_TEMP:
+				key_was_pressed = 0;
+				//LCD Uhrzeit und Temperatur
+				lcd_set_cursor(1,0);
+				lcd_send_string("Temperatur&Zeit");
+				lcd_set_cursor(2, 4);
+				lcd_send_string("anzeigen");
+				/*while (key_was_pressed == 0)
+				{
+					
+				}
+				key_was_pressed = 0;*/
+				if (enter_was_pressed)
+				{
+					display_state = DISPLAY_MODE_TIME_TEMP;
+					menue_state = IDLE;
+					lcd_clear();
+				}
+				if (down_was_pressed)
+				{
+					menue_state = MENUE_DISPLAY_TEMP_LF;
+					lcd_clear();
+				}
+				if (up_was_pressed)
+				{
+					menue_state = MENUE_DISPLAY_TIME;
+					lcd_clear();
+				}
+				enter_was_pressed = 0;
+				up_was_pressed = 0;
+				down_was_pressed = 0;
+				key_was_pressed = 0;
+				break;
+			case MENUE_DISPLAY_TEMP_LF:
+				key_was_pressed = 0;
+				//LCD Temperatur und Luftfeuchtigkeit
+				lcd_set_cursor(1,0);
+				lcd_send_string("Temp/Luftfeuchte");
+				lcd_set_cursor(2, 4);
+				lcd_send_string("anzeigen");
+				/*while (key_was_pressed == 0)
+				{
+					
+				}
+				key_was_pressed = 0;*/
+				if (enter_was_pressed)
+				{
+					display_state = DISPLAY_MODE_TEMP_LF;
+					menue_state = IDLE;
+					lcd_clear();
+				}
+				if (down_was_pressed)
+				{
+					menue_state = MENUE_DISPLAY_TIME_TEMP_LF;
+					lcd_clear();
+				}
+				if (up_was_pressed)
+				{
+					menue_state = MENUE_DISPLAY_TIME_TEMP;
+					lcd_clear();
+				}
+				enter_was_pressed = 0;
+				up_was_pressed = 0;
+				down_was_pressed = 0;
+				key_was_pressed = 0;
+				break;
+			case MENUE_DISPLAY_TIME_TEMP_LF:
+				key_was_pressed = 0;
+				//LCD Temperatur&Luftfeuchtigkeit im Wechsel mit Uhrzeit
+				lcd_set_cursor(1,0);
+				lcd_send_string("Temp/Uhr wechsel");
+				lcd_set_cursor(2, 4);
+				lcd_send_string("anzeigen");
+				/*while (key_was_pressed == 0)
+				{
+				
+				}
+				key_was_pressed = 0;*/
+				if (enter_was_pressed)
+				{
+					display_state = DISPLAY_MODE_TIME_TEMP_LF;
+					menue_state = IDLE;
+					lcd_clear();
+				}
+				if (down_was_pressed)
+				{
+					menue_state = MENUE_DISPLAY_TIME;
+					lcd_clear();
+				}
+				if (up_was_pressed)
+				{
+					menue_state = MENUE_DISPLAY_TIME_TEMP;
+					lcd_clear();
+				}
+				enter_was_pressed = 0;
+				up_was_pressed = 0;
+				down_was_pressed = 0;
+				key_was_pressed = 0;
+		}
+	}
 }
 
 void init(void)
@@ -93,8 +399,37 @@ void init(void)
 	cli();
 	lcd_init();
 	adc_init();
+	timer0Init();
 	timer1Init();
+	pin_change_interrupt_init();
 	sei();
+}
+
+void timer0Init(void)
+{
+	TCCR0A |= (1<<WGM01); // CTC ON
+	TCCR0B |= ((1<<CS02)|(1<<CS00)); // Prescaler 1024
+	// Timer 25ms, 0,025s
+	// 0,025 * 8.000.000 / 1024 = 195,3125
+	OCR0A = 195;
+	// Interrupt aktivieren
+	TIMSK0 |= (1<<OCIE0A);
+	// Zaehlregister auf 0
+	TCNT0 = 0x00;
+}
+
+ISR (TIMER0_COMPA_vect)
+{
+	clock_blink_counter++;
+	if (clock_blink_counter == 20)
+	{
+		clock_blink_counter = 0;
+		clock_blink_flag ^= 1;
+	}
+	if (!IOInterruptEnabled)
+	{
+		IOInterruptEnabled = 1;
+	}
 }
 
 void timer1Init(void)
@@ -112,7 +447,7 @@ void timer1Init(void)
 
 ISR (TIMER1_COMPA_vect)
 {
-	clock_blink_flag ^= 1;
+	//clock_blink_flag ^= 1;
 	temp_counter++;
 	hygro_counter++;
 	seconds++;
@@ -143,17 +478,17 @@ ISR (TIMER1_COMPA_vect)
 	}
 }
 
-void external_interrupt_init(){
+void pin_change_interrupt_init(){
 	PCMSK0 |= ((1<<UP)|(1<<DOWN)|(1<<ENTER)|(1<<CANCEL));
 	PCICR |= (1<<PCIE0);
 }
 
-//External Interrupt ausgeloest
+//Pin Change Interrupt ausgeloest
 ISR (PCINT0_vect){
 	volatile uint8_t button = PINA & ((1<<UP)|(1<<DOWN)|(1<<ENTER)|(1<<CANCEL));
 	if(!button){
 		if(IOInterruptEnabled) {
-			//IOInterruptEnabled = 0;
+			IOInterruptEnabled = 0;
 			key_was_pressed = 1;
 			if(Lastbutton == (1<<CANCEL)){
 				menue_state = IDLE;
@@ -174,298 +509,5 @@ ISR (PCINT0_vect){
 		}
 		} else {
 		Lastbutton = button;
-	}
-}
-
-
-
-
-
-// Prototypes
-void timer1Init (void);
-
-
-int main(void){
-	LCDDDR = ((0xF0)|(1<<LCD_RS_PIN)|(1<<LCD_E_PIN));
-	LCDPORT = 0x00;
-	lcd_init();
-	cli();
-	timer1Init();
-	external_interrupt_init();
-	sei();
-	while(1) {
-		switch (menue_state) {
-			case IDLE:
-			switch(display_state){
-				case DISPLAY_MODE_TIME:
-				// Anforderrung f) i.
-				lcd_clear();
-				clock_display();
-				break;
-				case DISPLAY_MODE_TIME_TEMP:
-				// Anforderrung f) ii.
-				lcd_clear();
-				clock_display();
-				lcd_set_cursor(2, 0);
-				lcd_send_string("100 Grad ");//
-				break;
-				case DISPLAY_MODE_TEMP_LF:
-				// Anforderrung f) iii.
-				lcd_clear();
-					lcd_send_string("100 Grad ");
-					hygro_display(0,2);
-					lcd_send_string("%");
-				break;
-				case DISPLAY_MODE_TIME_TEMP_LF:
-				// Anforderrung f) iV.
-				lcd_clear();
-				if (seconds<30)
-				{
-					clock_display();
-				}
-				else
-				{
-					lcd_send_string("100 Grad ");
-					hygro_display(0,2);
-					lcd_send_string("%");
-				}
-				break;
-			}
-			break;
-			case MENUE_TIME:
-			//LCD Zeit einstellen
-			lcd_clear();
-			lcd_send_string("Uhrzeit");
-			lcd_set_cursor(2, 0);
-			lcd_send_string("einstellen");
-			key_was_pressed = 0;
-			while (key_was_pressed == 0)
-			{
-				// warte auf eingbabe
-			}
-			key_was_pressed = 0;
-			if (enter_was_pressed)
-			{
-				menue_state = MENUE_TIME_EDIT_H;
-			}
-			if (down_was_pressed)
-			{
-				menue_state = MENUE_DISPLAY;
-			}
-			if (up_was_pressed)
-			{
-				menue_state = MENUE_DISPLAY;
-			}
-			enter_was_pressed = 0;
-			up_was_pressed = 0;
-			down_was_pressed = 0;
-			key_was_pressed = 0;
-			break;
-			case MENUE_TIME_EDIT_H:
-			lcd_clear();
-			clock_display();
-			lcd_set_cursor(2, 0);
-			lcd_send_string("Stunden edit");	// bearbeiten w�re zu lang
-			key_was_pressed = 0;
-			while (key_was_pressed == 0)
-			{
-				
-			}
-			key_was_pressed = 0;
-			if (enter_was_pressed)
-			{
-				menue_state = MENUE_TIME_EDIT_M;
-			}
-			if (down_was_pressed)
-			{
-				clock_hour_dec();
-			}
-			if (up_was_pressed)
-			{
-				clock_hour_inc();
-			}
-			enter_was_pressed = 0;
-			up_was_pressed = 0;
-			down_was_pressed = 0;
-			key_was_pressed = 0;
-			break;
-			case MENUE_TIME_EDIT_M:
-			//LCD
-			lcd_clear();
-			clock_display();
-			lcd_set_cursor(2, 0);
-			lcd_send_string("Minuten edit");	// bearbeiten w�re zu lang
-			key_was_pressed = 0;
-			while (key_was_pressed == 0)
-			{
-				
-			}
-			key_was_pressed = 0;
-			if (enter_was_pressed)
-			{
-				menue_state = IDLE;
-			}
-			if (down_was_pressed)
-			{
-				clock_min_dec();
-			}
-			if (up_was_pressed)
-			{
-				clock_min_inc();
-			}
-			enter_was_pressed = 0;
-			up_was_pressed = 0;
-			down_was_pressed = 0;
-			key_was_pressed = 0;
-			break;
-			case MENUE_DISPLAY:
-			// LCD Nur Urzeit
-			lcd_clear();
-			lcd_send_string("Display");//---------------------
-			lcd_set_cursor(2, 0);
-			lcd_send_string("einstellen");
-			key_was_pressed = 0;
-			while (key_was_pressed == 0)
-			{
-				
-			}
-			key_was_pressed = 0;
-			if (enter_was_pressed)
-			{
-				menue_state = MENUE_DISPLAY_TIME;
-			}
-			if (down_was_pressed)
-			{
-				menue_state = MENUE_TIME;
-			}
-			if (up_was_pressed)
-			{
-				menue_state = MENUE_TIME;
-			}
-			enter_was_pressed = 0;
-			up_was_pressed = 0;
-			down_was_pressed = 0;
-			key_was_pressed = 0;
-			break;
-			case MENUE_DISPLAY_TIME:
-			key_was_pressed = 0;
-			//LCD Nur Uhrzeit
-			lcd_clear();
-			lcd_send_string("NZeit");
-			lcd_set_cursor(2, 0);
-			lcd_send_string("anzeigen");
-			while (key_was_pressed == 0)
-			{
-				
-			}
-			key_was_pressed = 0;
-			if (enter_was_pressed)
-			{
-				display_state = DISPLAY_MODE_TIME;
-				menue_state = IDLE;
-			}
-			if (down_was_pressed)
-			{
-				menue_state = MENUE_DISPLAY_TIME_TEMP;
-			}
-			if (up_was_pressed)
-			{
-				menue_state = MENUE_DISPLAY_TIME_TEMP_LF;
-			}
-			enter_was_pressed = 0;
-			up_was_pressed = 0;
-			down_was_pressed = 0;
-			key_was_pressed = 0;
-			break;
-			case MENUE_DISPLAY_TIME_TEMP:
-			key_was_pressed = 0;
-			//LCD Nur Uhrzeit
-			lcd_clear();
-			lcd_send_string("Temperatur/Zeit");
-			lcd_set_cursor(2, 0);
-			lcd_send_string("anzeigen");
-			while (key_was_pressed == 0)
-			{
-				
-			}
-			key_was_pressed = 0;
-			if (enter_was_pressed)
-			{
-				display_state = DISPLAY_MODE_TIME_TEMP;
-				menue_state = IDLE;
-			}
-			if (down_was_pressed)
-			{
-				menue_state = MENUE_DISPLAY_TEMP_LF;
-			}
-			if (up_was_pressed)
-			{
-				menue_state = MENUE_DISPLAY_TIME;
-			}
-			enter_was_pressed = 0;
-			up_was_pressed = 0;
-			down_was_pressed = 0;
-			key_was_pressed = 0;
-			break;
-			case MENUE_DISPLAY_TEMP_LF:
-			key_was_pressed = 0;
-			//LCD Nur Uhrzeit
-			lcd_clear();
-			lcd_send_string("Temp/Luftfeuchte");
-			lcd_set_cursor(2, 0);
-			lcd_send_string("anzeigen");
-			while (key_was_pressed == 0)
-			{
-				
-			}
-			key_was_pressed = 0;
-			if (enter_was_pressed)
-			{
-				display_state = DISPLAY_MODE_TEMP_LF;
-				menue_state = IDLE;
-			}
-			if (down_was_pressed)
-			{
-				menue_state = MENUE_DISPLAY_TIME_TEMP_LF;
-			}
-			if (up_was_pressed)
-			{
-				menue_state = MENUE_DISPLAY_TIME_TEMP;
-			}
-			enter_was_pressed = 0;
-			up_was_pressed = 0;
-			down_was_pressed = 0;
-			key_was_pressed = 0;
-			break;
-			case MENUE_DISPLAY_TIME_TEMP_LF:
-			key_was_pressed = 0;
-			//LCD Nur Uhrzeit
-			lcd_clear();
-			lcd_send_string("Temp/Uhr wechsel");
-			lcd_set_cursor(2, 0);
-			lcd_send_string("anzeigen");
-			while (key_was_pressed == 0)
-			{
-				
-			}
-			key_was_pressed = 0;
-			if (enter_was_pressed)
-			{
-				display_state = DISPLAY_MODE_TIME_TEMP_LF;
-				menue_state = IDLE;
-			}
-			if (down_was_pressed)
-			{
-				menue_state = MENUE_DISPLAY_TIME;
-			}
-			if (up_was_pressed)
-			{
-				menue_state = MENUE_DISPLAY_TIME_TEMP;
-			}
-			enter_was_pressed = 0;
-			up_was_pressed = 0;
-			down_was_pressed = 0;
-			key_was_pressed = 0;
-		}
 	}
 }
