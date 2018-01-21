@@ -9,7 +9,7 @@
 #ifndef CLOCK_H_
 #define CLOCK_H_
 
-void clock_display(int row, int col);
+void clock_display(int row, int col, int blink_pos);
 void clock_hour_inc(void);
 void clock_hour_dec(void);
 void clock_min_inc(void);

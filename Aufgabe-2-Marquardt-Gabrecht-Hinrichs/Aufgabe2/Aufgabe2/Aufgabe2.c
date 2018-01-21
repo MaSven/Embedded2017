@@ -6,8 +6,9 @@
 */
 
 #include <avr/io.h>
-#include <avr/interrupt.h>		// interrupts
+#include <avr/interrupt.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "global.h"
 #include "lcd/lcd.h"
 #include "adc/adc.h"
@@ -53,6 +54,48 @@ extern volatile uint8_t hours;
 extern volatile uint8_t minutes;
 extern volatile uint8_t seconds;
 
+volatile uint8_t clock_flag = 1;
+volatile uint8_t temp_flag = 1;
+volatile uint8_t temp_counter = 0;
+volatile uint8_t hygro_flag = 1;
+volatile uint8_t hygro_counter = 0;
+extern volatile uint8_t clock_blink_flag;
+
+
+// Prototypes
+void timer1Init (void);
+void init(void);
+
+int main(void){
+	init();
+	while(1)
+	{
+		if (clock_flag)
+		{
+			clock_flag = 0;
+			clock_display(1,2,0);
+		}
+		if (temp_flag)
+		{
+			temp_flag = 0;
+			temp_display(2,2);
+		}
+		if (hygro_flag)
+		{
+			hygro_flag = 0;
+			hygro_display(2,9);
+		}
+	}
+}
+
+void init(void)
+{
+	cli();
+	lcd_init();
+	adc_init();
+	timer1Init();
+	sei();
+}
 
 void timer1Init(void)
 {
@@ -69,6 +112,9 @@ void timer1Init(void)
 
 ISR (TIMER1_COMPA_vect)
 {
+	clock_blink_flag ^= 1;
+	temp_counter++;
+	hygro_counter++;
 	seconds++;
 	if (seconds == 60)
 	{
@@ -84,7 +130,17 @@ ISR (TIMER1_COMPA_vect)
 			}
 		}
 	}
-	
+	clock_flag = 1;
+	if (temp_counter == 9)
+	{
+		temp_counter = 0;
+		temp_flag = 1;
+	}
+	if (hygro_counter == 5)
+	{
+		hygro_counter = 0;
+		hygro_flag = 1;
+	}
 }
 
 void external_interrupt_init(){
