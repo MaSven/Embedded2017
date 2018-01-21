@@ -12,7 +12,7 @@
 void hygro_display(int row, int col)
 {
 	uint8_t adc_value = adc_read()/HYGRO_MAP_FACTOR;
-	char hygro_str[5];
+	char hygro_str[6];
 	sprintf(hygro_str,"%3u %%",adc_value);
 	lcd_set_cursor(row, col);
 	lcd_send_string(hygro_str);

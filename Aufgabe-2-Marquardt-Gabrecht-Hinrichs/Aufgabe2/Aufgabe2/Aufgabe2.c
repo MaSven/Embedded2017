@@ -6,7 +6,7 @@
  */
 
 #include <avr/io.h>
-#include <avr/interrupt.h>		// interrupts
+#include <avr/interrupt.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "global.h"

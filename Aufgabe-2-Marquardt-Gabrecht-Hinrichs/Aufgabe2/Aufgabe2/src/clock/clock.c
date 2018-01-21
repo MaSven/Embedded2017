@@ -18,7 +18,7 @@ volatile uint8_t clock_blink_flag = 0;
 
 void clock_display(int row, int col, int blink_pos)
 {
-	char time[12];
+	char time[13];
 	
 	if (blink_pos == 1 && clock_blink_flag)
 	{
