@@ -16,7 +16,7 @@ volatile uint8_t seconds = 0;
 
 void clock_display(int row, int col)
 {
-	char time[12];
+	char time[13];
 	sprintf(time, "%.2d:%.2d:%.2d Uhr",hours,minutes,seconds);
 	lcd_set_cursor(row,col);
 	lcd_send_string(time);
