@@ -134,6 +134,34 @@ inline void display_mode_time_temp_lf(void) {
 	}
 }
 
+inline void menu_time(void) {
+	//LCD Zeit einstellen
+	lcd_set_cursor(1, 1);
+	lcd_send_string("Uhr einstellen");
+	/*key_was_pressed = 0;
+	 while (key_was_pressed == 0)
+	 {
+	 // warte auf eingbabe
+	 }
+	 key_was_pressed = 0;*/
+	if (enter_was_pressed) {
+		menue_state = MENUE_TIME_EDIT_H;
+		lcd_clear();
+	}
+	if (down_was_pressed) {
+		menue_state = MENUE_DISPLAY;
+		lcd_clear();
+	}
+	if (up_was_pressed) {
+		menue_state = MENUE_DISPLAY;
+		lcd_clear();
+	}
+	enter_was_pressed = 0;
+	up_was_pressed = 0;
+	down_was_pressed = 0;
+	key_was_pressed = 0;
+}
+
 int main(void) {
 	init();
 	while (1) {
@@ -155,31 +183,7 @@ int main(void) {
 			}
 			break;
 		case MENUE_TIME:
-			//LCD Zeit einstellen
-			lcd_set_cursor(1, 1);
-			lcd_send_string("Uhr einstellen");
-			/*key_was_pressed = 0;
-			 while (key_was_pressed == 0)
-			 {
-			 // warte auf eingbabe
-			 }
-			 key_was_pressed = 0;*/
-			if (enter_was_pressed) {
-				menue_state = MENUE_TIME_EDIT_H;
-				lcd_clear();
-			}
-			if (down_was_pressed) {
-				menue_state = MENUE_DISPLAY;
-				lcd_clear();
-			}
-			if (up_was_pressed) {
-				menue_state = MENUE_DISPLAY;
-				lcd_clear();
-			}
-			enter_was_pressed = 0;
-			up_was_pressed = 0;
-			down_was_pressed = 0;
-			key_was_pressed = 0;
+			menu_time();
 			break;
 		case MENUE_TIME_EDIT_H:
 			clock_display(1, 2, 1);
