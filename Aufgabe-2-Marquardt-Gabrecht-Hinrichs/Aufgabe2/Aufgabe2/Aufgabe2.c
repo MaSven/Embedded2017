@@ -61,6 +61,7 @@ volatile uint8_t hygro_flag = 1;
 volatile uint8_t hygro_counter = 0;
 extern volatile uint8_t clock_blink_flag;
 volatile uint8_t clock_blink_counter = 0;
+volatile uint8_t debounce_counter = 0;
 
 
 // Prototypes
@@ -97,53 +98,61 @@ int main(void){
 	while(1) {
 		switch (menue_state) {
 			case IDLE:
-			switch(display_state){
-				case DISPLAY_MODE_TIME:
-					// Anforderung f) i.
-					if (clock_flag)
-					{
-						clock_display(1,2,0);
+				if (enter_was_pressed)
+				{
+					menue_state = MENUE_TIME;
+					enter_was_pressed = 0;
+				} 
+				else
+				{
+					switch(display_state){
+						case DISPLAY_MODE_TIME:
+						// Anforderung f) i.
+						if (clock_flag)
+						{
+							clock_display(1,2,0);
+						}
+						break;
+						case DISPLAY_MODE_TIME_TEMP:
+						// Anforderung f) ii.
+						if (clock_flag)
+						{
+							clock_display(1,2,0);
+						}
+						if (temp_flag)
+						{
+							temp_display(2,2);
+						}
+						break;
+						case DISPLAY_MODE_TEMP_LF:
+						// Anforderung f) iii.
+						if (temp_flag)
+						{
+							temp_display(1,2);
+						}
+						if (hygro_flag)
+						{
+							hygro_display(2,2);
+						}
+						break;
+						case DISPLAY_MODE_TIME_TEMP_LF:
+						// Anforderung f) iV.
+						// Uhrzeit im Wechsel mit Temperatur/Luftfeuchtigkeit
+						if (clock_flag)
+						{
+							clock_display(1,2,0);
+						}
+						if (temp_flag)
+						{
+							temp_display(2,2);
+						}
+						if (hygro_flag)
+						{
+							hygro_display(2,10);
+						}
+						break;
 					}
-					break;
-				case DISPLAY_MODE_TIME_TEMP:
-					// Anforderung f) ii.
-					if (clock_flag)
-					{
-						clock_display(1,2,0);
-					}
-					if (temp_flag)
-					{
-						temp_display(2,2);
-					}
-					break;
-				case DISPLAY_MODE_TEMP_LF:
-					// Anforderung f) iii.
-					if (temp_flag)
-					{
-						temp_display(1,2);
-					}
-					if (hygro_flag)
-					{
-						hygro_display(2,2);
-					}
-					break;
-				case DISPLAY_MODE_TIME_TEMP_LF:
-					// Anforderung f) iV.
-					// Uhrzeit im Wechsel mit Temperatur/Luftfeuchtigkeit
-					if (clock_flag)
-					{
-						clock_display(1,2,0);
-					}
-					if (temp_flag)
-					{
-						temp_display(2,2);
-					}
-					if (hygro_flag)
-					{
-						hygro_display(2,10);
-					}
-					break;
-			}
+				}				
 			break;
 			case MENUE_TIME:
 				//LCD Zeit einstellen
@@ -421,13 +430,15 @@ void timer0Init(void)
 ISR (TIMER0_COMPA_vect)
 {
 	clock_blink_counter++;
+	debounce_counter++;
 	if (clock_blink_counter == 20)
 	{
 		clock_blink_counter = 0;
 		clock_blink_flag ^= 1;
 	}
-	if (!IOInterruptEnabled)
+	if (debounce_counter == 3)
 	{
+		debounce_counter = 0;
 		IOInterruptEnabled = 1;
 	}
 }
@@ -494,10 +505,10 @@ ISR (PCINT0_vect){
 				menue_state = IDLE;
 			}
 			if(Lastbutton == (1<<ENTER)){
-				if (menue_state == IDLE)
+				/*if (menue_state == IDLE)
 				{
 					menue_state = MENUE_TIME;
-				}
+				}*/
 				enter_was_pressed = 1;
 			}
 			if(Lastbutton == (1<<UP)){
