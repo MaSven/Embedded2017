@@ -33,7 +33,7 @@
     <node id="n1">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="40.0" width="120.048828125" x="-200.99266684607073" y="634.2357373519915"/>
+          <y:Geometry height="40.0" width="120.048828125" x="-243.60399497107073" y="634.2357373519915"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="96.044921875" x="12.001953125" y="10.6494140625">Uhrzeit einstellen<y:LabelModel>
@@ -49,7 +49,7 @@
     <node id="n2">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="40.0" width="120.048828125" x="-100.99266684607073" y="564.2357373519915"/>
+          <y:Geometry height="40.0" width="120.048828125" x="-143.60399497107073" y="564.2357373519915"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="97.38671875" x="11.3310546875" y="10.6494140625">Uhrzeit  anzeigen<y:LabelModel>
@@ -65,7 +65,7 @@
     <node id="n3">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="40.0" width="143.404296875" x="-112.67040122107073" y="909.2357373519915"/>
+          <y:Geometry height="40.0" width="143.404296875" x="-155.28172934607073" y="909.2357373519915"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="133.404296875" x="5.0" y="10.6494140625">Aktueller Anzeigemodus<y:LabelModel>
@@ -114,7 +114,7 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
     <node id="n6">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.decision">
-          <y:Geometry height="40.0" width="113.380859375" x="-600.6469637210707" y="1005.0"/>
+          <y:Geometry height="40.0" width="113.380859375" x="-542.0551668460707" y="1005.0"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="103.380859375" x="5.0" y="10.6494140625">Hoch/Runter/Enter<y:LabelModel>
@@ -130,7 +130,7 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
     <node id="n7">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="40.0" width="182.111328125" x="-635.0121980960707" y="755.0"/>
+          <y:Geometry height="40.0" width="182.111328125" x="-576.4204012210707" y="735.0"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="172.111328125" x="5.0" y="10.6494140625">Nächsten Menüpiunkt anzeigen<y:LabelModel>
@@ -146,7 +146,7 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
     <node id="n8">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="40.0" width="170.111328125" x="-792.8604219927339" y="805.0"/>
+          <y:Geometry height="40.0" width="170.111328125" x="-734.2686251177339" y="805.0"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="160.111328125" x="5.0" y="10.6494140625">Vorigen Menüpunkt anzeigen<y:LabelModel>
@@ -178,7 +178,7 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
     <node id="n10">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="40.0" width="218.802734375" x="111.97315346642927" y="956.6846071044134"/>
+          <y:Geometry height="40.0" width="218.802734375" x="69.36182534142927" y="956.6846071044134"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="208.802734375" x="5.0" y="10.6494140625">Momentanen Anzeigemodus anzeigen<y:LabelModel>
@@ -194,7 +194,7 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
     <node id="n11">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.decision">
-          <y:Geometry height="40.0" width="113.380859375" x="164.68409096642927" y="842.1367061356299"/>
+          <y:Geometry height="40.0" width="113.380859375" x="122.07276284142927" y="842.1367061356299"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="103.380859375" x="5.0" y="10.6494140625">Hoch/Runter/Enter<y:LabelModel>
@@ -210,7 +210,7 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
     <node id="n12">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="40.0" width="144.734375" x="149.00733315392927" y="694.9085037674922"/>
+          <y:Geometry height="40.0" width="144.734375" x="106.39600502892927" y="694.9085037674922"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="134.734375" x="5.0" y="10.6494140625">Nächster Anzeigemodus<y:LabelModel>
@@ -226,7 +226,7 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
     <node id="n13">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="40.0" width="135.400390625" x="341.67627846642927" y="755.0"/>
+          <y:Geometry height="40.0" width="135.400390625" x="251.13038002892927" y="755.0"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="125.400390625" x="5.0" y="10.6494140625">Voriger Anzeigemodus<y:LabelModel>
@@ -242,7 +242,7 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
     <node id="n14">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
-          <y:Geometry height="40.0" width="134.08203125" x="-33.00926840857073" y="709.2357373519915"/>
+          <y:Geometry height="40.0" width="134.08203125" x="-75.62059653357073" y="709.2357373519915"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="124.08203125" x="5.0" y="10.6494140625">Anzeigemodus ändern<y:LabelModel>
@@ -260,7 +260,7 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="20.0" tx="-25.0" ty="-20.0">
             <y:Point x="-315.96825278357073" y="604.2357373519915"/>
-            <y:Point x="-165.96825278357073" y="604.2357373519915"/>
+            <y:Point x="-208.57958090857073" y="604.2357373519915"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
@@ -272,8 +272,8 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="20.0" tx="0.0" ty="-20.0">
-            <y:Point x="-40.96825278357073" y="803.7190527448871"/>
-            <y:Point x="-40.96825278357073" y="854.2357373519915"/>
+            <y:Point x="-83.57958090857073" y="803.7190527448871"/>
+            <y:Point x="-83.57958090857073" y="854.2357373519915"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
@@ -302,7 +302,7 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="20.0" tx="0.0" ty="-20.0">
             <y:Point x="-318.95653403357073" y="950.0"/>
-            <y:Point x="-543.9565340335707" y="950.0"/>
+            <y:Point x="-485.36473715857073" y="950.0"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
@@ -316,13 +316,13 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="20.0" tx="-91.0556640625" ty="0.0">
-            <y:Point x="-543.9565340335707" y="1100.0"/>
-            <y:Point x="-857.0297310195772" y="1100.0"/>
-            <y:Point x="-857.0297310195772" y="775.0"/>
+            <y:Point x="-485.36473715857073" y="1100.0"/>
+            <y:Point x="-798.4379341445772" y="1100.0"/>
+            <y:Point x="-798.4379341445772" y="755.0"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="40.017578125" x="-369.6188668524036" y="-127.23724375022323">Runter<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/>
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="40.017578125" x="-308.46709074906664" y="-6.2630779805786005">Runter<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/>
           </y:EdgeLabel>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
@@ -332,13 +332,13 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="20.0" tx="-85.0556640625" ty="0.0">
-            <y:Point x="-543.9565340335707" y="1100.0"/>
-            <y:Point x="-792.8604219927339" y="1100.0"/>
-            <y:Point x="-792.8604219927339" y="894.1280947255113"/>
+            <y:Point x="-485.36473715857073" y="1100.0"/>
+            <y:Point x="-734.2686251177339" y="1100.0"/>
+            <y:Point x="-734.2686251177339" y="894.1280947255113"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="32.013671875" x="-296.48881900189235" y="-125.90785731319443">Hoch<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/>
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="32.013671875" x="-240.65458864667164" y="-6.2630779805786005">Hoch<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/>
           </y:EdgeLabel>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
@@ -372,8 +372,8 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="20.0" tx="0.0" ty="-20.0">
-            <y:Point x="-707.8047579302339" y="950.0"/>
-            <y:Point x="-543.9565340335707" y="950.0"/>
+            <y:Point x="-649.2129610552339" y="950.0"/>
+            <y:Point x="-485.36473715857073" y="950.0"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
@@ -387,10 +387,10 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="20.0" tx="0.0" ty="-20.0">
-            <y:Point x="34.03174721642927" y="1085.0"/>
-            <y:Point x="34.03174721642927" y="1045.0"/>
-            <y:Point x="-140.96825278357073" y="1045.0"/>
-            <y:Point x="-141.13389740020375" y="877.9260440172012"/>
+            <y:Point x="-8.579580908570733" y="1085.0"/>
+            <y:Point x="-8.579580908570733" y="1045.0"/>
+            <y:Point x="-183.57958090857073" y="1045.0"/>
+            <y:Point x="-183.74522552520375" y="877.9260440172012"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
@@ -404,9 +404,9 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="20.0" tx="0.0" ty="-20.0">
-            <y:Point x="34.03174721642927" y="1085.0"/>
-            <y:Point x="34.03174721642927" y="1045.0"/>
-            <y:Point x="221.37452065392927" y="1045.0"/>
+            <y:Point x="-8.579580908570733" y="1085.0"/>
+            <y:Point x="-8.579580908570733" y="1045.0"/>
+            <y:Point x="178.76319252892927" y="1045.0"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
@@ -432,12 +432,12 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="20.0" tx="0.0" ty="-20.0">
-            <y:Point x="356.9719372308937" y="882.1367061356299"/>
-            <y:Point x="409.37647377892927" y="883.9612486544671"/>
+            <y:Point x="319.6781548540098" y="882.1367061356299"/>
+            <y:Point x="319.6781548540098" y="882.1367061356299"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="40.017578125" x="114.64021769515034" y="-28.184511477618457">Runter<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/>
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="40.017578125" x="98.68628345373122" y="-32.17267078870566">Runter<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/>
           </y:EdgeLabel>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
@@ -459,13 +459,13 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="20.0" tx="0.0" ty="-20.0">
-            <y:Point x="122.14261912170355" y="882.1367061356299"/>
-            <y:Point x="122.14261912170355" y="679.2357373519915"/>
-            <y:Point x="34.03174721642927" y="679.2357373519915"/>
+            <y:Point x="79.53129099670355" y="882.1367061356299"/>
+            <y:Point x="79.53129099670355" y="679.2357373519915"/>
+            <y:Point x="-8.579580908570733" y="679.2357373519915"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="32.681640625" x="-87.66515306681544" y="-89.3362875809554">Enter<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/>
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="32.681640625" x="-87.66515306681542" y="-89.3362875809554">Enter<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/>
           </y:EdgeLabel>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
@@ -475,12 +475,12 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="20.0" tx="0.0" ty="-20.0">
-            <y:Point x="34.03174721642927" y="854.2357373519915"/>
-            <y:Point x="-40.96825278357073" y="854.2357373519915"/>
+            <y:Point x="-8.579580908570733" y="854.2357373519915"/>
+            <y:Point x="-83.57958090857073" y="854.2357373519915"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="-1.9999986942152645" y="53.000019578553974">
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="free" modelPosition="anywhere" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="-1.9999996478895774" y="53.000019578553974">
             <y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/>
           </y:EdgeLabel>
           <y:BendStyle smoothed="false"/>
@@ -492,7 +492,7 @@ Anzeige info nächster Menüpunkt<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="-140.96825278357073" y="584.2357373519915"/>
+            <y:Point x="-183.57958090857073" y="584.2357373519915"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
