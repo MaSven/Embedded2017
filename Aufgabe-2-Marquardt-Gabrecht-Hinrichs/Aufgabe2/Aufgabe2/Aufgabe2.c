@@ -40,6 +40,8 @@
 #define DISPLAY_MODE_TIME_TEMP 14
 #define DISPLAY_MODE_TEMP_LF 16
 #define DISPLAY_MODE_TIME_TEMP_LF 17
+#define CLOCK_UPDATE_TIME 20
+#define ENTER_WAIT_TIME 5
 
 uint8_t volatile menue_state = MENUE_TIME_EDIT_H;
 uint8_t volatile display_state = DISPLAY_MODE_TIME;
@@ -412,12 +414,12 @@ ISR (TIMER0_COMPA_vect)
 {
 	clock_blink_counter++;
 	debounce_counter++;
-	if (clock_blink_counter == 20)
+	if (clock_blink_counter == CLOCK_UPDATE_TIME)
 	{
 		clock_blink_counter = 0;
 		clock_blink_flag ^= 1;
 	}
-	if (debounce_counter == 5)
+	if (debounce_counter == ENTER_WAIT_TIME)
 	{
 		debounce_counter = 0;
 		IOInterruptEnabled = 1;
