@@ -69,28 +69,7 @@ void timer1Init(void);
 void pin_change_interrupt_init(void);
 void init(void);
 
-/*
- int main(void){
- init();
- while(1)
- {
- if (clock_flag)
- {
- clock_flag = 0;
- clock_display(1,2,0);
- }
- if (temp_flag)
- {
- temp_flag = 0;
- temp_display(2,2);
- }
- if (hygro_flag)
- {
- hygro_flag = 0;
- hygro_display(2,9);
- }
- }
- }*/
+
 inline void global_keys_reset(void) {
 	if (key_was_pressed)
 	{
@@ -119,6 +98,7 @@ static inline void display_mode_time_temp(void) {
 	if (temp_flag) {
 		temp_display(2, 2);
 	}
+
 }
 
 inline void display_mode_temp_lf(void) {
@@ -437,7 +417,7 @@ ISR (TIMER0_COMPA_vect)
 		clock_blink_counter = 0;
 		clock_blink_flag ^= 1;
 	}
-	if (debounce_counter == 3)
+	if (debounce_counter == 5)
 	{
 		debounce_counter = 0;
 		IOInterruptEnabled = 1;
@@ -514,6 +494,7 @@ ISR (PCINT0_vect) {
 				down_was_pressed = 1;
 			}
 		}
+		button=0;
 	} else {
 		Lastbutton = button;
 	}
