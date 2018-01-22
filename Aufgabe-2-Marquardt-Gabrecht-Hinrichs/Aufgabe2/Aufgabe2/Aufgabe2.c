@@ -81,7 +81,7 @@ inline void global_keys_reset(void) {
 	key_was_pressed = 0;
 }
 /**
- * Erfüllt anforderung der Aufgabe f) i
+ * Erfuellt anforderung der Aufgabe f) i
  */
 inline void display_mode_time() {
 	if (clock_flag) {
@@ -89,7 +89,7 @@ inline void display_mode_time() {
 	}
 }
 /**
- * Erfüllt anforderung der Aufgabe f) ii
+ * Erfuellt anforderung der Aufgabe f) ii
  */
 static inline void display_mode_time_temp(void) {
 	if (clock_flag) {
