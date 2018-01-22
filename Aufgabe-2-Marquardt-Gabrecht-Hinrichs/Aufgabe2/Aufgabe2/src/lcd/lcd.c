@@ -125,3 +125,12 @@ void lcd_send_enable_pulse(void)
 	_delay_us(LCD_ENABLE_PULSE_US);
 	LCDPORT &= ~(1<<LCD_E_PIN);
 }
+
+void lcd_left_shift(int x)
+{
+	for (int i=0;i<x;i++)
+	{
+		_delay_ms(500);
+		lcd_send_command(LCD_CURSOR_DISPLAY_SHIFT | LCD_CURSOR_DISPLAY_SHIFT_DISPLAY_SHIFT | LCD_CURSOR_DISPLAY_SHIFT_LEFT_SHIFT);
+	}
+}
