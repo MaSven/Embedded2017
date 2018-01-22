@@ -110,27 +110,9 @@ void write_byte(uint8_t byte){
 	}
 }
 
-uint8_t write_and_result(uint8_t byte){
-	uint8_t result=0;
-	for(uint8_t i=0;i<8;i++){
-		result >>=1;
-		if(byte & 0x01){
-			if(read_one_bit()){
-				result |= 0x80;
-			}
-			}else{
-				write_one_bit(0);
-			}
-			byte >>=1;
-	}
-	return result;
-}
 
-void write_byte_block(uint8_t *data,uint8_t data_len){
-	for(uint8_t i=0;i<data_len;i++){
-		data[i]= write_and_result(data[i]);
-	}
-}
+
+
 
 
 
@@ -142,9 +124,7 @@ void one_wire_write_byte(uint8_t data){
 	write_byte(data);
 }
 
-uint8_t one_wire_read_write_byte(uint8_t data){
-	return write_and_result(data);
-}
+
 
 uint8_t one_wire_read_bit(){
 	return read_one_bit();

@@ -112,7 +112,7 @@ void lcd_display_string_shift(const char *string)
 	lcd_send_string(string);
 	if (string_length > LCD_COLS)
 	{
-		lcd_shift_left(string_length - LCD_COLS);
+		lcd_left_shift(string_length - LCD_COLS);
 	}
 }
 
