@@ -92,6 +92,10 @@ void init(void);
  }
  }*/
 inline void global_keys_reset(void) {
+	if (key_was_pressed)
+	{
+		lcd_clear();
+	}
 	enter_was_pressed = 0;
 	up_was_pressed = 0;
 	down_was_pressed = 0;
@@ -163,10 +167,7 @@ inline void menu_time(void) {
 		menue_state = MENUE_DISPLAY;
 		lcd_clear();
 	}
-	enter_was_pressed = 0;
-	up_was_pressed = 0;
-	down_was_pressed = 0;
-	key_was_pressed = 0;
+	global_keys_reset();
 }
 
 inline void menu_time_edit_h(void) {
@@ -239,7 +240,7 @@ inline void menu_display(void) {
 }
 
 inline void menue_display_time(void) {
-	key_was_pressed = 0;
+	//key_was_pressed = 0;
 	//LCD Nur Uhrzeit
 	lcd_set_cursor(1, 4);
 	lcd_send_string("Uhrzeit");
@@ -267,7 +268,7 @@ inline void menue_display_time(void) {
 }
 
 inline void menue_display_time_temp(void) {
-	key_was_pressed = 0;
+	//key_was_pressed = 0;
 	//LCD Uhrzeit und Temperatur
 	lcd_set_cursor(1, 0);
 	lcd_send_string("Temperatur&Zeit");
@@ -295,7 +296,7 @@ inline void menue_display_time_temp(void) {
 }
 
 inline void menue_display_temp_lf(void) {
-	key_was_pressed = 0;
+	//key_was_pressed = 0;
 	//LCD Temperatur und Luftfeuchtigkeit
 	lcd_set_cursor(1, 0);
 	lcd_send_string("Temp/Luftfeuchte");
@@ -323,7 +324,7 @@ inline void menue_display_temp_lf(void) {
 }
 
 inline void menue_display_time_temp_lf(void) {
-	key_was_pressed = 0;
+	//key_was_pressed = 0;
 	//LCD Temperatur&Luftfeuchtigkeit im Wechsel mit Uhrzeit
 	lcd_set_cursor(1, 0);
 	lcd_send_string("Temp/Uhr wechsel");
@@ -356,25 +357,25 @@ int main(void) {
 		switch (menue_state) {
 		
 		case IDLE:
-		if (enter_was_pressed)
-				{
-					menue_state = MENUE_TIME;
-					enter_was_pressed = 0;
-				} else{
-			switch (display_state) {
-			case DISPLAY_MODE_TIME:
-				display_mode_time();
-				break;
-			case DISPLAY_MODE_TIME_TEMP:
-				display_mode_time_temp();
-				break;
-			case DISPLAY_MODE_TEMP_LF:
-				display_mode_temp_lf();
-				break;
-			case DISPLAY_MODE_TIME_TEMP_LF:
-				display_mode_time_temp_lf();
-				break;
-			}
+			if (enter_was_pressed)
+			{
+				menue_state = MENUE_TIME;
+				enter_was_pressed = 0;
+			} else{
+				switch (display_state) {
+				case DISPLAY_MODE_TIME:
+					display_mode_time();
+					break;
+				case DISPLAY_MODE_TIME_TEMP:
+					display_mode_time_temp();
+					break;
+				case DISPLAY_MODE_TEMP_LF:
+					display_mode_temp_lf();
+					break;
+				case DISPLAY_MODE_TIME_TEMP_LF:
+					display_mode_time_temp_lf();
+					break;
+				}
 			}
 			break;
 		case MENUE_TIME:
@@ -400,6 +401,7 @@ int main(void) {
 			break;
 		case MENUE_DISPLAY_TIME_TEMP_LF:
 			menue_display_time_temp_lf();
+			break;
 		}
 	}
 }
