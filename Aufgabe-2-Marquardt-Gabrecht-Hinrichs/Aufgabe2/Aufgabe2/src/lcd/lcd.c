@@ -5,6 +5,7 @@
  *  Author: Matthias Hinrichs
  */ 
 
+#include <string.h>
 #include "global.h"
 #include "lcd/lcd.h"
 
@@ -101,6 +102,17 @@ void lcd_send_string(const char *string)
 		{
 			lcd_send_char(string[i]);
 		}
+	}
+}
+
+void lcd_display_string_shift(const char *string)
+{
+	int string_length = strlen(string);
+	lcd_set_cursor(1,0);
+	lcd_send_string(string);
+	if (string_length > LCD_COLS)
+	{
+		lcd_shift_left(string_length - LCD_COLS);
 	}
 }
 
