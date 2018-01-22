@@ -196,10 +196,7 @@ static void menu_time_edit_m(void) {
 
 inline void menu_display(void) {
 	// LCD Nur Urzeit
-	lcd_set_cursor(1, 2);
-	lcd_send_string("Displaymodus");
-	lcd_set_cursor(2, 3);
-	lcd_send_string("einstellen");
+	lcd_display_string_shift("Displaymodus einstellen");
 	/*key_was_pressed = 0;
 	 while (key_was_pressed == 0)
 	 {
