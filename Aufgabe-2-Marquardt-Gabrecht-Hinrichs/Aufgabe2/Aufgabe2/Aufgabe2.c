@@ -8,6 +8,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>		// interrupts
 #include <stdlib.h>
+#include <string.h>
 #include "global.h"
 #include "lcd/lcd.h"
 #include "one_wire/ds18s20.h"
@@ -40,6 +41,11 @@ uint8_t volatile key_was_pressed = 0;
 uint8_t volatile IOInterruptEnabled = 1;
 volatile uint8_t Lastbutton =0;
 
+// Prototypes
+void display_shift_left(int x);
+void display_shift_right(int x);
+void display_string(void);
+
 int main(void){
 	LCDDDR = ((0xF0)|(1<<LCD_RS_PIN)|(1<<LCD_E_PIN));
 	LCDPORT = 0x00;
@@ -47,53 +53,39 @@ int main(void){
 		
 	while(1)
 	{
-		lcd_set_cursor(1,0);
-		lcd_send_string("Test1");
-		lcd_set_cursor(1,4);
-		lcd_send_string("Test2");
-		lcd_set_cursor(2,4);
-		lcd_send_string("Test3");
-		_delay_ms(500);
-		lcd_clear();
-		_delay_ms(500);
+		display_string();
+		_delay_ms(1000);
 	}
-	/*while (1)
+}
+
+void display_string(void)
+{
+	char string[] = "Uhrzeit einstellen";
+	int string_length = strlen(string);
+	
+	lcd_set_cursor(1,0);
+	lcd_send_string(string);
+	
+	if (string_length > LCD_COLS)
 	{
-		uint8_t changeDDRAMCommand = 0x80; // 0b1000.0000
-		uint8_t secondRowCommand = 0x40; // 0b0100.0000
-		uint8_t firstRowFirstCol = ((changeDDRAMCommand)|0);
-		uint8_t firstRowFifthCol = ((changeDDRAMCommand)|5);
-		uint8_t secondRowFirstCol = ((changeDDRAMCommand)|(secondRowCommand)|0);
-		uint8_t secondRowFifthCol = ((changeDDRAMCommand)|(secondRowCommand)|5);
-		
-		lcd_clear();
-		_delay_ms(500);
-		lcd_send_command(firstRowFirstCol);
-		lcd_send_string("Test1");
-		lcd_send_command(firstRowFifthCol);
-		lcd_send_string("Test2");
-		lcd_send_command(secondRowFirstCol);
-		lcd_send_string("Test3");
-		lcd_send_command(secondRowFifthCol);
-		lcd_send_string("Test4");
-		_delay_ms(500);
-	}*/
-	/*while (1)
+		display_shift_left(string_length - LCD_COLS);
+	}
+}
+
+void display_shift_left(int x)
+{
+	for (int i=0;i<x;i++)
 	{
-		uint8_t changeDDRAMCommand = 0x80; // 0b1000.0000
-		uint8_t secondRowCommand = 0x40; // 0b0100.0000
-		uint8_t firstRowFirstCol = ((changeDDRAMCommand)|0);
-		uint8_t firstRowFifthCol = ((changeDDRAMCommand)|5);
-		uint8_t secondRowFirstCol = ((changeDDRAMCommand)|(secondRowCommand)|0);
-		uint8_t secondRowFifthCol = ((changeDDRAMCommand)|(secondRowCommand)|5);
-		
-		lcd_send_command(firstRowFirstCol);
 		_delay_ms(500);
-		lcd_send_command(firstRowFifthCol);
-		_delay_ms(500);
-		lcd_send_command(secondRowFirstCol);
-		_delay_ms(500);
-		lcd_send_command(secondRowFifthCol);
-		_delay_ms(500);
-	}*/
+		lcd_send_command(LCD_CURSOR_DISPLAY_SHIFT | LCD_CURSOR_DISPLAY_SHIFT_DISPLAY_SHIFT | LCD_CURSOR_DISPLAY_SHIFT_LEFT_SHIFT);
+	}
+}
+
+void display_shift_right(int x)
+{
+	_delay_ms(500);
+	for (int i=0;i<x;i++)
+	{
+		lcd_send_command(LCD_CURSOR_DISPLAY_SHIFT | LCD_CURSOR_DISPLAY_SHIFT_DISPLAY_SHIFT | LCD_CURSOR_DISPLAY_SHIFT_RIGHT_SHIFT);
+	}	
 }
