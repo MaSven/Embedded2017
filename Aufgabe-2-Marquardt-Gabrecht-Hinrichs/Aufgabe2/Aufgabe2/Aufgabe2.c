@@ -424,7 +424,6 @@ ISR (TIMER1_COMPA_vect) {
 		display_mode_change_flag ^= 1;
 		temp_flag = 1;
 		hygro_flag = 1;
-		clock_flag = 1;
 	}
 }
 
