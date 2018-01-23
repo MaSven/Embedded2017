@@ -3,8 +3,7 @@
  *
  * Created: 12.12.2017 15:03:37
  *  Author: 240747
- */ 
-
+ */
 
 #ifndef GLOBAL_H_
 #define GLOBAL_H_

@@ -3,8 +3,7 @@
  *
  * Created: 16.01.2018 14:00:51
  *  Author: Matthias Hinrichs
- */ 
-
+ */
 
 #ifndef CLOCK_H_
 #define CLOCK_H_

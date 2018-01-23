@@ -77,10 +77,8 @@ void timer1Init(void);
 void pin_change_interrupt_init(void);
 void init(void);
 
-
 inline void global_keys_reset(void) {
-	if (key_was_pressed)
-	{
+	if (key_was_pressed) {
 		lcd_clear();
 	}
 	enter_was_pressed = 0;
@@ -126,29 +124,22 @@ inline void display_mode_temp_lf(void) {
 inline void display_mode_time_temp_lf(void) {
 	// Anforderung f) iV.
 	// Uhrzeit im Wechsel mit Temperatur/Luftfeuchtigkeit
-	if (lcd_clear_flag)
-	{
+	if (lcd_clear_flag) {
 		lcd_clear_flag = 0;
 		lcd_clear();
 	}
-	if (display_mode_change_flag)
-	{
-		if (temp_flag)
-		{
+	if (display_mode_change_flag) {
+		if (temp_flag) {
 			temp_display(1);
 			temp_flag = 0;
 		}
-		if (hygro_flag)
-		{
+		if (hygro_flag) {
 			hygro_display(2);
 			hygro_flag = 0;
 		}
-	} 
-	else
-	{
-		if (clock_flag)
-		{
-			clock_display(1,0);
+	} else {
+		if (clock_flag) {
+			clock_display(1, 0);
 			clock_flag = 0;
 		}
 	}
@@ -300,13 +291,12 @@ int main(void) {
 	init();
 	while (1) {
 		switch (menue_state) {
-		
+
 		case IDLE:
-			if (enter_was_pressed)
-			{
+			if (enter_was_pressed) {
 				menue_state = MENUE_TIME;
 				enter_was_pressed = 0;
-			} else{
+			} else {
 				switch (display_state) {
 				case DISPLAY_MODE_TIME:
 					display_mode_time();
@@ -373,30 +363,25 @@ void timer0Init(void) {
 	TCNT0 = 0x00;
 }
 
-ISR (TIMER0_COMPA_vect)
-{
+ISR (TIMER0_COMPA_vect) {
 	clock_blink_counter++;
 	debounce_counter++;
 	lcd_shift_flag_counter++;
-	if (clock_blink_counter == CLOCK_UPDATE_TIME)
-	{
+	if (clock_blink_counter == CLOCK_UPDATE_TIME) {
 		clock_blink_counter = 0;
 		clock_blink_flag ^= 1;
 	}
-	if (debounce_counter == ENTER_WAIT_TIME)
-	{
+	if (debounce_counter == ENTER_WAIT_TIME) {
 		debounce_counter = 0;
 		IOInterruptEnabled = 1;
 	}
-	if (lcd_shift_flag_counter == 20)
-	{
+	if (lcd_shift_flag_counter == 20) {
 		lcd_shift_flag_counter = 0;
 		lcd_shift_flag = 1;
 	}
 }
 
-void timer1Init(void)
-{
+void timer1Init(void) {
 	TCCR1A = 0x00;
 	TCCR1B |= ((1 << WGM12) | (1 << CS12)); // CTC ON, Prescaler 1024
 	// Timer 1,0s
@@ -433,8 +418,7 @@ ISR (TIMER1_COMPA_vect) {
 		hygro_counter = 0;
 		hygro_flag = 1;
 	}
-	if (display_mode_change_flag_counter == 10)
-	{
+	if (display_mode_change_flag_counter == 10) {
 		display_mode_change_flag_counter = 0;
 		lcd_clear_flag = 1;
 		display_mode_change_flag ^= 1;
@@ -461,7 +445,7 @@ ISR (PCINT0_vect) {
 			if (Lastbutton == (1 << CANCEL)) {
 				menue_state = IDLE;
 			}
-			if(Lastbutton == (1<<ENTER)){
+			if (Lastbutton == (1 << ENTER)) {
 				enter_was_pressed = 1;
 			}
 			if (Lastbutton == (1 << UP)) {
@@ -471,7 +455,7 @@ ISR (PCINT0_vect) {
 				down_was_pressed = 1;
 			}
 		}
-		button=0;
+		button = 0;
 	} else {
 		Lastbutton = button;
 	}

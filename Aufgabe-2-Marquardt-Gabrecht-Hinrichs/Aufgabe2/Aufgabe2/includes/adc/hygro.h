@@ -3,8 +3,7 @@
  *
  * Created: 17.01.2018 12:10:06
  *  Author: Matthias Hinrichs
- */ 
-
+ */
 
 #ifndef HYGRO_H_
 #define HYGRO_H_
