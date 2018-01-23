@@ -2,7 +2,8 @@
 * one_wire.h
 *
 * Created: 11.12.2017 22:10:33
-*  Author: Matthias Hinrichs
+*  Author: Sven Marquardt
+*  \brief EnthÃ¤lt funktionen um auf dem onewire signale zu sende und zu empfangen
 */
 #ifndef ONE_WIRE_H_
 #define ONE_WIRE_H_
@@ -19,7 +20,7 @@
 * \brief Lese inhalt vom Scratchpad
 *
 *Lese den Kompletten Inhalt der sich im moment im Scratchpad befindet
-* Master erhält bis zu 9 bytes
+* Master erhï¿½lt bis zu 9 bytes
 */
 #define FUNCTION_COMMAND_READ_SCRATCHPAD 0xbe
 /*
@@ -43,7 +44,7 @@
 */
 #define FUNCTION_COMMAND_RECALL_E2 0xb8
 /*
-* \brief Herausfinden ob eines der DS1820 auf parasit modus läuft
+* \brief Herausfinden ob eines der DS1820 auf parasit modus lï¿½uft
 */
 #define FUNCTION_COMMAND_READ_POWER_SUPPLY 0xb4
 /*
@@ -70,23 +71,27 @@
 
 
 /*
-* Reset befehl für onewire. Sollte ein 1 liefern wenn es ein onewire device gibt
+*  \brief Reset befehl fuer onewire. Sollte ein 1 liefern wenn es ein onewire device gibt
+*  \return 1 wenn es einen Teilnehmer auf dem onewire gibt ansonsten 0
 */
 uint8_t one_wire_reset();
 /*
-    Sende byte an one wire
+*    \brief Sende byte an one wire
 */
 void one_wire_write_byte(uint8_t data);
 /*
-    Schreibe gegebenes byte zum momentanen onewire. Erhalte Antwort
+*  \brief  Schreibe gegebenes byte zum momentanen onewire. Erhalte Antwort
+*  \return byte das gelesen wurde
 */
 uint8_t one_wire_read_write_byte(uint8_t data);
 /*
-*   Lese einzelnes bit vom scratchpad
+*   \brief Lese einzelnes bit vom scratchpad
+*   \return gelesenes bit
 */
 uint8_t one_wire_read_bit();
 /*
-*   Lese byte vom onewire
+*   \brief Lese byte vom onewire
+*   \return byte das empfangen wurde
 */
 uint8_t one_wire_read_byte();
 

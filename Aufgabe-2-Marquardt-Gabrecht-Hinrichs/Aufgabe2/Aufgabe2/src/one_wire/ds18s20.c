@@ -4,18 +4,14 @@
 * Created: 07.01.2018 16:57:44
 *  Author: Sven Marquardt
 */
-
 #include <util/crc16.h>
-#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include "one_wire/one_wire.h"
 #include "global.h"
 #include "one_wire/ds18s20.h"
-//#ifdef DEBUG
 #include "lcd/lcd.h"
-//#endif
 /*
 *   Scratchpad ist 9 byte gross im DS18S20
 */
@@ -55,7 +51,7 @@
 */
 #define INTEGER_OFFSET 100
 /*
-*   Ueberprueft die daten auf richtigkeit
+*   \brief Ueberprueft die daten auf richtigkeit
 * \return 0 wenn die daten falsch sind ansonsten 1
 */
 uint8_t crc_check(uint8_t data,uint8_t crc);
@@ -114,6 +110,7 @@ int16_t ds18s20_read_temperature(){
 }
 /**
  * Überprüft, ob ein byte gekippte bits enthält durch einen crc check
+ * \return 0 wenn das byte einen fehler hatte. Ansonsten 1
  */
 uint8_t crc_check(uint8_t data,uint8_t crc){
 	if(_crc_ibutton_update(crc,data)){
@@ -124,6 +121,7 @@ uint8_t crc_check(uint8_t data,uint8_t crc){
 }
 /**
  * Überprüft, ob die bytes kein gekipptes bit enthalten durch crc
+ * \return 1 wenn alle daten korrekt waren ansonsten 0
  */
 uint8_t check_data_with_crc(uint8_t* data,uint8_t length,uint8_t crc_byte){
 	//-1 weil das letzte byte das crc byte nicht geprueft werden muss

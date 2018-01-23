@@ -3,9 +3,8 @@
  *
  * Created: 07.01.2018 16:55:57
  *  Author: Sven Marquardt
+ *  \brief Enthaelt funktionen um die Temperatur lesen und anzeigen zu koennen
  */ 
-
-
 #ifndef DS1820_H_
 #define DS1820_H_
 /*
@@ -28,10 +27,12 @@ int16_t ds18s20_read_temperature();
 */
 char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_string);
 /*
-*	Zeigt die Temperatur auf dem LCD an
+*	\brief Zeigt die Temperatur auf dem LCD an
+*	\param uint8_t row in welcher zeile soll die Temperatur angezeigt werden
+*	\param uitn8_t col in welcher Spalte soll die Temperatur angezeigt werden
 *
 */
-void temp_display(int row, int col);
+void temp_display(uint8_t row,uint8_t col);
 
 
 

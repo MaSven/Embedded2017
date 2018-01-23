@@ -40,7 +40,9 @@ Setze den Temperaturport auf high
 static inline void set_temperature_port_high(){
 	TEMPPORT |= (1<<TEMPPIN);
 }
-
+/**
+ * Reset auf dem Onewire wiedergeben
+ */
 uint8_t reset(){
 	uint8_t read_slave_bit = 0;
 	// Bus auf low ziehen und 480us warten
@@ -56,7 +58,10 @@ uint8_t reset(){
 	// Buswert zurueckgeben
 	return read_slave_bit;
 }
-
+/**
+ * \brief Schreibe ein einzelnes bit auf den onewire
+ * \param uint8_t bit Bit das geschrieben werden soll
+ */
 void write_one_bit(uint8_t bit){
 	set_port_output();
 	set_temperature_port_down();

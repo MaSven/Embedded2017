@@ -16,7 +16,7 @@ volatile uint8_t seconds = 0;
 
 volatile uint8_t clock_blink_flag = 0;
 
-void clock_display(int row, int col, int blink_pos)
+void clock_display(uint8_t row,uint8_t col,uint8_t blink_pos)
 {
 	char time[13];
 	
