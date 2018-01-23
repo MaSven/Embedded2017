@@ -104,6 +104,6 @@ void lcd_send_enable_pulse(void);
 /************************************************************************/
 /* Linksshift des Displays um x Stellen                                                                     */
 /************************************************************************/
-void lcd_left_shift(int x);
+void lcd_shift_left(int x);
 
 #endif /* LCD_H_ */
