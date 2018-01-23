@@ -96,7 +96,7 @@ void lcd_send_char(uint8_t character)
 
 void lcd_send_string(const char *string)
 {
-	for (int i=0;;i++)
+	for (uint8_t i=0;;i++)
 	{
 		if(string[i] == '\0')
 		{
@@ -111,7 +111,7 @@ void lcd_send_string(const char *string)
 
 void lcd_display_string_shift(const char *string)
 {
-	int string_length = strlen(string);
+	uint8_t string_length = strlen(string);
 	lcd_cursor_home();
 	lcd_send_string(string);
 	if (string_length > LCD_COLS)
