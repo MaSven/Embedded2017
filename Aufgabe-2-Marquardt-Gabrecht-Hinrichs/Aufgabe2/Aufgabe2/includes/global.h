@@ -27,8 +27,8 @@
 //BUTTONS
 #define BTNPORT PORTA
 #define BTNDDR DDRA
-#define UPBTN PA0
-#define DOWNBTN PA3
+#define UP PA0
+#define DOWN PA3
 #define ENTER PA4
 #define CANCEL PA5
 //LCD

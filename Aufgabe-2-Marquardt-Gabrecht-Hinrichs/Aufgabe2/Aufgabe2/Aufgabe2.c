@@ -15,10 +15,7 @@
 #include "one_wire/ds18s20.h"
 #include "clock/clock.h"
 
-#define UP PA0
-#define DOWN PA3
-#define ENTER PA4
-#define CANCEL PA5
+
 
 #define IDLE 0
 #define MENUE_TIME 1
