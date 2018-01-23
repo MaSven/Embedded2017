@@ -1,4 +1,4 @@
-/*
+/**
  * ds1820.h
  *
  * Created: 07.01.2018 16:55:57
@@ -14,8 +14,8 @@
 #define STRING_CPACITY 8
 /**
  *   \brief lesen der momentanen Temperatur
- *   Lesen der Temperatur im DS18S20. Float werden umgerechnet z.B. wird 0.25 zu 25. Heisst,
- *   die letzen beiden zahlen, stehen immer fuer die nachkomma stellen.
+ *   Lesen der Temperatur im DS18S20. Float werden umgerechnet  Heisst,
+ *   die letze Selle steht  immer fuer die nachkomma stelle.
  *   \return Liefert die temperatur als 16 bit.
  */
 int16_t ds18s20_read_temperature();

@@ -1,10 +1,9 @@
-/*
+/**
  * Aufgabe2.c
  *
- * Created: 11.12.2017 22:06:28
- *  Author: Matthias Hinrichs
+ * \date 11.12.2017 22:06:28
+ *  \author Marco Gabrecht
  */
-
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <stdlib.h>

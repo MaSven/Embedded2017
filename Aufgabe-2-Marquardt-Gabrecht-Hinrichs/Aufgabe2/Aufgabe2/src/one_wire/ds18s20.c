@@ -1,8 +1,9 @@
-/*
+/**
  * ds18s20.c
  *
- * Created: 07.01.2018 16:57:44
- *  Author: Sven Marquardt
+ * \date 07.01.2018 16:57:44
+ * \author Sven Marquardt
+ * \headerfile ds18s20.h "ds18s20.h"
  */
 #include <util/crc16.h>
 #include <stdlib.h>

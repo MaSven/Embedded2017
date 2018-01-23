@@ -1,8 +1,8 @@
 /*
  * clock.h
  *
- * Created: 16.01.2018 14:00:51
- *  Author: Matthias Hinrichs
+ * \date 16.01.2018 14:00:51
+ *  \author Matthias Hinrichs
  */
 
 #ifndef CLOCK_H_
