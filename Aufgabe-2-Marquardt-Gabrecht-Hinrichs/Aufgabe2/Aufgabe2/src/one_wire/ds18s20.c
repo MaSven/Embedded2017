@@ -81,7 +81,7 @@ int16_t ds18s20_read_temperature() {
 		//Warte bis die temperatur in digitalform im scratchpad ist
 		while (!one_wire_read_bit())
 			;
-		// Reset vor jedem Command
+		// Reset vor jedem ROM Command
 		one_wire_reset();
 		one_wire_write_byte(ROM_COMMAND_SKIP_ROM);
 		one_wire_write_byte(FUNCTION_COMMAND_READ_SCRATCHPAD);
@@ -99,9 +99,9 @@ int16_t ds18s20_read_temperature() {
 			int16_t temperature = ((int16_t) ms_byte << 8 | ls_byte);
 			//Erstes bit clearen
 			temperature &= ~1;
-			//Auf 1/16 temperatur
+			//Auf 1/16 temperatur und platz schaffen fuer nachkomma
 			temperature <<= 3;
-			//Rechnung durchführen um eine 12bit genauigkeit zu bekommen
+			//Rechnung durchführen um eine 0,1 genauigkeit zu bekommen
 			temperature = (temperature - TEMPERATURE_CONSTANT)
 					+ (((count_per_c - count_remain)));
 			//Auf richtigen wert skalieren für die anzeige
@@ -109,6 +109,7 @@ int16_t ds18s20_read_temperature() {
 		}
 		status_read_temperature = ERROR_CRC;
 	}
+	status_read_temperature=ERROR_CRC;
 	return 0;
 }
 /**
