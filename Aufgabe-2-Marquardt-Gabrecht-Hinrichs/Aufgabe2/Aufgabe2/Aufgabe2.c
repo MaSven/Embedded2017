@@ -94,7 +94,7 @@ inline void display_mode_time() {
 /**
  * Erfuellt anforderung der Aufgabe f) ii
  */
-static inline void display_mode_time_temp(void) {
+inline void display_mode_time_temp(void) {
 	if (clock_flag) {
 		clock_display(1, 0);
 		clock_flag = 0;
@@ -174,7 +174,7 @@ inline void menu_time_edit_h(void) {
 	global_keys_reset();
 }
 
-static void menu_time_edit_m(void) {
+inline void menu_time_edit_m(void) {
 	clock_display(1, 2);
 	if (enter_was_pressed) {
 		menue_state = IDLE;
