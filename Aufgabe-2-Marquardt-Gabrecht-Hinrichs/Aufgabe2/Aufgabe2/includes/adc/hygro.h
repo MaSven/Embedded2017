@@ -15,6 +15,6 @@
 /************************************************************************/
 /* Ausgabe der Luftfeuchtigkeit                                         */
 /************************************************************************/
-void hygro_display(int row, int col);
+void hygro_display(int row);
 
 #endif /* HYGRO_H_ */

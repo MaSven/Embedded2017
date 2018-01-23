@@ -35,8 +35,7 @@ void clock_display(uint8_t row,uint8_t col,uint8_t blink_pos)
 		// Normale Anzeige
 		sprintf(time, "%.2d:%.2d:%.2d Uhr",hours,minutes,seconds);
 	} 
-	lcd_set_cursor(row,col);
-	lcd_send_string(time);
+	lcd_display_string_shift(time, row);
 }
 
 void clock_hour_inc(void)

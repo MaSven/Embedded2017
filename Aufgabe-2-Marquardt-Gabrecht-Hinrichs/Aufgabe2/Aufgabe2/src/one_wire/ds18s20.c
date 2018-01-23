@@ -179,12 +179,11 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 
 }
 
-void temp_display(int row, int col){
+void temp_display(int row){
 	int16_t temperature = ds18s20_read_temperature();
 	if(status_read_temperature==READ_SUCCESFULL){
 	char temp_string[STRING_CPACITY];
 	ds18s20_temperature_as_string(temperature,temp_string);
-	lcd_set_cursor(row,col);
-	lcd_send_string(temp_string);
+	lcd_display_string_shift(temp_string, row);
 	}
 }

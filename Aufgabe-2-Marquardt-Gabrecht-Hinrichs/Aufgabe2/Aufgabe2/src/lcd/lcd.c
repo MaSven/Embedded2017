@@ -109,10 +109,18 @@ void lcd_send_string(const char *string)
 	}
 }
 
-void lcd_display_string_shift(const char *string)
+void lcd_display_string_shift(const char *string, uint8_t row)
 {
 	uint8_t string_length = strlen(string);
 	lcd_cursor_home();
+	if (string_length < LCD_COLS)
+	{
+		lcd_set_cursor(row, (LCD_COLS-string_length)/2);
+	}
+	else
+	{
+		lcd_set_cursor(row, 0);
+	}
 	lcd_send_string(string);
 	if (string_length > LCD_COLS)
 	{

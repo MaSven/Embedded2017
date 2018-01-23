@@ -66,6 +66,7 @@ volatile uint8_t display_mode_change_flag_counter = 0;
 volatile uint8_t clock_blink_counter = 0;
 volatile uint8_t debounce_counter = 0;
 volatile uint8_t lcd_shift_flag_counter = 0;
+volatile uint8_t lcd_clear_flag = 0;
 extern volatile uint8_t lcd_shift_flag;
 extern volatile uint8_t clock_blink_flag;
 extern volatile uint8_t lcd_shift_abort;
@@ -92,7 +93,8 @@ inline void global_keys_reset(void) {
  */
 inline void display_mode_time() {
 	if (clock_flag) {
-		clock_display(1, 2, 0);
+		clock_display(1, 0);
+		clock_flag = 0;
 	}
 }
 /**
@@ -100,10 +102,12 @@ inline void display_mode_time() {
  */
 static inline void display_mode_time_temp(void) {
 	if (clock_flag) {
-		clock_display(1, 2, 0);
+		clock_display(1, 0);
+		clock_flag = 0;
 	}
 	if (temp_flag) {
-		temp_display(2, 2);
+		temp_display(2);
+		temp_flag = 0;
 	}
 
 }
@@ -111,39 +115,49 @@ static inline void display_mode_time_temp(void) {
 inline void display_mode_temp_lf(void) {
 	// Anforderung f) iii.
 	if (temp_flag) {
-		temp_display(1, 2);
+		temp_display(1);
+		temp_flag = 0;
 	}
 	if (hygro_flag) {
-		hygro_display(2, 2);
+		hygro_display(2);
+		hygro_flag = 0;
 	}
 }
 
 inline void display_mode_time_temp_lf(void) {
 	// Anforderung f) iV.
 	// Uhrzeit im Wechsel mit Temperatur/Luftfeuchtigkeit
+	if (lcd_clear_flag)
+	{
+		lcd_clear_flag = 0;
+		lcd_clear();
+	}
 	if (display_mode_change_flag)
 	{
 		if (temp_flag)
 		{
-			temp_display(1,2);
+			temp_display(1);
+			temp_flag = 0;
 		}
 		if (hygro_flag)
 		{
-			hygro_display(2,2);
+			hygro_display(2);
+			hygro_flag = 0;
 		}
 	} 
 	else
 	{
 		if (clock_flag)
 		{
-			clock_display(1,2,0);
+			clock_display(1,0);
+			clock_flag = 0;
 		}
 	}
 }
 
 inline void menu_time(void) {
 	//LCD Uhrzeit einstellen
-	lcd_display_string_shift("Uhrzeit einstellen");
+	lcd_display_string_shift("Uhrzeit einstellen", 1);
 	if (enter_was_pressed) {
 		menue_state = MENUE_TIME_EDIT_H;
 		lcd_clear();
@@ -160,7 +174,7 @@ inline void menu_time(void) {
 }
 
 inline void menu_time_edit_h(void) {
-	clock_display(1, 2, 1);
+	clock_display(1, 1);
 	if (enter_was_pressed) {
 		menue_state = MENUE_TIME_EDIT_M;
 		lcd_clear();
@@ -175,7 +189,7 @@ inline void menu_time_edit_h(void) {
 }
 
 static void menu_time_edit_m(void) {
-	clock_display(1, 2, 2);
+	clock_display(1, 2);
 	if (enter_was_pressed) {
 		menue_state = IDLE;
 		lcd_clear();
@@ -191,7 +205,7 @@ static void menu_time_edit_m(void) {
 
 inline void menu_display(void) {
 	// LCD Nur Urzeit
-	lcd_display_string_shift("Displaymodus einstellen");
+	lcd_display_string_shift("Displaymodus einstellen", 1);
 	if (enter_was_pressed) {
 		menue_state = MENUE_DISPLAY_TIME;
 		lcd_clear();
@@ -209,7 +223,7 @@ inline void menu_display(void) {
 
 inline void menue_display_time(void) {
 	//LCD Nur Uhrzeit
-	lcd_display_string_shift("Uhrzeit anzeigen");
+	lcd_display_string_shift("Uhrzeit", 1);
 	if (enter_was_pressed) {
 		display_state = DISPLAY_MODE_TIME;
 		menue_state = IDLE;
@@ -228,7 +242,7 @@ inline void menue_display_time(void) {
 
 inline void menue_display_time_temp(void) {
 	//LCD Uhrzeit und Temperatur
-	lcd_display_string_shift("Uhrzeit und Temperatur anzeigen");
+	lcd_display_string_shift("Uhrzeit und Temperatur", 1);
 	if (enter_was_pressed) {
 		display_state = DISPLAY_MODE_TIME_TEMP;
 		menue_state = IDLE;
@@ -247,7 +261,7 @@ inline void menue_display_time_temp(void) {
 
 inline void menue_display_temp_lf(void) {
 	//LCD Temperatur und Luftfeuchtigkeit
-	lcd_display_string_shift("Temperatur und Luftfeuchtigkeit anzeigen");
+	lcd_display_string_shift("Temperatur und Luftfeuchtigkeit", 1);
 	if (enter_was_pressed) {
 		display_state = DISPLAY_MODE_TEMP_LF;
 		menue_state = IDLE;
@@ -266,7 +280,7 @@ inline void menue_display_temp_lf(void) {
 
 inline void menue_display_time_temp_lf(void) {
 	//LCD Temperatur&Luftfeuchtigkeit im Wechsel mit Uhrzeit
-	lcd_display_string_shift("Wechselmodus");
+	lcd_display_string_shift("Uhrzeit oder Temperatur&Luftfeuchtigkeit", 1);
 	if (enter_was_pressed) {
 		display_state = DISPLAY_MODE_TIME_TEMP_LF;
 		menue_state = IDLE;
@@ -420,9 +434,10 @@ ISR (TIMER1_COMPA_vect) {
 		hygro_counter = 0;
 		hygro_flag = 1;
 	}
-	if (display_mode_change_flag_counter == 5)
+	if (display_mode_change_flag_counter == 10)
 	{
 		display_mode_change_flag_counter = 0;
+		lcd_clear_flag = 1;
 		display_mode_change_flag ^= 1;
 	}
 }

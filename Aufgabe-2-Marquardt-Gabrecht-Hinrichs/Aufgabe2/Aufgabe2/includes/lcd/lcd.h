@@ -89,7 +89,7 @@ void lcd_send_string(const char *string);
 /************************************************************************/
 /* Senden eines Strings und shiften des Displays                        */
 /************************************************************************/
-void lcd_display_string_shift(const char *string);
+void lcd_display_string_shift(const char *string, uint8_t row);
 
 /************************************************************************/
 /* Senden eines Befehls an das Display                                  */
