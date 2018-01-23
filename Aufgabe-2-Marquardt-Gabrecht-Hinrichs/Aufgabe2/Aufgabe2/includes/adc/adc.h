@@ -11,12 +11,10 @@
 #include <inttypes.h>
 #include "global.h"
 
-
 /**
  * \brief Initialisierung des AD-Wandlers
  */
 void adc_init(void);
-
 
 /**
  * \brief Auslesen der AD-Wandlung

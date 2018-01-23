@@ -7,12 +7,10 @@
 #ifndef HYGRO_H_
 #define HYGRO_H_
 
-
 /**
  * Maximaler Wert von Poti/100
  */
 #define HYGRO_MAP_FACTOR 2.48
-
 
 /**
  * \brief Ausgabe der Luftfeuchtigkeit

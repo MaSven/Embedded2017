@@ -50,40 +50,35 @@
 #define LCD_DDRAM_FIRST_ROW 0x00 // 0b0000.0000
 #define LCD_DDRAM_SECOND_ROW 0x40 // 0b0100.0000
 
-
 /**
  * \brief Initialisieren des Displays
  */
 void lcd_init(void);
 
 /**
-* \brief Loeschen des Displays
-*/
+ * \brief Loeschen des Displays
+ */
 void lcd_clear(void);
 
 /**
-* \brief Zuruecksetzen des Cursors auf Home
-*/
+ * \brief Zuruecksetzen des Cursors auf Home
+ */
 void lcd_cursor_home(void);
-
 
 /**
  * \brief Platzieren des CVursors an beliebiger Stelle
  */
 void lcd_set_cursor(uint8_t row, uint8_t col);
 
-
 /**
  *  \brief Senden eines einzelnen Nibbles an das Display
  */
 void lcd_send_nibble(uint8_t nibble);
 
-
 /**
  * \brief Senden eines einzelnen Zeichens an das Display
  */
 void lcd_send_char(uint8_t character);
-
 
 /**
  * \brief Senden eines Strings an das Display
@@ -95,18 +90,15 @@ void lcd_send_string(const char *string);
  */
 void lcd_display_string_shift(const char *string, uint8_t row);
 
-
 /**
  * \brief Senden eines Befehls an das Display
  */
 void lcd_send_command(uint8_t command);
 
-
 /**
  * \brief Senden eines Enable-Pulses
  */
 void lcd_send_enable_pulse(void);
-
 
 /**
  * \brief Linksshift des Displays um x Sellen
