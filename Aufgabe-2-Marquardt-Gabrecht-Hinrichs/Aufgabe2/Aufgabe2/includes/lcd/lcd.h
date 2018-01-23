@@ -63,7 +63,7 @@ void lcd_clear(void);
 
 /**
 * \brief Zuruecksetzen des Cursors auf Home
-*\
+*/
 void lcd_cursor_home(void);
 
 
