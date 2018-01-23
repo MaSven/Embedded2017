@@ -73,6 +73,10 @@ void timer1Init(void);
 void pin_change_interrupt_init(void);
 void init(void);
 
+
+/**
+ * Setzt alle Flags der Tasten zurück
+ */
 inline void global_keys_reset(void) {
 	if (key_was_pressed) {
 		lcd_clear();
@@ -105,6 +109,9 @@ inline void display_mode_time_temp(void) {
 	}
 }
 
+/**
+ * Zeigt wenn nötig Temperatur und Luftfeuchtigkeit auf dem Display an
+ */
 inline void display_mode_temp_lf(void) {
 	// Anforderung f) iii.
 	if (temp_flag) {
@@ -117,6 +124,9 @@ inline void display_mode_temp_lf(void) {
 	}
 }
 
+/**
+ * Zeigt wenn nötig Temperatur und Luftfeuchtigkeit im wechsel mit der Uhrzeit auf dem Display an
+ */
 inline void display_mode_time_temp_lf(void) {
 	// Anforderung f) iV.
 	// Uhrzeit im Wechsel mit Temperatur/Luftfeuchtigkeit
@@ -141,6 +151,9 @@ inline void display_mode_time_temp_lf(void) {
 	}
 }
 
+/**
+ * Zeigt an das man die Uhrzeit einstellen kann auf dem Display
+ */
 inline void menu_time(void) {
 	//LCD Uhrzeit einstellen
 	lcd_display_string_shift("Uhrzeit einstellen", 1);
@@ -159,6 +172,9 @@ inline void menu_time(void) {
 	global_keys_reset();
 }
 
+/**
+ * Zeigt die Uhrzeit an mit Blinkenden Stunden und reagiert auf die Buttonflags um die Stunden zu verändern.
+ */
 inline void menu_time_edit_h(void) {
 	clock_display(1, 1);
 	if (enter_was_pressed) {
@@ -174,6 +190,9 @@ inline void menu_time_edit_h(void) {
 	global_keys_reset();
 }
 
+/**
+ * Zeigt die Uhrzeit an mit Blinkenden Minuten und reagiert auf die Buttonflags um die Minuten zu verändern.
+ */
 inline void menu_time_edit_m(void) {
 	clock_display(1, 2);
 	if (enter_was_pressed) {
@@ -189,6 +208,10 @@ inline void menu_time_edit_m(void) {
 	global_keys_reset();
 }
 
+
+/**
+ * Zeigt die Eisntellung zum Display modus auf dem Display an.
+ */
 inline void menu_display(void) {
 	// LCD Nur Urzeit
 	lcd_display_string_shift("Displaymodus einstellen", 1);
@@ -207,6 +230,10 @@ inline void menu_display(void) {
 	global_keys_reset();
 }
 
+
+/**
+ * Zeigt die Uhrzeit an und kann mit enter bestätigt werden.
+ */
 inline void menue_display_time(void) {
 	//LCD Nur Uhrzeit
 	lcd_display_string_shift("Uhrzeit", 1);
@@ -226,6 +253,9 @@ inline void menue_display_time(void) {
 	global_keys_reset();
 }
 
+/**
+ * Zeigt wenn nötig die Zeit auf dem Display an
+ */
 inline void menue_display_time_temp(void) {
 	//LCD Uhrzeit und Temperatur
 	lcd_display_string_shift("Uhrzeit und Temperatur", 1);
@@ -245,6 +275,9 @@ inline void menue_display_time_temp(void) {
 	global_keys_reset();
 }
 
+/**
+ * Zeigt den Menüpunkt Temperatur und Luftfeuchtigkeit auf dem Display an
+ */
 inline void menue_display_temp_lf(void) {
 	//LCD Temperatur und Luftfeuchtigkeit
 	lcd_display_string_shift("Temperatur und Luftfeuchtigkeit", 1);
@@ -264,6 +297,9 @@ inline void menue_display_temp_lf(void) {
 	global_keys_reset();
 }
 
+/**
+ * Zeigt den Menüpunkt Temperatur und Luftfeuchtigkeit auf dem Display an
+ */
 inline void menue_display_time_temp_lf(void) {
 	//LCD Temperatur&Luftfeuchtigkeit im Wechsel mit Uhrzeit
 	lcd_display_string_shift("Uhrzeit oder Temperatur&Luftfeuchtigkeit", 1);
@@ -283,6 +319,9 @@ inline void menue_display_time_temp_lf(void) {
 	global_keys_reset();
 }
 
+/**
+ * Der Ablauf des Menüs und hier werden alle aufrufe getätigt, die nicht interrupt gesteuert sind.
+ */
 int main(void) {
 	init();
 	while (1) {
@@ -337,6 +376,9 @@ int main(void) {
 	}
 }
 
+/**
+ * Initiirt alle Interrupts und Komponenten
+ */
 void init(void) {
 	cli();
 	lcd_init();
@@ -347,6 +389,9 @@ void init(void) {
 	sei();
 }
 
+/**
+ * initiirt einen Timerinterrupt
+ */
 void timer0Init(void) {
 	TCCR0A |= (1 << WGM01); // CTC ON
 	TCCR0B |= ((1 << CS02) | (1 << CS00)); // Prescaler 1024
