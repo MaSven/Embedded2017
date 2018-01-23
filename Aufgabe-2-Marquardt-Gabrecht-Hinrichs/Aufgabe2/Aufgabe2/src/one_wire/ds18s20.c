@@ -109,6 +109,7 @@ int16_t ds18s20_read_temperature() {
 		}
 		status_read_temperature = ERROR_CRC;
 	}
+	//Kein gerät gefunden also auch nichts ausgeben
 	status_read_temperature=ERROR_CRC;
 	return 0;
 }
