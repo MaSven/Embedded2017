@@ -267,7 +267,7 @@ inline void menue_display_temp_lf(void) {
 
 inline void menue_display_time_temp_lf(void) {
 	//LCD Temperatur&Luftfeuchtigkeit im Wechsel mit Uhrzeit
-	lcd_display_string_shift("Uhrzeit im Wechsel mit der Temperatur und Luftfeuchtigkeit anzeigen");
+	lcd_display_string_shift("Wechselelmodus");
 	if (enter_was_pressed) {
 		display_state = DISPLAY_MODE_TIME_TEMP_LF;
 		menue_state = IDLE;
