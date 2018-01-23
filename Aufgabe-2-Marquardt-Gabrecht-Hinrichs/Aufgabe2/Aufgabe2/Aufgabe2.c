@@ -66,9 +66,9 @@ volatile uint8_t display_mode_change_flag_counter = 0;
 volatile uint8_t clock_blink_counter = 0;
 volatile uint8_t debounce_counter = 0;
 volatile uint8_t lcd_shift_flag_counter = 0;
-extern volatile uint8_t lcd_shift_tick_flag;
+extern volatile uint8_t lcd_shift_flag;
 extern volatile uint8_t clock_blink_flag;
-extern volatile uint8_t lcd_shift_enable_flag;
+extern volatile uint8_t lcd_shift_abort;
 
 // Prototypes
 void timer0Init(void);
@@ -82,7 +82,6 @@ inline void global_keys_reset(void) {
 	{
 		lcd_clear();
 	}
-	lcd_shift_enable_flag = 1;
 	enter_was_pressed = 0;
 	up_was_pressed = 0;
 	down_was_pressed = 0;
@@ -379,7 +378,7 @@ ISR (TIMER0_COMPA_vect)
 	if (lcd_shift_flag_counter == 20)
 	{
 		lcd_shift_flag_counter = 0;
-		lcd_shift_tick_flag = 1;
+		lcd_shift_flag = 1;
 	}
 }
 
@@ -441,14 +440,11 @@ ISR (PCINT0_vect) {
 		if (IOInterruptEnabled) {
 			IOInterruptEnabled = 0;
 			key_was_pressed = 1;
+			lcd_shift_abort = 1;
 			if (Lastbutton == (1 << CANCEL)) {
 				menue_state = IDLE;
 			}
 			if(Lastbutton == (1<<ENTER)){
-				/*if (menue_state == IDLE)
-				{
-					menue_state = MENUE_TIME;
-				}*/
 				enter_was_pressed = 1;
 			}
 			if (Lastbutton == (1 << UP)) {

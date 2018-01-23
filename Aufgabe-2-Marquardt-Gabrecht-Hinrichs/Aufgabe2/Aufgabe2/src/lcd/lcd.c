@@ -11,6 +11,7 @@
 #include "lcd/lcd.h"
 
 volatile uint8_t lcd_shift_flag = 0;
+volatile uint8_t lcd_shift_abort = 0;
 
 void lcd_init(void)
 {
@@ -111,13 +112,11 @@ void lcd_send_string(const char *string)
 void lcd_display_string_shift(const char *string)
 {
 	int string_length = strlen(string);
-	lcd_clear();
-	lcd_set_cursor(1,0);
+	lcd_cursor_home();
 	lcd_send_string(string);
 	if (string_length > LCD_COLS)
 	{
-		//lcd_shift_left(string_length - LCD_COLS);
-		lcd_shift_left(1);
+		lcd_shift_left(string_length - LCD_COLS);
 	}
 }
 
@@ -143,36 +142,20 @@ void lcd_send_enable_pulse(void)
 	LCDPORT &= ~(1<<LCD_E_PIN);
 }
 
-void lcd_shift_left(int x)
+void lcd_shift_left(uint8_t x)
 {
-	/*for (int i=0;i<x;)
+	for (uint8_t i=0;i<=x;)
 	{
+		if (lcd_shift_abort)
+		{
+			lcd_shift_abort = 0;
+			break;
+		}
 		if (lcd_shift_flag)
 		{
-			char buf[5] = {0};
-			itoa(i, buf, 10);
-			lcd_set_cursor(2,4);
-			lcd_send_string(buf);
-			
 			lcd_send_command(LCD_CURSOR_DISPLAY_SHIFT | LCD_CURSOR_DISPLAY_SHIFT_DISPLAY_SHIFT | LCD_CURSOR_DISPLAY_SHIFT_LEFT_SHIFT);
 			lcd_shift_flag = 0;
 			i++;
 		}
-	}*/
-	lcd_send_command(LCD_CURSOR_DISPLAY_SHIFT | LCD_CURSOR_DISPLAY_SHIFT_DISPLAY_SHIFT | LCD_CURSOR_DISPLAY_SHIFT_LEFT_SHIFT);
-	lcd_shift_enable_flag = 0;
-	/*while (x)
-	{
-		if (lcd_shift_flag)
-		{
-			char buf[5] = {0};
-			itoa(x, buf, 10);
-			lcd_set_cursor(2,4);
-			lcd_send_string(buf);
-			
-			x--;
-			lcd_shift_flag = 0;
-			lcd_send_command(LCD_CURSOR_DISPLAY_SHIFT | LCD_CURSOR_DISPLAY_SHIFT_DISPLAY_SHIFT | LCD_CURSOR_DISPLAY_SHIFT_LEFT_SHIFT);
-		}
-	}*/
+	}
 }
