@@ -451,8 +451,7 @@ ISR (PCINT0_vect) {
 				down_was_pressed = 1;
 			}
 		}
-		button = 0;
-	} else {
 		Lastbutton = button;
-	}
+		button = 0;
+	} 
 }
