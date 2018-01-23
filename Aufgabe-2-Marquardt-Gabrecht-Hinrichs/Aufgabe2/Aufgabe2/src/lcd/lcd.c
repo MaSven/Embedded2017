@@ -130,7 +130,6 @@ void lcd_send_command(uint8_t command) {
 
 void lcd_send_enable_pulse(void) {
 	LCDPORT |= (1 << LCD_E_PIN);
-	// TODO: Wie lange soll der Puls sein?
 	// Im Beispiel werden 3 Takte bei 4 MHz gewartet
 	// https://www.mikrocontroller.net/articles/AVR-Tutorial:_LCD#Routinen_zur_LCD-Ansteuerung_im_4-Bit-Modus
 	_delay_us(LCD_ENABLE_PULSE_US);
