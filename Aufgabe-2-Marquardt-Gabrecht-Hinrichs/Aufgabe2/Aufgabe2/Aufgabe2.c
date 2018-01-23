@@ -418,13 +418,13 @@ ISR (TIMER1_COMPA_vect) {
 		hygro_counter = 0;
 		hygro_flag = 1;
 	}
+	//LCD muss wechseln
 	if (display_mode_change_flag_counter == 10) {
 		display_mode_change_flag_counter = 0;
 		lcd_clear_flag = 1;
 		display_mode_change_flag ^= 1;
 		temp_flag = 1;
 		hygro_flag = 1;
-		clock_flag = 1;
 	}
 }
 
