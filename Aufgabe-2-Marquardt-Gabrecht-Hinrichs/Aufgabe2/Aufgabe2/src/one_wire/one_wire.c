@@ -77,14 +77,16 @@ void write_one_bit(uint8_t bit) {
 		_delay_us(ONEWIRE_DELAY_D_US);
 	}
 }
-
+/**
+ * \brief Lese ein bit vom onewire. Ein readslot
+ * \return 0 wenn kein bit gesendet wurde ansonsten 1
+ */
 uint8_t read_one_bit() {
 	uint8_t read_bit = 0;
 	set_port_output();
 	set_temperature_port_down();
 	_delay_us(ONEWIRE_RESET_SLOT);
 	// Test application_note one-wire page 6 of 12 OWReadBit uses delay(A)
-	//_delay_us(ONEWIRE_DELAY_A_US);
 	set_port_input();
 	_delay_us(ONEWIRE_DELAY_E_US);
 	if ((TEMPPININPUT & (1 << TEMPPIN))) {
@@ -94,7 +96,10 @@ uint8_t read_one_bit() {
 	return read_bit;
 
 }
-
+/**
+ * \brief Lese ein byte auf dem onewire
+ * \return das gelesene byte
+ */
 uint8_t read_byte() {
 	uint8_t result = 0;
 	for (uint8_t i = 0; i < 8; i++) {
@@ -105,7 +110,10 @@ uint8_t read_byte() {
 	}
 	return result;
 }
-
+/**
+ * \breif schreibe ein byte auf dem onewire
+ * \param uint8_t byte Byte das geschrieben werden soll
+ */
 void write_byte(uint8_t byte) {
 	for (uint8_t i = 0; i < 8; i++) {
 		write_one_bit(byte & 0x01);
