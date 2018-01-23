@@ -32,7 +32,7 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 *	\param uitn8_t col in welcher Spalte soll die Temperatur angezeigt werden
 *
 */
-void temp_display(uint8_t row,uint8_t col);
+void temp_display(uint8_t row);
 
 
 

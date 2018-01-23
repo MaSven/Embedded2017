@@ -179,7 +179,7 @@ char * ds18s20_temperature_as_string(int16_t temperature,char *temperature_strin
 
 }
 
-void temp_display(int row){
+void temp_display(uint8_t row){
 	int16_t temperature = ds18s20_read_temperature();
 	if(status_read_temperature==READ_SUCCESFULL){
 	char temp_string[STRING_CPACITY];

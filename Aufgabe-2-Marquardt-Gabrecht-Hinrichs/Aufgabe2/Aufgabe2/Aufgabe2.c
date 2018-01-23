@@ -109,7 +109,6 @@ static inline void display_mode_time_temp(void) {
 		temp_display(2);
 		temp_flag = 0;
 	}
-
 }
 
 inline void display_mode_temp_lf(void) {
@@ -439,6 +438,9 @@ ISR (TIMER1_COMPA_vect) {
 		display_mode_change_flag_counter = 0;
 		lcd_clear_flag = 1;
 		display_mode_change_flag ^= 1;
+		temp_flag = 1;
+		hygro_flag = 1;
+		clock_flag = 1;
 	}
 }
 

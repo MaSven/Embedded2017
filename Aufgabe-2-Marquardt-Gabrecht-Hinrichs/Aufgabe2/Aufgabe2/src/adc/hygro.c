@@ -9,7 +9,7 @@
 #include "adc/adc.h"
 #include "lcd/lcd.h"
 
-void hygro_display(uint8_t row,uint8_t col)
+void hygro_display(uint8_t row)
 {
 	uint8_t adc_value = adc_read()/HYGRO_MAP_FACTOR;
 	char hygro_str[6];
